@@ -1,0 +1,6 @@
+target remote:3333
+load
+break loop
+c
+p output_str
+q

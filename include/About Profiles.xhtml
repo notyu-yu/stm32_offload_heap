@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src chrome:; object-src 'none'" />
+    <meta name="color-scheme" content="light dark" />
+    <title data-l10n-id="profiles-title">About Profiles</title>
+    <link rel="icon" type="image/png" id="favicon" href="chrome://branding/content/icon32.png" />
+    <link rel="stylesheet" href="About%20Profiles_files/aboutProfiles.css" type="text/css" />
+    <script src="About%20Profiles_files/aboutProfiles.js"></script>
+    <link rel="localization" href="branding/brand.ftl" />
+    <link rel="localization" href="toolkit/about/aboutProfiles.ftl" />
+</head>
+  <body id="body" class="wide-container">
+    <div class="action-box">
+      <h3 data-l10n-id="profiles-restart-title">Restart</h3>
+      <button id="restart-in-safe-mode-button" data-l10n-id="profiles-restart-in-safe-mode">Restart with Add-ons Disabled…</button>
+      <button id="restart-button" data-l10n-id="profiles-restart-normal">Restart normally…</button>
+    </div>
+
+    <h1 data-l10n-id="profiles-title">About Profiles</h1>
+
+    <div id="conflict" hidden="">
+      <p data-l10n-id="profiles-conflict">Another copy of Firefox has made changes to profiles. You must restart Firefox before making more changes.</p>
+    </div>
+    <div id="owned">
+      <div class="page-subtitle" data-l10n-id="profiles-subtitle">This 
+page helps you to manage your profiles. Each profile is a separate world
+ which contains separate history, bookmarks, settings and add-ons.</div>
+
+      <div>
+        <button id="create-button" data-l10n-id="profiles-create">Create a New Profile</button>
+      </div>
+
+      <div id="profiles" class="tab"><div><h2 data-l10n-id="profiles-name" data-l10n-args="{&quot;name&quot;:&quot;default-release&quot;}">Profile: default-release</h2><table><tbody><tr><th class="column" data-l10n-id="profiles-is-default">Default Profile</th><td data-l10n-id="profiles-no">no</td></tr><tr><th class="column" data-l10n-id="profiles-rootdir">Root Directory</th><td>/home/yu/.mozilla/firefox/rv9g1fzp.default-release<button class="opendir" data-l10n-id="profiles-opendir">Open Directory</button></td></tr><tr><th class="column" data-l10n-id="profiles-localdir">Local Directory</th><td>/home/yu/.cache/mozilla/firefox/rv9g1fzp.default-release<button class="opendir" data-l10n-id="profiles-opendir">Open Directory</button></td></tr></tbody></table><button data-l10n-id="profiles-rename">Rename</button><button data-l10n-id="profiles-remove">Remove</button><button data-l10n-id="profiles-set-as-default">Set as default profile</button><button data-l10n-id="profiles-launch-profile">Launch profile in new browser</button><hr /></div><div><h2 data-l10n-id="profiles-name" data-l10n-args="{&quot;name&quot;:&quot;notyu&quot;}">Profile: notyu</h2><table><tbody><tr><th class="column" data-l10n-id="profiles-is-default">Default Profile</th><td data-l10n-id="profiles-no">no</td></tr><tr><th class="column" data-l10n-id="profiles-rootdir">Root Directory</th><td>/home/yu/.mozilla/firefox/agc8p1e9.default<button class="opendir" data-l10n-id="profiles-opendir">Open Directory</button></td></tr><tr><th class="column" data-l10n-id="profiles-localdir">Local Directory</th><td>/home/yu/.cache/mozilla/firefox/agc8p1e9.default<button class="opendir" data-l10n-id="profiles-opendir">Open Directory</button></td></tr></tbody></table><button data-l10n-id="profiles-rename">Rename</button><button data-l10n-id="profiles-remove">Remove</button><button data-l10n-id="profiles-set-as-default">Set as default profile</button><button data-l10n-id="profiles-launch-profile">Launch profile in new browser</button><hr /></div><div><h2 data-l10n-id="profiles-name" data-l10n-args="{&quot;name&quot;:&quot;yu-yale&quot;}">Profile: yu-yale</h2><h3 data-l10n-id="profiles-current-profile">This is the profile in use and it cannot be deleted.</h3><table><tbody><tr><th class="column" data-l10n-id="profiles-is-default">Default Profile</th><td data-l10n-id="profiles-yes">yes</td></tr><tr><th class="column" data-l10n-id="profiles-rootdir">Root Directory</th><td>/home/yu/.mozilla/firefox/8l6dd6z6.yu-yale<button class="opendir" data-l10n-id="profiles-opendir">Open Directory</button></td></tr><tr><th class="column" data-l10n-id="profiles-localdir">Local Directory</th><td>/home/yu/.cache/mozilla/firefox/8l6dd6z6.yu-yale<button class="opendir" data-l10n-id="profiles-opendir">Open Directory</button></td></tr></tbody></table><button data-l10n-id="profiles-rename">Rename</button><hr /></div></div>
+    </div>
+  </body>
+</html>

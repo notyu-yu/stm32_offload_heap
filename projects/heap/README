@@ -1,0 +1,16 @@
+Original README in CSAPP-README file
+
+Run basic tests:
+./short_test.sh
+
+Run all trace tests:
+./run.sh
+
+Check if trace file is valid:
+python tracechecker.py $(path to file)
+
+Convert trace file into header for testing:
+python rep_to_hdr.py $(trace file path)
+
+Randomly generate a tracefile:
+python trace_gen.py $(lines) $(variables) $(output file)
