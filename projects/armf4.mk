@@ -71,10 +71,13 @@ OBJCOPY = $(CROSS_COMPILE)objcopy
 SIZE = $(CROSS_COMPILE)size
 DBG = $(CROSS_COMPILE)gdb
 
-all: clean $(SRCS) build size
+all: clean $(SRCS) build pc_side size
 	@echo "Successfully finished..."
 
 build: $(TARGET).elf $(TARGET).bin $(TARGET).lst
+
+pc_side: pc_side/pc_server.c pc_side/pc_request.c pc_side/pc_mm.c pc_side/pc_mlib.c
+	gcc -g3 -o pc_server pc_side/pc_server.c pc_side/pc_request.c pc_side/pc_mm.c pc_side/pc_mlib.c
 
 $(TARGET).elf: $(OBJS)
 	$(CC) $(OBJS) $(LDFLAGS) -o $(OBJDIR)/$@

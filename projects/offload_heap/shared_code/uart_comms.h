@@ -7,16 +7,16 @@
 	#include <string.h>
 #endif
 
-typedef enum {
-	MALLOC,
-	FREE,
-	REALLOC,
-	SBRK
-} req_type;
+#define MALLOC 0
+#define FREE 1
+#define REALLOC 2
+#define SBRK 3
+
+#include <stdint.h>
 
 typedef struct {
-	req_type request;
-	size_t req_id;
-	size_t size;
-	void * ptr;
+	char request;
+	uint32_t req_id;
+	uint32_t size;
+	uint32_t ptr;
 } mem_request;

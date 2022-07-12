@@ -35,7 +35,7 @@ static void serial_setup(int fd) {
 }
 
 // Setup UART file descriptor
-static void uart_setup(void) {
+void uart_setup(void) {
 	fd = open(SERIALDEV, O_RDWR | O_NOCTTY);
 	assert(fd >= 0); // Error when not ran with sudo
 	serial_setup(fd);
@@ -50,8 +50,8 @@ static void uart_read(size_t size, void * buffer) {
 	while (bytes_read < size) {
 		chunk_read = read(fd, chunk_buffer, size-bytes_read);
 		bytes_read += chunk_read;
-		strncat(receive_buffer, chunk_buffer, chunk_read);
-		memset(receive_buffer, 0, BUFFERSIZE*2);
+		strncat(buffer, chunk_buffer, chunk_read);
+		memset(chunk_buffer, 0, BUFFERSIZE*2);
 	}
 	puts("pc receive end");
 }

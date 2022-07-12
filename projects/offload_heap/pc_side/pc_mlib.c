@@ -34,6 +34,8 @@ void mem_init(void)
 	assert(req.req_id==SBRK && req.size==0); // Make sure it is the init request
 	mem_start_brk = req.ptr;
     mem_brk = mem_start_brk;
+
+	printf("sbrk reset to %p.\n", req.ptr);
 }
 
 /* 
@@ -41,15 +43,15 @@ void mem_init(void)
  */
 void mem_deinit(void)
 {
-	mem_reset_brk();
+	mem_reset_brk(mem_start_brk);
 }
 
 /*
- * mem_reset_brk - reset the simulated brk pointer to make an empty heap
+ * mem_reset_brk - reset starting brk to ptr
  */
-void mem_reset_brk()
+void mem_reset_brk(void * ptr)
 {
-    mem_brk = mem_start_brk;
+    mem_brk = mem_start_brk = ptr;
 }
 
 /* 

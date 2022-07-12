@@ -28,13 +28,6 @@ team_t team = {
 
 #define MAX(x,y) ((x) > (y) ? (x) : (y))
 
-int mm_init(void)
-{
-	mem_req_setup();
-	mem_init();
-    return 0;
-}
-
 // Extend heap by words * WSIZE with alignment, return 1 on success 0 on fail
 static int extend_heap(size_t words) {
 	char * bp;
@@ -47,6 +40,15 @@ static int extend_heap(size_t words) {
 		return 1;
 	}
 }
+
+int mm_init(void)
+{
+	mem_req_setup();
+	mem_init();
+	extend_heap(4096);
+    return 0;
+}
+
 
 void *mm_malloc(size_t size)
 {

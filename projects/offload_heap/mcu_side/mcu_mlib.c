@@ -35,7 +35,7 @@ void mem_init(void)
     mem_brk = mem_start_brk;
 
 	// Sbrk request: size=0 for reset, size=1 for sbrk move
-	req = (mem_request){.request = SBRK, .req_id = (++cur_id), .size=0, .ptr=mem_brk};
+	req = (mem_request){.request=SBRK, .req_id = (++cur_id), .size=0, .ptr=mem_brk};
 	req_send(&req);
 }
 

@@ -27,7 +27,7 @@ team_t team = {
 #define MAX(x,y) ((x) > (y) ? (x) : (y))
 
 // Pointer to first block
-static blk_elt * list_start;
+static blk_elt * list_start = NULL;
 
 // Merge blk with its next block, free the extra block
 static blk_elt * merge_next(blk_elt * blk) {
@@ -178,6 +178,18 @@ static void extend_blk(blk_elt * blk, size_t asize) {
 	}
 }
 
+// Clear heap info list
+void mm_heap_reset(void) {
+	blk_elt * cur_blk = list_start->next;
+	blk_elt * temp_blk;
+	while (cur_blk->size) {
+		temp_blk = cur_blk;
+		cur_blk = cur_blk->next;
+		free(temp_blk);
+	}
+	list_start->next = list_start->prev = list_start;
+}
+
 // Insert free block to linked list
 void mm_sbrk(int incr) {
 	blk_elt * new_blk;
@@ -200,11 +212,15 @@ void mm_sbrk(int incr) {
 int mm_init(void)
 {
 	// Allocate starter block
-	list_start = malloc(sizeof(blk_elt));
-	list_start->next = list_start->prev = list_start;
-	list_start->ptr = NULL;
-	list_start->size = 0;
-	list_start->alloc = 1;
+	if (list_start) {
+		mm_heap_reset();
+	} else {
+		list_start = malloc(sizeof(blk_elt));
+		list_start->next = list_start->prev = list_start;
+		list_start->ptr = NULL;
+		list_start->size = 0;
+		list_start->alloc = 1;
+	}
 
 	// TODO: MCU side should ask for 1 chunk starting space
 

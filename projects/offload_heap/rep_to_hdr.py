@@ -10,7 +10,7 @@ with open(file, 'r') as f:
     #Replace newline with escaped character
     hdr_str += f_str.replace("\n", "\\n")
     hdr_str += '"'
-    with open("teststring.h", "w+") as hf:
+    with open("mcu_side/teststring.h", "w+") as hf:
         hf.write(hdr_str)
 
 print(f'teststring.h created from {file}')

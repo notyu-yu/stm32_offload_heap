@@ -39,7 +39,6 @@ void mem_req_setup(void) {
 	uart_init();
 	led_init();
 	uart_dma_init();
-	
 }
 
 // Send request
