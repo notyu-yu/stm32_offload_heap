@@ -65,7 +65,7 @@ void mem_reset_brk()
  *    by incr bytes and returns the start address of the new area. In
  *    this model, the heap cannot be shrunk.
  */
-void *mem_sbrk(int incr) 
+void *mem_sbrk(unsigned int incr) 
 {
     char *old_brk = mem_brk;
 	register size_t * stack_top asm("sp");
@@ -79,7 +79,7 @@ void *mem_sbrk(int incr)
     mem_brk += incr;
 
 	// Sbrk request: size=0 for reset, size=1 for sbrk move
-	req = (mem_request){.request = SBRK, .req_id = (++cur_id), .size=1, .ptr=mem_brk};
+	req = (mem_request){.request = SBRK, .req_id = (++cur_id), .size=incr, .ptr=0};
 	req_send(&req);
     return (void *)old_brk;
 }

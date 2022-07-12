@@ -1,7 +1,7 @@
 #include "../../../include/stm32f411xe.h"
 #include "../../../include/system_stm32f4xx.h"
 
-#include "../shared_code/uart_comms.h"
+#include "uart_comms.h"
 
 #include <stdlib.h>
 #include <stdio.h>
