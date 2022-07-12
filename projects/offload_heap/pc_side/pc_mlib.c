@@ -11,13 +11,11 @@
 #include <errno.h>
 
 #include "memlib.h"
-#include "config.h"
+#include "pc_request.h"
+#include "pc_mm.h"
 
 #define ALIGNMENT 8
 #define ALIGN(size) (((size) + (ALIGNMENT-1)) & ~0x7)
-
-// Marks end of bss section
-extern char * __malloc_sbrk_start;
 
 /* private variables */
 static char *mem_start_brk;  /* points to first byte of heap */
@@ -29,7 +27,12 @@ static char *mem_brk;        /* points to last byte of heap */
  */
 void mem_init(void)
 {
-	mem_start_brk = (char *)ALIGN((size_t)(&__malloc_sbrk_start));
+	mem_request req;
+
+	// Wait for initial brk location from mcu
+	req_receive(&req);
+	assert(req.req_id==SBRK && req.size==0); // Make sure it is the init request
+	mem_start_brk = req.ptr;
     mem_brk = mem_start_brk;
 }
 
@@ -57,15 +60,15 @@ void mem_reset_brk()
 void *mem_sbrk(int incr) 
 {
     char *old_brk = mem_brk;
-	register size_t * stack_top asm("sp");
-
-    if ( (incr < 0) || ((mem_brk + incr) > (char *)(stack_top))) {
-		char output_str[] = "ERROR: mem_sbrk failed. Ran out of memory...\n";
-		var_print(output_str);
-		return (void *)-1;
-    }
     mem_brk += incr;
+
+	mm_sbrk(incr);
+
     return (void *)old_brk;
+}
+
+void mem_set_brk(void * ptr) {
+	mem_brk = ptr;
 }
 
 /*

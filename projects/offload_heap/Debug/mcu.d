@@ -1,17 +1,22 @@
-Debug/mcu.d: mcu.c mcu.h ../../include/stm32f411xe.h \
- ../../include/core_cm4.h ../../include/cmsis_version.h \
- ../../include/cmsis_compiler.h ../../include/cmsis_gcc.h \
- ../../include/mpu_armv7.h ../../include/system_stm32f4xx.h \
- ../../include/stm32f4xx.h ../../include/stm32f411xe.h \
- ../../include/system_stm32f4xx.h
-mcu.h:
-../../include/stm32f411xe.h:
-../../include/core_cm4.h:
-../../include/cmsis_version.h:
-../../include/cmsis_compiler.h:
-../../include/cmsis_gcc.h:
-../../include/mpu_armv7.h:
-../../include/system_stm32f4xx.h:
-../../include/stm32f4xx.h:
-../../include/stm32f411xe.h:
-../../include/system_stm32f4xx.h:
+Debug/mcu.d: mcu_side/mcu.c mcu_side/mcu.h \
+ mcu_side/../../../include/stm32f411xe.h \
+ mcu_side/../../../include/core_cm4.h \
+ mcu_side/../../../include/cmsis_version.h \
+ mcu_side/../../../include/cmsis_compiler.h \
+ mcu_side/../../../include/cmsis_gcc.h \
+ mcu_side/../../../include/mpu_armv7.h \
+ mcu_side/../../../include/system_stm32f4xx.h \
+ mcu_side/../../../include/stm32f4xx.h \
+ mcu_side/../../../include/stm32f411xe.h \
+ mcu_side/../../../include/system_stm32f4xx.h
+mcu_side/mcu.h:
+mcu_side/../../../include/stm32f411xe.h:
+mcu_side/../../../include/core_cm4.h:
+mcu_side/../../../include/cmsis_version.h:
+mcu_side/../../../include/cmsis_compiler.h:
+mcu_side/../../../include/cmsis_gcc.h:
+mcu_side/../../../include/mpu_armv7.h:
+mcu_side/../../../include/system_stm32f4xx.h:
+mcu_side/../../../include/stm32f4xx.h:
+mcu_side/../../../include/stm32f411xe.h:
+mcu_side/../../../include/system_stm32f4xx.h:

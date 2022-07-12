@@ -1,5 +1,5 @@
 TARGET = mcu_mdriver
-SRCS = mcu_mdriver.c mcu_mlib.c mm.c mcu_timer.c mcu.c
+SRCS = mcu_side/mcu_mdriver.c mcu_side/mcu_mlib.c mcu_side/mcu_mm.c mcu_side/mcu_timer.c mcu_side/mcu.c mcu_side/mcu_request.c mcu_side/uart.c mcu_side/uart_dma.c
 
 LINKER_SCRIPT = ../../flash/STM32F411VEHX_FLASH.ld
 

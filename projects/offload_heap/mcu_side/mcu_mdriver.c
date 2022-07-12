@@ -17,7 +17,7 @@
 #include <time.h>
 #include <stdarg.h>
 
-#include "mm.h"
+#include "mcu_mm.h"
 #include "memlib.h"
 //#include "fsecs.h"
 #include "config.h"
@@ -172,7 +172,6 @@ int main(void)
 	int perfindex_int;
 
     /* Initialize the simulated memory system in memlib.c */
-    mem_init(); 
 	mm_init();
 	timer_init();
 	start_time = get_time();

@@ -12,6 +12,7 @@
 
 #include "memlib.h"
 #include "config.h"
+#include "mcu_request.h"
 
 #define ALIGNMENT 8
 #define ALIGN(size) (((size) + (ALIGNMENT-1)) & ~0x7)
@@ -29,8 +30,13 @@ static char *mem_brk;        /* points to last byte of heap */
  */
 void mem_init(void)
 {
+	mem_request req;
 	mem_start_brk = (char *)ALIGN((size_t)(&__malloc_sbrk_start));
     mem_brk = mem_start_brk;
+
+	// Sbrk request: size=0 for reset, size=1 for sbrk move
+	req = (mem_request){.request = SBRK, .req_id = (++cur_id), .size=0, .ptr=mem_brk};
+	req_send(&req);
 }
 
 /* 
@@ -46,7 +52,12 @@ void mem_deinit(void)
  */
 void mem_reset_brk()
 {
+	mem_request req;
     mem_brk = mem_start_brk;
+
+	// Sbrk request: size=0 for reset, size=1 for sbrk move
+	req = (mem_request){.request = SBRK, .req_id = (++cur_id), .size=0, .ptr=mem_brk};
+	req_send(&req);
 }
 
 /* 
@@ -58,6 +69,7 @@ void *mem_sbrk(int incr)
 {
     char *old_brk = mem_brk;
 	register size_t * stack_top asm("sp");
+	mem_request req;
 
     if ( (incr < 0) || ((mem_brk + incr) > (char *)(stack_top))) {
 		char output_str[] = "ERROR: mem_sbrk failed. Ran out of memory...\n";
@@ -65,6 +77,10 @@ void *mem_sbrk(int incr)
 		return (void *)-1;
     }
     mem_brk += incr;
+
+	// Sbrk request: size=0 for reset, size=1 for sbrk move
+	req = (mem_request){.request = SBRK, .req_id = (++cur_id), .size=1, .ptr=mem_brk};
+	req_send(&req);
     return (void *)old_brk;
 }
 
