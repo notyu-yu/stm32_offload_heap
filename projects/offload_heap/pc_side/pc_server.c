@@ -32,7 +32,7 @@ int main(int argc, char ** argv) {
 				req_out->size = 0;
 				req_out->ptr = ptr;
 				req_send(req_out);
-				printf("Malloc request finished: %08x", ptr);
+				printf("Malloc request finished: %08x\n", ptr);
 				break;
 			case FREE:
 				printf("Free request of pointer 0x%08x received.\n", req_in->ptr);
@@ -47,7 +47,7 @@ int main(int argc, char ** argv) {
 				req_out->size = 0;
 				req_out->ptr = ptr;
 				req_send(req_out);
-				printf("Realloc request finished: %08x", ptr);
+				printf("Realloc request finished: %08x\n", ptr);
 				break;
 			case SBRK:
 				if (req_in->size) {
