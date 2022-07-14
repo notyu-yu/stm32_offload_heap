@@ -18,8 +18,8 @@
 #define ALIGN(size) (((size) + (ALIGNMENT-1)) & ~0x7)
 
 /* private variables */
-static char *mem_start_brk;  /* points to first byte of heap */
-static char *mem_brk;        /* points to last byte of heap */
+static uint32_t mem_start_brk;  /* points to first byte of heap */
+static uint32_t mem_brk;        /* points to last byte of heap */
 //static char *mem_max_addr;   /* largest legal heap address */ 
 
 /* 
@@ -35,7 +35,7 @@ void mem_init(void)
 	mem_start_brk = req.ptr;
     mem_brk = mem_start_brk;
 
-	printf("sbrk reset to %p.\n", req.ptr);
+	printf("sbrk reset to %xu.\n", req.ptr);
 }
 
 /* 
@@ -49,7 +49,7 @@ void mem_deinit(void)
 /*
  * mem_reset_brk - reset starting brk to ptr
  */
-void mem_reset_brk(void * ptr)
+void mem_reset_brk(uint32_t ptr)
 {
     mem_brk = mem_start_brk = ptr;
 }
@@ -59,34 +59,34 @@ void mem_reset_brk(void * ptr)
  *    by incr bytes and returns the start address of the new area. In
  *    this model, the heap cannot be shrunk.
  */
-void *mem_sbrk(int incr) 
+uint32_t mem_sbrk(int incr) 
 {
-    char *old_brk = mem_brk;
+    uint32_t old_brk = mem_brk;
     mem_brk += incr;
 
 	mm_sbrk(incr);
 
-    return (void *)old_brk;
+    return old_brk;
 }
 
-void mem_set_brk(void * ptr) {
+void mem_set_brk(uint32_t ptr) {
 	mem_brk = ptr;
 }
 
 /*
  * mem_heap_lo - return address of the first heap byte
  */
-void *mem_heap_lo()
+uint32_t mem_heap_lo()
 {
-    return (void *)mem_start_brk;
+    return mem_start_brk;
 }
 
 /* 
  * mem_heap_hi - return address of last heap byte
  */
-void *mem_heap_hi()
+uint32_t mem_heap_hi()
 {
-    return (void *)(mem_brk - 1);
+    return (mem_brk - 1);
 }
 
 /*

@@ -119,7 +119,7 @@ static void place(blk_elt * blk, size_t asize) {
 		new_blk = malloc(sizeof(blk_elt));
 		new_blk->next = blk->next;
 		new_blk->prev = blk;
-		new_blk->ptr = ((char *)blk->ptr) + asize;
+		new_blk->ptr = blk->ptr + asize;
 		new_blk->size = free_size;
 		new_blk->alloc = 0;
 		blk->next->prev = new_blk;
@@ -134,14 +134,14 @@ static void place(blk_elt * blk, size_t asize) {
 static void shrink_blk(blk_elt * blk, size_t asize) {
 	size_t original_size = blk->size;
 	size_t free_size;
-	void * free_p;
+	uint32_t free_p;
 	blk_elt * new_blk;
 	// Check if there is free block leftover 
 	if (original_size > asize) {
 		// Split block into allocated and free blocks
 		free_size = original_size-asize;
 		// Make new free block
-		free_p = (char *)(blk->ptr) + asize;
+		free_p = blk->ptr + asize;
 		new_blk = malloc(sizeof(blk_elt));
 		new_blk->next = blk->next;
 		new_blk->prev = blk;
@@ -153,7 +153,7 @@ static void shrink_blk(blk_elt * blk, size_t asize) {
 		// Update original block
 		blk->size = asize;
 
-		coalesce(free_p);
+		coalesce(new_blk);
 	}
 	// No change needed otherwise
 }
@@ -162,17 +162,17 @@ static void shrink_blk(blk_elt * blk, size_t asize) {
 static void extend_blk(blk_elt * blk, size_t asize) {
 	size_t combined_size = blk->size + blk->next->size;
 	size_t free_size;
-	void * free_p;
+	uint32_t free_p;
 	// Check if there is free block leftover 
 	if (combined_size > asize) {
 		free_size = combined_size-asize;
-		free_p = (char *)(blk->ptr) + asize;
+		free_p = blk->ptr + asize;
 		// Shrink next free block
 		blk->next->size = free_size;
 		// Update current block size
 		blk->size = asize;
 
-		coalesce(free_p);
+		coalesce(blk->next);
 	} else {
 		merge_next(blk);
 	}
@@ -197,7 +197,7 @@ void mm_sbrk(int incr) {
 	new_blk = malloc(sizeof(blk_elt));
 	new_blk->next = list_start;
 	new_blk->prev = list_start->prev;
-	new_blk->ptr = ((char *)list_start->prev) + list_start->prev->size;
+	new_blk->ptr = list_start->prev->ptr + list_start->prev->size;
 	new_blk->size = incr;
 	new_blk->alloc = 0;
 
@@ -227,7 +227,7 @@ int mm_init(void)
     return 0;
 }
 
-void * mm_malloc(size_t size)
+uint32_t mm_malloc(size_t size)
 {
 	size_t asize; // Adjusted block size
 	size_t extendsize; // Amount to extend heap by
@@ -235,7 +235,7 @@ void * mm_malloc(size_t size)
 
 	// Ignore 0 size
 	if (size == 0) {
-		return NULL;
+		return 0;
 	}
 
 	// Add overhead and alignment to block size
@@ -248,15 +248,15 @@ void * mm_malloc(size_t size)
 	// Search free block for fit
 	if ((blk = find_fit(asize)) != NULL) {
 		place(blk, asize);
-		return blk;
+		return blk->ptr;
 	}
 
 	// Need to extend heap: return Null and let MCU send sbrk request
 	
-	return blk;
+	return 0;
 }
 
-void mm_free(void *ptr)
+void mm_free(uint32_t ptr)
 {
 	blk_elt * current_blk = list_start->next;
 
@@ -271,10 +271,10 @@ void mm_free(void *ptr)
 	}
 }
 
-void *mm_realloc(void * ptr, size_t size)
+uint32_t mm_realloc(uint32_t ptr, size_t size)
 {
-    void *oldptr = ptr;
-    void *newptr;
+    uint32_t oldptr = ptr;
+    uint32_t newptr;
 	size_t blk_size;
 	size_t asize;
 	size_t next_size;
@@ -283,7 +283,7 @@ void *mm_realloc(void * ptr, size_t size)
 	blk_elt * search_blk = list_start->next;
 
 	// Special cases
-	if (ptr == NULL) {
+	if (ptr == 0) {
 		newptr = mm_malloc(size);
 		return newptr;
 	}
@@ -301,7 +301,8 @@ void *mm_realloc(void * ptr, size_t size)
 
 	// Ptr not round in list
 	if (search_blk->size == 0) {
-		return NULL;
+		puts("Realloc ptr not found");
+		return 0;
 	}
 
 	blk_size = search_blk->size;
@@ -318,18 +319,18 @@ void *mm_realloc(void * ptr, size_t size)
 		next_alloc = search_blk->next->alloc;
 		if ((next_alloc == 0) && ((next_size + blk_size) >= asize)) {
 			// Can combine with next free block
-			extend_blk(oldptr, asize);
+			extend_blk(search_blk, asize);
 			return oldptr;
 		} else {
 			// Need to malloc new block
 			newptr = mm_malloc(size);
-			if (newptr == NULL)
-			  return NULL;
+			if (newptr == 0)
+			  return 0;
 			return newptr;
 		}
 	} else if (blk_size > asize) {
 		// Need to shrink block
-		shrink_blk(oldptr, asize);
+		shrink_blk(search_blk, asize);
 		return oldptr;
 	} else {
 		// Do nothing

@@ -14,6 +14,13 @@ static int fd; // Serial device file descriptor
 static char receive_buffer[BUFFERSIZE*2] = {0};
 static char chunk_buffer[BUFFERSIZE*2] = {0};
 
+// Concatenate size bytes of data from src to dest starting at start'th index
+static void data_cat(char * dest, char * src, size_t start, size_t size) {
+	for (size_t i=0; i<size; i++) {
+		dest[start+i] = src[i];
+	}
+}
+
 // Set up serial device
 static void serial_setup(int fd) {
 	struct termios serial_settings;
@@ -48,9 +55,10 @@ static void uart_read(size_t size, void * buffer) {
 	size_t chunk_read = 0;
 	puts("pc receive start");
 	while (bytes_read < size) {
+		printf("bytes read %zu\n", bytes_read);
 		chunk_read = read(fd, chunk_buffer, size-bytes_read);
+		data_cat(buffer, chunk_buffer, bytes_read, chunk_read);
 		bytes_read += chunk_read;
-		strncat(buffer, chunk_buffer, chunk_read);
 		memset(chunk_buffer, 0, BUFFERSIZE*2);
 	}
 	puts("pc receive end");
@@ -66,9 +74,11 @@ static void uart_send(size_t size, void * buffer) {
 // Wait to receive a request and write struct to buffer
 void req_receive(mem_request * buffer) {
 	uart_read(sizeof(mem_request), buffer);
+	tcflush(fd, TCIOFLUSH); // Clear IO buffer
 }
 
 // Send a response stored in buffer back to mcu
 void req_send(mem_request * buffer) {
 	uart_send(sizeof(mem_request), buffer);
+	tcflush(fd, TCIOFLUSH); // Clear IO buffer
 }

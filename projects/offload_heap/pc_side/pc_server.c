@@ -4,7 +4,7 @@
 int main(int argc, char ** argv) {
 	mem_request * req_in = malloc(sizeof(mem_request));
 	mem_request * req_out = malloc(sizeof(mem_request));
-	void * ptr;
+	uint32_t ptr;
 
 	uart_setup();
 	mm_init();
@@ -41,8 +41,8 @@ int main(int argc, char ** argv) {
 			case SBRK:
 				if (req_in->size) {
 					// Set sbrk
-					printf("Setting sbrk to %xu\n", req_in->ptr);
-					mem_set_brk(req_in->ptr);
+					printf("Calling sbrk with %u.\n", req_in->size);
+					mem_sbrk(req_in->size);
 				} else {
 					// Reset sbrk
 					puts("Sbrk reset");
@@ -51,7 +51,7 @@ int main(int argc, char ** argv) {
 				}
 				break;
 			default:
-				printf("Invalid request type: %d.\n", req_in->request);
+				printf("Invalid request type: %ud.\n", req_in->request);
 		}
 	}
 	return 0;

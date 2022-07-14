@@ -1,4 +1,4 @@
-#include "../shared_code/uart_comms.h"
+#include "uart_comms.h"
 
 void uart_setup(void);
 void req_receive(mem_request * buffer); // Wait and receive request from mcu

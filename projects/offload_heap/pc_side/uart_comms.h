@@ -15,7 +15,7 @@
 #include <stdint.h>
 
 typedef struct {
-	char request;
+	uint32_t request;
 	uint32_t req_id;
 	uint32_t size;
 	uint32_t ptr;
