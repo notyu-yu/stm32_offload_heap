@@ -30,11 +30,9 @@ static void serial_setup(int fd) {
 	cfsetispeed(&serial_settings, BAUDRATE);
 	cfsetospeed(&serial_settings, BAUDRATE);
 
-	serial_settings.c_cflag &= ~CRTSCTS; // Hardware based flow control off
-	serial_settings.c_cflag |= CREAD | CLOCAL; // Turn on receiver
-	serial_settings.c_iflag &= ~(IXON | IXOFF | IXANY); // Software based flow control off, no parity marking
-	serial_settings.c_lflag &= ~(ICANON | ECHO | ISIG); // Set operation mode, canonical, enable input echo and receiving signals
-	serial_settings.c_oflag &= ~(ONLCR | OFILL); // Don't turn /n to /n/r, don't send fill characters
+	// Set raw mode (no special processing
+	cfmakeraw(&serial_settings);
+
 	// Read for 0.5 seconds at max
 	// serial_settings.c_cc[VTIME] = 5;
 	tcflush(fd, TCIOFLUSH); // Clear IO buffer
@@ -55,7 +53,6 @@ static void uart_read(size_t size, void * buffer) {
 	size_t chunk_read = 0;
 	puts("pc receive start");
 	while (bytes_read < size) {
-		printf("bytes read %zu\n", bytes_read);
 		chunk_read = read(fd, chunk_buffer, size-bytes_read);
 		data_cat(buffer, chunk_buffer, bytes_read, chunk_read);
 		bytes_read += chunk_read;
@@ -74,11 +71,9 @@ static void uart_send(size_t size, void * buffer) {
 // Wait to receive a request and write struct to buffer
 void req_receive(mem_request * buffer) {
 	uart_read(sizeof(mem_request), buffer);
-	tcflush(fd, TCIOFLUSH); // Clear IO buffer
 }
 
 // Send a response stored in buffer back to mcu
 void req_send(mem_request * buffer) {
 	uart_send(sizeof(mem_request), buffer);
-	tcflush(fd, TCIOFLUSH); // Clear IO buffer
 }

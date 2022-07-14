@@ -43,10 +43,25 @@ static int extend_heap(size_t words) {
 
 int mm_init(void)
 {
+	mem_request req = {0};
+
 	mem_req_setup();
-	mem_init();
-	extend_heap(4096);
-    return 0;
+
+	// Receive starting singal of 1 in every field
+	led_on(BLUE);
+	req_receive(&req);
+	if (req.ptr==(void *)1&&req.req_id==1&&req.request==1&&req.size==1) {
+		led_off(BLUE);
+		mem_init();
+		extend_heap(4096/WSIZE);
+		return 0;
+	} else {
+		led_off(BLUE);
+		led_on(RED);
+		var_print("Start signal incorrect");
+		loop();
+		return 1;
+	}
 }
 
 

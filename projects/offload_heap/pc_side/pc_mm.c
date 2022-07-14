@@ -222,8 +222,6 @@ int mm_init(void)
 		list_start->alloc = 1;
 	}
 
-	// TODO: MCU side should ask for 1 chunk starting space
-
     return 0;
 }
 

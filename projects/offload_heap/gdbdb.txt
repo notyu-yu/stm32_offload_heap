@@ -1,2 +1,4 @@
 target remote:3333
 load
+break mcu_request.c:46
+break mcu_request.c:51
