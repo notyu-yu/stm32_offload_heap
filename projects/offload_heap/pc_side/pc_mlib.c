@@ -23,22 +23,6 @@ static uint32_t mem_brk;        /* points to last byte of heap */
 //static char *mem_max_addr;   /* largest legal heap address */ 
 
 /* 
- * mem_init - initialize the memory system model
- */
-void mem_init(void)
-{
-	mem_request req;
-
-	// Wait for initial brk location from mcu
-	req_receive(&req);
-	assert(req.req_id==SBRK && req.size==0); // Make sure it is the init request
-	mem_start_brk = req.ptr;
-    mem_brk = mem_start_brk;
-
-	printf("sbrk reset to %xu.\n", req.ptr);
-}
-
-/* 
  * mem_deinit - free the storage used by the memory system model
  */
 void mem_deinit(void)

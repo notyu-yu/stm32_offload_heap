@@ -209,7 +209,7 @@ void mm_sbrk(int incr) {
 	coalesce(new_blk);
 }
 
-int mm_init(void)
+int mm_init(uint32_t ptr)
 {
 	// Allocate starter block
 	if (list_start) {
@@ -217,7 +217,7 @@ int mm_init(void)
 	} else {
 		list_start = malloc(sizeof(blk_elt));
 		list_start->next = list_start->prev = list_start;
-		list_start->ptr = NULL;
+		list_start->ptr = ptr;
 		list_start->size = 0;
 		list_start->alloc = 1;
 	}

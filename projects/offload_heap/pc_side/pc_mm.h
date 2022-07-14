@@ -1,6 +1,6 @@
 #include "memlib.h"
 
-extern int mm_init (void);
+extern int mm_init (uint32_t);
 extern uint32_t mm_malloc (size_t size);
 extern void mm_free (uint32_t ptr);
 extern uint32_t mm_realloc(uint32_t ptr, size_t size);

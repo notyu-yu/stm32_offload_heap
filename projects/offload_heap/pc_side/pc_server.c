@@ -13,7 +13,6 @@ int main(int argc, char ** argv) {
 	uint32_t ptr;
 
 	uart_setup();
-	mm_init();
 	start_signal();
 
 	while(1) {
@@ -58,7 +57,7 @@ int main(int argc, char ** argv) {
 					// Reset sbrk
 					puts("Sbrk reset");
 					mem_reset_brk(req_in->ptr);
-					mm_init();
+					mm_init(req_in->ptr);
 				}
 				break;
 			default:
