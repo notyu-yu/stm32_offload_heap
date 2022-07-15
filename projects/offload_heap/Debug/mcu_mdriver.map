@@ -1265,8 +1265,7 @@ LOAD /usr/lib/gcc/arm-none-eabi/12.1.0/thumb/v7e-m+fp/softfp/crtn.o
  *(.data)
  *(.data*)
  .data.tracestr
-                0x0000000020000000       0x5a Debug/mcu_mdriver.o
- *fill*         0x000000002000005a        0x2 
+                0x0000000020000000       0x5c Debug/mcu_mdriver.o
  .data.SystemCoreClock
                 0x000000002000005c        0x4 Debug/system_stm32f4xx.o
                 0x000000002000005c                SystemCoreClock
