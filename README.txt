@@ -1,10 +1,16 @@
 Project files in projects/offload_heap
 
 Usage:
-After running make and connecting the UART cable (PA2 is TX, PA3 is RX), run the "pc_server" binary with sudo on the linux machine, and burn the program ("Debug/mcu_mdriver" for this project) onto the MCU. Resetting the MCU to run the script will use the linux server for memory management.
+1) Connect the MCU with UART cable (PA2 is TX, PA3 is RX).
+2) Run make and burn the program (Debug/mcu_mdriver.elf).
+3) Press the Reset button, when the blue LED turns on, run the pc_server executable.
+4) The orange LED should turn on if the trace test successfully finished.
 
-Using the MCU malloc library:
-Include the mcu_mm.h, memlib.h, and mcu_timer.h scripts. Call mm_init() and timer_init() to setup the malloc library and stack overflow checking. The functions in mcu_mm.h and memlib.h should function as their standard counterparts.
+Programming with the MCU malloc library:
+1) Include "mcu_mm.h", "memlib.h", "mcu_timer.h" headers in the "mcu_side" directory.
+2) Call mm_init() and timer_init() to initialize communication and error checking.
+3) The malloc functions in mcu_mm.h can now be used like their standard counterparts.
+4) When the program finishes, run mm_finish() to gracefully end communication with pc_server.
 
 MCU side code:
 mcu_mdriver.c: Runs the test script written in config.h.
@@ -20,11 +26,51 @@ PC side code:
 pc_mlib.c: Provides sbrk related functions.
 pc_mm.c: Provides malloc related functions.
 pc_request.c: Provides malloc request communication functions.
-pc_server.c: Continunously monitors and handles malloc request from UART.
+pc_server.c: Continuously monitors and handles malloc request from UART.
 
 Helper scripts:
 rep_to_hdr.py: Converts a .rep trace file to teststring.h.
 tracechecker.py: Checks if trace files are valid.
 extract_output.py: Extract the program output string from gdb_out.txt when gdb is ran with -x gdbtrace.txt.
 trace_gen.py: Randomly generate trace files for testing.
-run.sh: Runs test scripts in the short_trace directory, the pc_server binary needs to be manually restarted for every test with sudo privelige.
+run.sh: Runs test scripts in the short_trace directory, the pc_server binary needs to be manually restarted for every test with sudo privilege.
+
+Communications Implementation:
+Communication between MCU and the Linux server is done with the mem_request struct defined in uart_comms.h.
+request: Request type, defined in shared_config.h.
+req_id: Unique id assigned to each request from MCU.
+size: Size related to the request.
+ptr: Pointer related to the request.
+
+MCU to Linux request format:
+____________________________________________________________________________________________________
+request 	|Malloc 		|Free 			|Realloc 				|Sbrk
+____________________________________________________________________________________________________
+req_id 		|Increments by 1 each time
+____________________________________________________________________________________________________
+size 		|Malloc size 	|0 				|Realloc size 			|0 on initialization, 
+																	|sbrk increment otherwise
+____________________________________________________________________________________________________
+ptr 		|Null 			|Pointer freed 	|Pointer realloc'ed 	|Heap start on initialization,
+																	|0 otherwise
+____________________________________________________________________________________________________
+
+Linux to MCU response format:
+____________________________________________________________________________________________________
+request 	|Malloc 				|Realloc
+____________________________________________________________________________________________________
+req_id 		|Same as request id
+____________________________________________________________________________________________________
+size 		|0 						|0 				
+____________________________________________________________________________________________________
+ptr 		|Malloc'ed pointer 		|Realloc'ed pointer
+			|Null when sbrk needed
+____________________________________________________________________________________________________
+
+Linux side Heap information data structure:
+Doubly linked list/deque using blk_struct structure.
+prev & next: Maintains linked list.
+ptr: Block start pointer.
+size: Block size.
+alloc: 1 when allocated, 0 when free.
+Start of list stored in list_start variable with 0 size and 1 alloc.

@@ -141,6 +141,7 @@ static void stack_test(void) {
 static void heap_test(void) {
 	while(1) {
 		if(!mm_malloc(10*KB)){
+			mm_finish();
 			loop();
 		}
 	}

@@ -355,6 +355,7 @@ void list_print(void) {
 		printf("The %zu th block: %u alloc, %zu size, %08x ptr\n", i, cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
 		prev = cur_blk;
 		cur_blk = cur_blk->next;
+		// Check linked list consistency
 		assert(cur_blk->prev == prev);
 		assert(cur_blk->prev->next == cur_blk);
 	}

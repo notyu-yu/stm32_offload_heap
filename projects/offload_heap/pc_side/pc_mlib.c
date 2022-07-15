@@ -43,6 +43,7 @@ void mem_reset_brk(uint32_t ptr)
  *    by incr bytes and returns the start address of the new area. In
  *    this model, the heap cannot be shrunk.
  */
+// Only changes local variable, all sbrk requests need to be initiated by the MCU
 uint32_t mem_sbrk(int incr) 
 {
     uint32_t old_brk = mem_brk;
@@ -53,6 +54,7 @@ uint32_t mem_sbrk(int incr)
     return old_brk;
 }
 
+// Set sbrk to a specific pointer
 void mem_set_brk(uint32_t ptr) {
 	mem_brk = ptr;
 }

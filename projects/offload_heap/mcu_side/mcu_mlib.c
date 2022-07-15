@@ -71,6 +71,7 @@ void *mem_sbrk(unsigned int incr)
 	register size_t * stack_top asm("sp");
 	mem_request req;
 
+	// Check if there is enough memory
     if ( (incr < 0) || ((mem_brk + incr) > (char *)(stack_top))) {
 		char output_str[] = "ERROR: mem_sbrk failed. Ran out of memory...\n";
 		var_print(output_str);

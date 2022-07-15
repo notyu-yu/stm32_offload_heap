@@ -1,13 +1,14 @@
-#define BAUDRATE 115200
-#define BUFFERSIZE 2048
-#define SERIALDEV "/dev/ttyUSB0"
-#define USE_DMA 1
-#define VERBOSE 0
+#define BAUDRATE 115200 // The USARTDIV bits for the MCU needs to be manually calculated and set in mcu_side/uart.c
+#define BUFFERSIZE 2048 // Max message size, should not exceed 4095 due to termios restrictions
+#define SERIALDEV "/dev/ttyUSB0" // UART device name
+#define USE_DMA 1 // Whether or not to use DMA for UART
+#define VERBOSE 0 // Whether or not to print debug message in pc_server
 
 #ifndef _STRING_H
 	#include <string.h>
 #endif
 
+// Request types
 #define MALLOC 0
 #define FREE 1
 #define REALLOC 2

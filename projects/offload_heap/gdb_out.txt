@@ -14,25 +14,15 @@ Find the GDB manual and other documentation resources online at:
 For help, type "help".
 Type "apropos word" to search for commands related to "word"...
 Reading symbols from ./Debug/mcu_mdriver.elf...
-loop () at mcu_side/mcu.c:10
-10		led_on(ORANGE);
+0x080022d2 in uart_rx_wait () at mcu_side/uart_dma.c:95
+95		while (receiving);
 Loading section .isr_vector, size 0x198 lma 0x8000000
-Loading section .text, size 0x4570 lma 0x80001a0
-Loading section .rodata, size 0xdd0 lma 0x8004710
-Loading section .init_array, size 0x4 lma 0x80054e0
-Loading section .fini_array, size 0x4 lma 0x80054e4
-Loading section .data, size 0xc4 lma 0x80054e8
-Start address 0x080024a4, load size 21924
-Transfer rate: 18 KB/sec, 3132 bytes/write.
-Breakpoint 1 at 0x8001ec6: file mcu_side/mcu.c, line 10.
+Loading section .text, size 0x4574 lma 0x80001a0
+Loading section .rodata, size 0xdd0 lma 0x8004714
+Loading section .init_array, size 0x4 lma 0x80054e4
+Loading section .fini_array, size 0x4 lma 0x80054e8
+Loading section .data, size 0x3d9c lma 0x80054ec
+Start address 0x080024a8, load size 37504
+Transfer rate: 22 KB/sec, 5357 bytes/write.
+Breakpoint 1 at 0x8001eca: file mcu_side/mcu.c, line 10.
 Note: automatically using hardware breakpoints for read-only addresses.
-
-Breakpoint 1, loop () at mcu_side/mcu.c:10
-10		led_on(ORANGE);
-$1 = "Stack overflow detected", '\000' <repeats 2024 times>
-A debugging session is active.
-
-	Inferior 1 [Remote target] will be detached.
-
-Quit anyway? (y or n) [answered Y; input not from terminal]
-[Inferior 1 (Remote target) detached]

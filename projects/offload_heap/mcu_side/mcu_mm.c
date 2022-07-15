@@ -41,6 +41,7 @@ static int extend_heap(size_t words) {
 	}
 }
 
+// Initialize memory request communication
 int mm_init(void)
 {
 	mem_request req = {0};
