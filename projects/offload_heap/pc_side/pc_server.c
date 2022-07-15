@@ -21,6 +21,7 @@ int main(int argc, char ** argv) {
 		printf("Request id: %u\n", req_in->req_id);
 		printf("Request size: %u\n", req_in->size);
 		printf("Request ptr: %08x\n", req_in->ptr);
+		list_print();
 		switch (req_in -> request) {
 			case MALLOC:
 				printf("Malloc request of size %u received.\n", req_in->size);

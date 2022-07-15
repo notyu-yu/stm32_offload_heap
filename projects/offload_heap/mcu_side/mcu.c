@@ -1,4 +1,5 @@
 #include "mcu.h"
+#include "uart.h"
 #define MAXLINE 1024
 
 char output_str[MAXLINE*2];
@@ -6,6 +7,7 @@ char msg[MAXLINE];
 size_t output_offset=0;
 
 void loop() {
+	led_on(ORANGE);
 	while(1) {}
 }
 

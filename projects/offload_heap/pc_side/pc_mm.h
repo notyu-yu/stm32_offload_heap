@@ -6,6 +6,7 @@ extern void mm_free (uint32_t ptr);
 extern uint32_t mm_realloc(uint32_t ptr, size_t size);
 extern void mm_sbrk(int incr);
 extern void mm_heap_reset();
+extern void list_print(void);
 
 
 /* 

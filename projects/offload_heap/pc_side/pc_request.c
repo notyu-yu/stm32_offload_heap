@@ -30,7 +30,7 @@ static void serial_setup(int fd) {
 	cfsetispeed(&serial_settings, BAUDRATE);
 	cfsetospeed(&serial_settings, BAUDRATE);
 
-	// Set raw mode (no special processing
+	// Set raw mode (no special processing)
 	cfmakeraw(&serial_settings);
 
 	// Read for 0.5 seconds at max

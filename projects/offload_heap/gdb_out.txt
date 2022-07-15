@@ -14,7 +14,14 @@ Find the GDB manual and other documentation resources online at:
 For help, type "help".
 Type "apropos word" to search for commands related to "word"...
 Reading symbols from ./Debug/mcu_mdriver.elf...
-0x08002298 in uart_rx_wait () at mcu_side/uart_dma.c:95
-95		while (receiving);
+0x080007a0 in __muldf3 ()
+    at /build/arm-none-eabi-gcc/src/gcc-12.1.0/libgcc/config/arm/ieee754-df.S:819
 Loading section .isr_vector, size 0x198 lma 0x8000000
-[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[Inferior 1 (Remote target) detached]
+Loading section .text, size 0x4430 lma 0x80001a0
+Loading section .rodata, size 0xdd0 lma 0x80045d0
+Loading section .init_array, size 0x4 lma 0x80053a0
+Loading section .fini_array, size 0x4 lma 0x80053a4
+Loading section .data, size 0x338 lma 0x80053a8
+Start address 0x08002364, load size 22232
+Transfer rate: 19 KB/sec, 3176 bytes/write.
+[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[?2004h(gdb) [?2004l[Inferior 1 (Remote target) detached]

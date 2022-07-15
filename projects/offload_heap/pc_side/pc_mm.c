@@ -1,5 +1,6 @@
 #include "pc_mm.h"
 #include "memlib.h"
+#include <assert.h>
 
 team_t team = {
     /* Team name */
@@ -31,10 +32,12 @@ static blk_elt * list_start = NULL;
 
 // Merge blk with its next block, free the extra block
 static blk_elt * merge_next(blk_elt * blk) {
+	blk_elt * temp = blk->next;
+	assert(!blk->next->alloc);
 	blk->size += blk->next->size;
-	blk->next->prev = blk;
+	blk->next->next->prev = blk;
 	blk->next = blk->next->next;
-	free(blk->next);
+	free(temp);
 	return blk;
 }
 
@@ -45,6 +48,8 @@ static void coalesce(blk_elt * blk) {
 	size_t next_alloc = blk->next->alloc;
 	// Current block size
 	size_t size = blk->size;
+
+	assert(!blk->alloc);
 
 	if (prev_alloc && next_alloc) {
 		// Neither are free
@@ -57,7 +62,7 @@ static void coalesce(blk_elt * blk) {
 		merge_next(blk->prev);
 	} else {
 		// Both blocks are free
-		merge_next(blk->prev);
+		merge_next(blk);
 		merge_next(blk->prev);
 	}
 }
@@ -205,8 +210,14 @@ void mm_sbrk(int incr) {
 	list_start->prev->next = new_blk;
 	list_start->prev = new_blk;
 
+	puts("sbrk print");
+	list_print();
+
 	// Coalesce it
 	coalesce(new_blk);
+
+	puts("sbrk coalesce print");
+	list_print();
 }
 
 int mm_init(uint32_t ptr)
@@ -333,5 +344,24 @@ uint32_t mm_realloc(uint32_t ptr, size_t size)
 	} else {
 		// Do nothing
 		return ptr;
+	}
+}
+
+// Print all block list elements
+void list_print(void) {
+	if (!list_start) {
+		puts("list not initialized");
+		return;
+	}
+	blk_elt * cur_blk = list_start;
+	blk_elt * prev = list_start;
+	printf("The start block: %u alloc, %zu size, %08x ptr\n", cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
+	cur_blk = list_start->next;
+	for (size_t i=1; cur_blk->size; i++) {
+		printf("The %zu th block: %u alloc, %zu size, %08x ptr\n", i, cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
+		prev = cur_blk;
+		cur_blk = cur_blk->next;
+		assert(cur_blk->prev == prev);
+		assert(cur_blk->prev->next == cur_blk);
 	}
 }
