@@ -2,7 +2,7 @@
 
 import re
 
-with open("../gdb_out.txt", "r") as f:
+with open("./gdb_out.txt", "r") as f:
     f_str = f.read()
     for line in f_str.split("\n"):
         # Get the value of first printed variable between double quotation marks
