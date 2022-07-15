@@ -253,6 +253,8 @@ int main(void)
 	var_print(msg);
     }
 
+	mm_finish();
+
 	loop();
 }
 

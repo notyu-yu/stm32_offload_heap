@@ -1,11 +1,4 @@
-#define BAUDRATE 115200
-#define BUFFERSIZE 2048
-#define SERIALDEV "/dev/ttyUSB0"
-#define USE_DMA 0
-
-#ifndef _STRING_H
-	#include <string.h>
-#endif
+#include "../shared_side/shared_config.h"
 
 #include <stdint.h>
 

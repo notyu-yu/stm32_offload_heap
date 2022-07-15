@@ -8,7 +8,8 @@ Debug/uart_dma.d: mcu_side/uart_dma.c mcu_side/uart_dma.h mcu_side/uart.h \
  mcu_side/../../../include/system_stm32f4xx.h \
  mcu_side/../../../include/stm32f4xx.h \
  mcu_side/../../../include/stm32f411xe.h \
- mcu_side/../../../include/system_stm32f4xx.h mcu_side/uart_comms.h
+ mcu_side/../../../include/system_stm32f4xx.h mcu_side/uart_comms.h \
+ mcu_side/../shared_side/shared_config.h
 mcu_side/uart_dma.h:
 mcu_side/uart.h:
 mcu_side/../../../include/stm32f411xe.h:
@@ -22,3 +23,4 @@ mcu_side/../../../include/stm32f4xx.h:
 mcu_side/../../../include/stm32f411xe.h:
 mcu_side/../../../include/system_stm32f4xx.h:
 mcu_side/uart_comms.h:
+mcu_side/../shared_side/shared_config.h:

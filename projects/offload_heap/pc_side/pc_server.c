@@ -61,6 +61,10 @@ int main(int argc, char ** argv) {
 					mm_init(req_in->ptr);
 				}
 				break;
+			case END:
+				mm_init(0);
+				puts("Session ended");
+				return 0;
 			default:
 				printf("Invalid request type: %u.\n", req_in->request);
 		}

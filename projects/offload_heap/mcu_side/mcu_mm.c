@@ -164,3 +164,9 @@ void *mm_realloc(void *ptr, size_t size)
 		return response.ptr;
 	}
 }
+
+// Tell server to end session
+void mm_finish(void) {
+	mem_request req = {.request=END, .req_id=(++cur_id), .size=0, .ptr=NULL};
+	req_send(&req);
+}
