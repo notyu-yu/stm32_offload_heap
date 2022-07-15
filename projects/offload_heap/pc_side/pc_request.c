@@ -51,21 +51,29 @@ void uart_setup(void) {
 static void uart_read(size_t size, void * buffer) {
 	size_t bytes_read = 0;
 	size_t chunk_read = 0;
-	puts("pc receive start");
+	if (VERBOSE) {
+		puts("pc receive start");
+	}
 	while (bytes_read < size) {
 		chunk_read = read(fd, chunk_buffer, size-bytes_read);
 		data_cat(buffer, chunk_buffer, bytes_read, chunk_read);
 		bytes_read += chunk_read;
 		memset(chunk_buffer, 0, BUFFERSIZE*2);
 	}
-	puts("pc receive end");
+	if (VERBOSE) {
+		puts("pc receive end");
+	}
 }
 
 // Send size bytes of data from buffer through UART
 static void uart_send(size_t size, void * buffer) {
-	puts("pc send start");
+	if (VERBOSE) {
+		puts("pc send start");
+	}
 	assert(write(fd, buffer, size));
-	puts("pc send end");
+	if (VERBOSE) {
+		puts("pc send end");
+	}
 }
 
 // Wait to receive a request and write struct to buffer

@@ -210,14 +210,8 @@ void mm_sbrk(int incr) {
 	list_start->prev->next = new_blk;
 	list_start->prev = new_blk;
 
-	puts("sbrk print");
-	list_print();
-
 	// Coalesce it
 	coalesce(new_blk);
-
-	puts("sbrk coalesce print");
-	list_print();
 }
 
 int mm_init(uint32_t ptr)

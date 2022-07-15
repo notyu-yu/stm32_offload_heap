@@ -2,6 +2,7 @@
 #define BUFFERSIZE 2048
 #define SERIALDEV "/dev/ttyUSB0"
 #define USE_DMA 1
+#define VERBOSE 0
 
 #ifndef _STRING_H
 	#include <string.h>

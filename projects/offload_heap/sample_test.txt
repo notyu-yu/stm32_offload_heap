@@ -1,0 +1,46 @@
+==================================================
+activate openocd
+==================================================
+./short_trace/coalescing-bal.rep
+teststring.h created from ./short_trace/coalescing-bal.rep
+Utilization: 49%. Throughput: 80
+==================================================
+./short_trace/heap_test.rep
+teststring.h created from ./short_trace/heap_test.rep
+ERROR: mem_sbrk failed. Ran out of memory...
+==================================================
+./short_trace/random_test2.rep
+teststring.h created from ./short_trace/random_test2.rep
+Utilization: 5%. Throughput: 57
+==================================================
+./short_trace/random_test3.rep
+teststring.h created from ./short_trace/random_test3.rep
+Utilization: 4%. Throughput: 58
+==================================================
+./short_trace/random_test.rep
+teststring.h created from ./short_trace/random_test.rep
+Utilization: 8%. Throughput: 61
+==================================================
+./short_trace/realloc2-bal.rep
+teststring.h created from ./short_trace/realloc2-bal.rep
+Utilization: 8%. Throughput: 56
+==================================================
+./short_trace/short1-bal.rep
+teststring.h created from ./short_trace/short1-bal.rep
+Utilization: 66%. Throughput: 66
+==================================================
+./short_trace/short1.rep
+teststring.h created from ./short_trace/short1.rep
+Utilization: 66%. Throughput: 66
+==================================================
+./short_trace/short2-bal.rep
+teststring.h created from ./short_trace/short2-bal.rep
+Utilization: 89%. Throughput: 61
+==================================================
+./short_trace/short2.rep
+teststring.h created from ./short_trace/short2.rep
+Utilization: 89%. Throughput: 61
+==================================================
+./short_trace/stack_test.rep
+teststring.h created from ./short_trace/stack_test.rep
+Stack overflow detected

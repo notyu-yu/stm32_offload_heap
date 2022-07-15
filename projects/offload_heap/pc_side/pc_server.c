@@ -17,14 +17,18 @@ int main(int argc, char ** argv) {
 
 	while(1) {
 		req_receive(req_in);
-		printf("Request type: %u\n", req_in->request);
-		printf("Request id: %u\n", req_in->req_id);
-		printf("Request size: %u\n", req_in->size);
-		printf("Request ptr: %08x\n", req_in->ptr);
-		list_print();
+		if (VERBOSE) {
+			printf("Request type: %u\n", req_in->request);
+			printf("Request id: %u\n", req_in->req_id);
+			printf("Request size: %u\n", req_in->size);
+			printf("Request ptr: %08x\n", req_in->ptr);
+			list_print();
+		}
 		switch (req_in -> request) {
 			case MALLOC:
-				printf("Malloc request of size %u received.\n", req_in->size);
+				if (VERBOSE) {
+					printf("Malloc request of size %u received.\n", req_in->size);
+				}
 				ptr = mm_malloc(req_in->size);
 				// Return request
 				req_out->request = MALLOC;
@@ -32,14 +36,20 @@ int main(int argc, char ** argv) {
 				req_out->size = 0;
 				req_out->ptr = ptr;
 				req_send(req_out);
-				printf("Malloc request finished: %08x\n", ptr);
+				if (VERBOSE) {
+					printf("Malloc request finished: %08x\n", ptr);
+				}
 				break;
 			case FREE:
-				printf("Free request of pointer 0x%08x received.\n", req_in->ptr);
+				if (VERBOSE) {
+					printf("Free request of pointer 0x%08x received.\n", req_in->ptr);
+				}
 				mm_free(req_in->ptr);
 				break;
 			case REALLOC:
-				printf("Realloc request of pointer 0x%08x and size %u received.\n", req_in->ptr, req_in->size);
+				if (VERBOSE) {
+					printf("Realloc request of pointer 0x%08x and size %u received.\n", req_in->ptr, req_in->size);
+				}
 				ptr = mm_realloc(req_in->ptr, req_in->size);
 				// Return request
 				req_out->request = REALLOC;
@@ -47,16 +57,22 @@ int main(int argc, char ** argv) {
 				req_out->size = 0;
 				req_out->ptr = ptr;
 				req_send(req_out);
-				printf("Realloc request finished: %08x\n", ptr);
+				if (VERBOSE) {
+					printf("Realloc request finished: %08x\n", ptr);
+				}
 				break;
 			case SBRK:
 				if (req_in->size) {
 					// Set sbrk
-					printf("Calling sbrk with %u.\n", req_in->size);
+					if (VERBOSE) {
+						printf("Calling sbrk with %u.\n", req_in->size);
+					}
 					mem_sbrk(req_in->size);
 				} else {
 					// Reset sbrk
-					puts("Sbrk reset");
+					if (VERBOSE) {
+						puts("Sbrk reset");
+					}
 					mem_reset_brk(req_in->ptr);
 					mm_init(req_in->ptr);
 				}

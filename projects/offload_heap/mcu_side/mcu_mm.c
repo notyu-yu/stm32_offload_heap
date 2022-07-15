@@ -118,6 +118,11 @@ void mm_free(void *ptr)
 
 void *mm_realloc(void *ptr, size_t size)
 {
+	void * new_ptr = mm_malloc(size);
+	memcpy(new_ptr, ptr, size);
+	mm_free(ptr);
+	return new_ptr;
+	/*
     void *oldptr = ptr;
     void *newptr;
 	size_t blk_size;
@@ -163,6 +168,7 @@ void *mm_realloc(void *ptr, size_t size)
 		mm_free(oldptr);
 		return response.ptr;
 	}
+	*/
 }
 
 // Tell server to end session
