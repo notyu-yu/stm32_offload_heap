@@ -9,8 +9,8 @@ Program Header:
     LOAD off    0x00010000 vaddr 0x08000000 paddr 0x08000000 align 2**16
          filesz 0x000053d0 memsz 0x000053d0 flags rwx
     LOAD off    0x00020000 vaddr 0x20000000 paddr 0x080053d0 align 2**16
-         filesz 0x000000c4 memsz 0x00000d10 flags rw-
-    LOAD off    0x00000d10 vaddr 0x20000d10 paddr 0x08005494 align 2**16
+         filesz 0x00003d7c memsz 0x000049c8 flags rw-
+    LOAD off    0x000049c8 vaddr 0x200049c8 paddr 0x0800914c align 2**16
          filesz 0x00000000 memsz 0x00000600 flags rw-
 private flags = 0x5000200: [Version5 EABI] [soft-float ABI]
 
@@ -22,51 +22,51 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   2 .rodata       00000d4c  0800467c  0800467c  0001467c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  080053c8  080053c8  000200c4  2**0
+  3 .ARM.extab    00000000  080053c8  080053c8  00023d7c  2**0
                   CONTENTS
-  4 .ARM          00000000  080053c8  080053c8  000200c4  2**0
+  4 .ARM          00000000  080053c8  080053c8  00023d7c  2**0
                   CONTENTS
-  5 .preinit_array 00000000  080053c8  080053c8  000200c4  2**0
+  5 .preinit_array 00000000  080053c8  080053c8  00023d7c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
   6 .init_array   00000004  080053c8  080053c8  000153c8  2**2
                   CONTENTS, ALLOC, LOAD, DATA
   7 .fini_array   00000004  080053cc  080053cc  000153cc  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         000000c4  20000000  080053d0  00020000  2**2
+  8 .data         00003d7c  20000000  080053d0  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00000c4c  200000c4  08005494  000200c4  2**2
+  9 .bss          00000c4c  20003d7c  0800914c  00023d7c  2**2
                   ALLOC
- 10 ._user_heap_stack 00000600  20000d10  08005494  00020d10  2**0
+ 10 ._user_heap_stack 00000600  200049c8  0800914c  000249c8  2**0
                   ALLOC
- 11 .ARM.attributes 0000002e  00000000  00000000  000200c4  2**0
+ 11 .ARM.attributes 0000002e  00000000  00000000  00023d7c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0001aa3e  00000000  00000000  000200f2  2**0
+ 12 .debug_info   0001aa3f  00000000  00000000  00023daa  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 000061ec  00000000  00000000  0003ab30  2**0
+ 13 .debug_abbrev 000061ec  00000000  00000000  0003e7e9  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_loc    00000682  00000000  00000000  00040d1c  2**0
+ 14 .debug_loc    00000682  00000000  00000000  000449d5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00000a48  00000000  00000000  000413a0  2**3
+ 15 .debug_aranges 00000a48  00000000  00000000  00045058  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_ranges 000001a0  00000000  00000000  00041de8  2**3
+ 16 .debug_ranges 000001a0  00000000  00000000  00045aa0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000990e  00000000  00000000  00041f88  2**0
+ 17 .debug_line   0000990e  00000000  00000000  00045c40  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00002e15  00000000  00000000  0004b896  2**0
+ 18 .debug_str    00002e15  00000000  00000000  0004f54e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      0000003c  00000000  00000000  0004e6ab  2**0
+ 19 .comment      0000003c  00000000  00000000  00052363  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00001544  00000000  00000000  0004e6e8  2**2
+ 20 .debug_frame  00001544  00000000  00000000  000523a0  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_loclists 00004362  00000000  00000000  0004fc2c  2**0
+ 21 .debug_loclists 00004362  00000000  00000000  000538e4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_rnglists 0000069b  00000000  00000000  00053f8e  2**0
+ 22 .debug_rnglists 0000069b  00000000  00000000  00057c46  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 23 .debug_line_str 000000ac  00000000  00000000  00054629  2**0
+ 23 .debug_line_str 000000ac  00000000  00000000  000582e1  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 24 .stab         000000cc  00000000  00000000  000546d8  2**2
+ 24 .stab         000000cc  00000000  00000000  00058390  2**2
                   CONTENTS, READONLY, DEBUGGING
- 25 .stabstr      000001b9  00000000  00000000  000547a4  2**0
+ 25 .stabstr      000001b9  00000000  00000000  0005845c  2**0
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  .isr_vector	00000000 .isr_vector
@@ -78,8 +78,8 @@ SYMBOL TABLE:
 080053c8 l    d  .init_array	00000000 .init_array
 080053cc l    d  .fini_array	00000000 .fini_array
 20000000 l    d  .data	00000000 .data
-200000c4 l    d  .bss	00000000 .bss
-20000d10 l    d  ._user_heap_stack	00000000 ._user_heap_stack
+20003d7c l    d  .bss	00000000 .bss
+200049c8 l    d  ._user_heap_stack	00000000 ._user_heap_stack
 00000000 l    d  .ARM.attributes	00000000 .ARM.attributes
 00000000 l    d  .debug_info	00000000 .debug_info
 00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
@@ -109,14 +109,14 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 crtstuff.c
 08004664 l     O .text	00000000 __EH_FRAME_BEGIN__
 08000a3c l     F .text	00000000 __do_global_dtors_aux
-200000c4 l     O .bss	00000000 completed.1
+20003d7c l     O .bss	00000000 completed.1
 080053cc l     O .fini_array	00000000 __do_global_dtors_aux_fini_array_entry
 08000a60 l     F .text	00000000 frame_dummy
-200000c8 l     O .bss	00000000 object.0
+20003d80 l     O .bss	00000000 object.0
 080053c8 l     O .init_array	00000000 __frame_dummy_init_array_entry
 00000000 l    df *ABS*	00000000 mcu_mdriver.c
-200000e4 l     O .bss	00000004 errors
-20000000 l     O .data	0000005c tracestr
+20003d9c l     O .bss	00000004 errors
+20000000 l     O .data	00003d12 tracestr
 08000a7c l     F .text	00000032 stack_test
 08000aae l     F .text	00000016 heap_test
 08000eec l     F .text	00000424 read_trace
@@ -132,10 +132,10 @@ SYMBOL TABLE:
 08000eba l     F .text	00000032 clear_ranges
 08001990 l     F .text	0000002c app_error
 00000000 l    df *ABS*	00000000 mcu_mlib.c
-200000e8 l     O .bss	00000004 mem_start_brk
-200000ec l     O .bss	00000004 mem_brk
+20003da0 l     O .bss	00000004 mem_start_brk
+20003da4 l     O .bss	00000004 mem_brk
 00000000 l    df *ABS*	00000000 mm.c
-200000f0 l     O .bss	00000004 heap_listp
+20003da8 l     O .bss	00000004 heap_listp
 08001afc l     F .text	000001b4 coalesce
 08001cb0 l     F .text	00000074 extend_heap
 08001d24 l     F .text	00000054 first_fit
@@ -146,7 +146,7 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 mcu_timer.c
 08002164 l     F .text	00000034 __NVIC_EnableIRQ
 08002198 l     F .text	00000050 __NVIC_SetPriority
-200000f4 l     O .bss	00000004 systime
+20003dac l     O .bss	00000004 systime
 00000000 l    df *ABS*	00000000 mcu.c
 00000000 l    df *ABS*	00000000 system_stm32f4xx.c
 00000000 l    df *ABS*	00000000 assert.c
@@ -206,13 +206,13 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 lseek.c
 00000000 l    df *ABS*	00000000 read.c
 00000000 l    df *ABS*	00000000 sbrk.c
-20000d0c l     O .bss	00000004 heap_end.0
+200049c4 l     O .bss	00000004 heap_end.0
 00000000 l    df *ABS*	00000000 write.c
 00000000 l    df *ABS*	00000000 _exit.c
 00000000 l    df *ABS*	00000000 crti.o
 00000000 l    df *ABS*	00000000 crtn.o
 00000000 l    df *ABS*	00000000 impure.c
-20000064 l     O .data	00000060 impure_data
+20003d1c l     O .data	00000060 impure_data
 00000000 l    df *ABS*	00000000 ctype_.c
 00000000 l    df *ABS*	00000000 reent.c
 00000000 l    df *ABS*	00000000 
@@ -243,7 +243,7 @@ SYMBOL TABLE:
 08002460  w    F .text	00000002 DMA1_Stream5_IRQHandler
 080034d8 g     F .text	0000000c __malloc_unlock
 00000400 g       *ABS*	00000000 _Min_Stack_Size
-20000cf8 g     O .bss	00000004 output_offset
+200049b0 g     O .bss	00000004 output_offset
 08002e48 g     F .text	00000014 strerror
 08002460  w    F .text	00000002 SysTick_Handler
 08002460  w    F .text	00000002 PVD_IRQHandler
@@ -259,16 +259,16 @@ SYMBOL TABLE:
 080024a0 g     F .text	0000000c __errno
 08002460  w    F .text	00000002 TIM1_UP_TIM10_IRQHandler
 08004570 g     F .text	00000024 _fstat_r
-20000d08 g     O .bss	00000004 errno
+200049c0 g     O .bss	00000004 errno
 08004004 g     F .text	000001e8 _scanf_i
 080029f6 g     F .text	00000004 __seofread
 0800467c g       .text	00000000 _etext
-200000c4 g       .bss	00000000 _sbss
+20003d7c g       .bss	00000000 _sbss
 08002460  w    F .text	00000002 I2C3_ER_IRQHandler
 080022b8 g     F .text	00000004 loop
 08002250 g     F .text	0000000c get_time
 08002518 g     F .text	0000001c memcpy
-200000e0 g     O .bss	00000004 verbose
+20003d98 g     O .bss	00000004 verbose
 08001fc8 g     F .text	00000076 mm_malloc
 08003200 g     F .text	0000000c _cleanup_r
 08003690 g     F .text	000001fc _svfprintf_r
@@ -278,7 +278,7 @@ SYMBOL TABLE:
 08002460  w    F .text	00000002 DMA1_Stream2_IRQHandler
 08002460  w    F .text	00000002 FPU_IRQHandler
 08002a7c g     F .text	000003cc _strerror_r
-2000005c g     O .data	00000004 SystemCoreClock
+20003d14 g     O .data	00000004 SystemCoreClock
 08004282 g     F .text	00000050 _raise_r
 080045d4 g     F .text	00000010 _fstat
 08002464 g     F .text	0000003c __assert_func
@@ -286,14 +286,14 @@ SYMBOL TABLE:
 08002460  w    F .text	00000002 DMA2_Stream2_IRQHandler
 08003906 g     F .text	0000003a __ssrefill_r
 08004308 g     F .text	00000004 _getpid_r
-200000c4 g       .bss	00000000 __bss_start__
+20003d7c g       .bss	00000000 __bss_start__
 080004d4 g     F .text	0000001e .hidden __aeabi_ui2d
 20000000 g       .data	00000000 _sdata
 08002460  w    F .text	00000002 SPI1_IRQHandler
 08000250 g     F .text	00000000 .hidden __aeabi_drsub
 0800291c g     F .text	00000020 _sbrk_r
 080041ec g     F .text	00000024 _read_r
-200008f8 g     O .bss	00000400 msg
+200045b0 g     O .bss	00000400 msg
 08002460  w    F .text	00000002 TIM1_BRK_TIM9_IRQHandler
 08000518 g     F .text	00000042 .hidden __extendsfdf2
 08003940 g     F .text	000002f0 __ssvfscanf_r
@@ -303,7 +303,7 @@ SYMBOL TABLE:
 08002460  w    F .text	00000002 DMA2_Stream3_IRQHandler
 080005c8 g     F .text	00000254 .hidden __aeabi_dmul
 080045f4 g     F .text	00000010 _isatty
-20000d06 g     O .bss	00000001 __lock___sinit_recursive_mutex
+200049be g     O .bss	00000001 __lock___sinit_recursive_mutex
 08004b7c g     O .rodata	00000004 _global_impure_ptr
 0800357c g     F .text	0000005e _realloc_r
 080024d0 g     F .text	00000048 __libc_init_array
@@ -313,12 +313,12 @@ SYMBOL TABLE:
 08002460  w    F .text	00000002 USART6_IRQHandler
 08004664 g     F .text	00000000 _init
 080022bc g     F .text	00000034 var_print
-20000d10 g       .bss	00000000 _ebss
+200049c8 g       .bss	00000000 _ebss
 08002410  w    F .text	00000038 Reset_Handler
 080009ec g     F .text	0000004e .hidden __fixdfsi
 08001a68 g     F .text	00000060 mem_sbrk
 08001a40 g     F .text	00000028 mem_init
-20000d04 g     O .bss	00000001 __lock___malloc_recursive_mutex
+200049bc g     O .bss	00000001 __lock___malloc_recursive_mutex
 08002460  w    F .text	00000002 DMA2_Stream0_IRQHandler
 0800225c g     F .text	0000005c timer_init
 080024ac g     F .text	00000024 fprintf
@@ -327,7 +327,7 @@ SYMBOL TABLE:
 08002a5e g     F .text	0000001e strcat
 0800055c g     F .text	0000006a .hidden __aeabi_ul2d
 08005228 g     O .rodata	00000020 __sf_fake_stderr
-20000d10 g       ._user_heap_stack	00000000 end
+200049c8 g       ._user_heap_stack	00000000 end
 08002460  w    F .text	00000002 I2C1_EV_IRQHandler
 080033a6 g     F .text	00000002 __retarget_lock_release_recursive
 08002460  w    F .text	00000002 DMA1_Stream6_IRQHandler
@@ -336,7 +336,7 @@ SYMBOL TABLE:
 0800269a g     F .text	00000024 __sfputs_r
 08003238 g     F .text	0000000c __sfp_lock_acquire
 080001b0 g     F .text	00000000 memchr
-20000d10 g       .bss	00000000 __bss_end__
+200049c8 g       .bss	00000000 __bss_end__
 08001ad4 g     F .text	00000010 mem_heap_hi
 080034e4 g     F .text	00000098 _free_r
 08002460  w    F .text	00000002 TIM3_IRQHandler
@@ -383,7 +383,7 @@ SYMBOL TABLE:
 08002460  w    F .text	00000002 SVC_Handler
 08002a56 g     F .text	00000008 __sclose
 08004410 g     F .text	00000004 _strtol_r
-200000f8 g     O .bss	00000800 output_str
+20003db0 g     O .bss	00000800 output_str
 08002584 g     F .text	000000e8 _malloc_r
 0800056c g     F .text	0000005a .hidden __aeabi_l2d
 080044fc g     F .text	00000074 __submore
@@ -394,7 +394,7 @@ SYMBOL TABLE:
 0800293c g     F .text	00000040 sprintf
 08002f04 g     F .text	00000024 _write_r
 08003c30 g     F .text	000000da _printf_common
-20000060 g     O .data	00000004 _impure_ptr
+20003d18 g     O .data	00000004 _impure_ptr
 08003034 g     F .text	0000010c __sflush_r
 08003690 g     F .text	000001fc _svfiprintf_r
 08002460  w    F .text	00000002 WWDG_IRQHandler
@@ -407,7 +407,7 @@ SYMBOL TABLE:
 20020000 g       .isr_vector	00000000 _estack
 08002460  w    F .text	00000002 EXTI1_IRQHandler
 08004650 g     F .text	00000010 _write
-200000c4 g       .data	00000000 _edata
+20003d7c g       .data	00000000 _edata
 08001ac8 g     F .text	0000000c mem_heap_lo
 08002460  w    F .text	00000002 USART2_IRQHandler
 080029fa g     F .text	00000038 __swrite
@@ -436,15 +436,15 @@ SYMBOL TABLE:
 08003d0c g     F .text	00000244 _printf_i
 08002460  w    F .text	00000002 SPI3_IRQHandler
 08002460  w    F .text	00000002 DMA1_Stream4_IRQHandler
-20000d00 g     O .bss	00000004 __malloc_sbrk_start
+200049b8 g     O .bss	00000004 __malloc_sbrk_start
 08002460  w    F .text	00000002 I2C1_ER_IRQHandler
 08000518 g     F .text	00000042 .hidden __aeabi_f2d
-20000cfc g     O .bss	00000004 __malloc_free_list
+200049b4 g     O .bss	00000004 __malloc_free_list
 08000258 g     F .text	0000027a .hidden __subdf3
 080026c0 g     F .text	0000025c _vfprintf_r
 08002460  w    F .text	00000002 DMA2_Stream6_IRQHandler
 08002460  w    F .text	00000002 DMA1_Stream3_IRQHandler
-20000d05 g     O .bss	00000001 __lock___sfp_recursive_mutex
+200049bd g     O .bss	00000001 __lock___sfp_recursive_mutex
 080045c4 g     F .text	00000010 _close
 080042d4 g     F .text	00000010 raise
 08003250 g     F .text	0000000c __sinit_lock_acquire
@@ -1189,7 +1189,7 @@ Disassembly of section .text:
  8000a4e:	2301      	movs	r3, #1
  8000a50:	7023      	strb	r3, [r4, #0]
  8000a52:	bd10      	pop	{r4, pc}
- 8000a54:	200000c4 	.word	0x200000c4
+ 8000a54:	20003d7c 	.word	0x20003d7c
  8000a58:	00000000 	.word	0x00000000
  8000a5c:	08004664 	.word	0x08004664
 
@@ -1202,7 +1202,7 @@ Disassembly of section .text:
  8000a6a:	f3af 8000 	nop.w
  8000a6e:	bd08      	pop	{r3, pc}
  8000a70:	00000000 	.word	0x00000000
- 8000a74:	200000c8 	.word	0x200000c8
+ 8000a74:	20003d80 	.word	0x20003d80
  8000a78:	08004664 	.word	0x08004664
 
 08000a7c <stack_test>:
@@ -1551,15 +1551,15 @@ int main(void)
  8000cd0:	4618      	mov	r0, r3
  8000cd2:	b023      	add	sp, #140	; 0x8c
  8000cd4:	f85d fb04 	ldr.w	pc, [sp], #4
- 8000cd8:	200000e0 	.word	0x200000e0
+ 8000cd8:	20003d98 	.word	0x20003d98
  8000cdc:	0800467c 	.word	0x0800467c
- 8000ce0:	200008f8 	.word	0x200008f8
+ 8000ce0:	200045b0 	.word	0x200045b0
  8000ce4:	080046a4 	.word	0x080046a4
  8000ce8:	080046b4 	.word	0x080046b4
  8000cec:	447a0000 	.word	0x447a0000
  8000cf0:	080046c8 	.word	0x080046c8
  8000cf4:	080046e4 	.word	0x080046e4
- 8000cf8:	200000e4 	.word	0x200000e4
+ 8000cf8:	20003d9c 	.word	0x20003d9c
  8000cfc:	40590000 	.word	0x40590000
  8000d00:	080046e8 	.word	0x080046e8
  8000d04:	0800470c 	.word	0x0800470c
@@ -1768,7 +1768,7 @@ static int add_range(range_t **ranges, char *lo, int size,
  8000e54:	08004b34 	.word	0x08004b34
  8000e58:	0800474c 	.word	0x0800474c
  8000e5c:	0800475c 	.word	0x0800475c
- 8000e60:	200008f8 	.word	0x200008f8
+ 8000e60:	200045b0 	.word	0x200045b0
  8000e64:	0800478c 	.word	0x0800478c
  8000e68:	080047b8 	.word	0x080047b8
  8000e6c:	080047ec 	.word	0x080047ec
@@ -2334,7 +2334,7 @@ static trace_t *read_trace()
  80012fe:	bf00      	nop
  8001300:	08004898 	.word	0x08004898
  8001304:	080048a0 	.word	0x080048a0
- 8001308:	200008f8 	.word	0x200008f8
+ 8001308:	200045b0 	.word	0x200045b0
  800130c:	080048dc 	.word	0x080048dc
 
 08001310 <free_trace>:
@@ -2713,7 +2713,7 @@ static int eval_mm_valid(trace_t *trace, int tracenum, range_t **ranges)
  8001540:	080048f8 	.word	0x080048f8
  8001544:	0800490c 	.word	0x0800490c
  8001548:	08004940 	.word	0x08004940
- 800154c:	200008f8 	.word	0x200008f8
+ 800154c:	200045b0 	.word	0x200045b0
  8001550:	08004948 	.word	0x08004948
 
 08001554 <eval_mm_util>:
@@ -3298,7 +3298,7 @@ static void printresults(int n, stats_t *stats)
  8001954:	080049e8 	.word	0x080049e8
  8001958:	080049f0 	.word	0x080049f0
  800195c:	080049f8 	.word	0x080049f8
- 8001960:	200008f8 	.word	0x200008f8
+ 8001960:	200045b0 	.word	0x200045b0
  8001964:	40590000 	.word	0x40590000
  8001968:	408f4000 	.word	0x408f4000
  800196c:	08004a2c 	.word	0x08004a2c
@@ -3306,7 +3306,7 @@ static void printresults(int n, stats_t *stats)
  8001974:	08004a6c 	.word	0x08004a6c
  8001978:	08004a50 	.word	0x08004a50
  800197c:	08004a54 	.word	0x08004a54
- 8001980:	200000e4 	.word	0x200000e4
+ 8001980:	20003d9c 	.word	0x20003d9c
  8001984:	08004a70 	.word	0x08004a70
  8001988:	08004a80 	.word	0x08004a80
  800198c:	08004aa0 	.word	0x08004aa0
@@ -3337,7 +3337,7 @@ void app_error(char * err_msg)
  80019ae:	f85d fb04 	ldr.w	pc, [sp], #4
  80019b2:	bf00      	nop
  80019b4:	08004ab4 	.word	0x08004ab4
- 80019b8:	200008f8 	.word	0x200008f8
+ 80019b8:	200045b0 	.word	0x200045b0
 
 080019bc <unix_error>:
 
@@ -3371,7 +3371,7 @@ void unix_error(char * err_msg)
  80019ea:	f85d fb04 	ldr.w	pc, [sp], #4
  80019ee:	bf00      	nop
  80019f0:	08004ab8 	.word	0x08004ab8
- 80019f4:	200008f8 	.word	0x200008f8
+ 80019f4:	200045b0 	.word	0x200045b0
 
 080019f8 <malloc_error>:
 
@@ -3411,9 +3411,9 @@ void malloc_error(int tracenum, int opnum, char *err_msg)
  8001a2c:	b007      	add	sp, #28
  8001a2e:	f85d fb04 	ldr.w	pc, [sp], #4
  8001a32:	bf00      	nop
- 8001a34:	200000e4 	.word	0x200000e4
+ 8001a34:	20003d9c 	.word	0x20003d9c
  8001a38:	08004ac0 	.word	0x08004ac0
- 8001a3c:	200008f8 	.word	0x200008f8
+ 8001a3c:	200045b0 	.word	0x200045b0
 
 08001a40 <mem_init>:
 /* 
@@ -3437,9 +3437,9 @@ void mem_init(void)
  8001a56:	bf00      	nop
  8001a58:	4770      	bx	lr
  8001a5a:	bf00      	nop
- 8001a5c:	20000d00 	.word	0x20000d00
- 8001a60:	200000e8 	.word	0x200000e8
- 8001a64:	200000ec 	.word	0x200000ec
+ 8001a5c:	200049b8 	.word	0x200049b8
+ 8001a60:	20003da0 	.word	0x20003da0
+ 8001a64:	20003da4 	.word	0x20003da4
 
 08001a68 <mem_sbrk>:
  * mem_sbrk - simple model of the sbrk function. Extends the heap 
@@ -3500,7 +3500,7 @@ void *mem_sbrk(int incr)
  8001aba:	4618      	mov	r0, r3
  8001abc:	b011      	add	sp, #68	; 0x44
  8001abe:	bd30      	pop	{r4, r5, pc}
- 8001ac0:	200000ec 	.word	0x200000ec
+ 8001ac0:	20003da4 	.word	0x20003da4
  8001ac4:	08004ae0 	.word	0x08004ae0
 
 08001ac8 <mem_heap_lo>:
@@ -3515,7 +3515,7 @@ void *mem_heap_lo()
 }
  8001acc:	4618      	mov	r0, r3
  8001ace:	4770      	bx	lr
- 8001ad0:	200000e8 	.word	0x200000e8
+ 8001ad0:	20003da0 	.word	0x20003da0
 
 08001ad4 <mem_heap_hi>:
 /* 
@@ -3531,7 +3531,7 @@ void *mem_heap_hi()
  8001ada:	4618      	mov	r0, r3
  8001adc:	4770      	bx	lr
  8001ade:	bf00      	nop
- 8001ae0:	200000ec 	.word	0x200000ec
+ 8001ae0:	20003da4 	.word	0x20003da4
 
 08001ae4 <mem_heapsize>:
 /*
@@ -3549,8 +3549,8 @@ size_t mem_heapsize()
  8001aee:	4618      	mov	r0, r3
  8001af0:	4770      	bx	lr
  8001af2:	bf00      	nop
- 8001af4:	200000ec 	.word	0x200000ec
- 8001af8:	200000e8 	.word	0x200000e8
+ 8001af4:	20003da4 	.word	0x20003da4
+ 8001af8:	20003da0 	.word	0x20003da0
 
 08001afc <coalesce>:
 
@@ -3905,7 +3905,7 @@ static inline void *first_fit(size_t asize) {
  8001d6e:	4618      	mov	r0, r3
  8001d70:	b004      	add	sp, #16
  8001d72:	4770      	bx	lr
- 8001d74:	200000f0 	.word	0x200000f0
+ 8001d74:	20003da8 	.word	0x20003da8
 
 08001d78 <find_fit>:
 	}
@@ -4278,7 +4278,7 @@ int mm_init(void)
 }
  8001fc0:	4618      	mov	r0, r3
  8001fc2:	bd08      	pop	{r3, pc}
- 8001fc4:	200000f0 	.word	0x200000f0
+ 8001fc4:	20003da8 	.word	0x20003da8
 
 08001fc8 <mm_malloc>:
 
@@ -4705,9 +4705,9 @@ void TIM2_IRQHandler(void)
  800223e:	bf00      	nop
  8002240:	bd08      	pop	{r3, pc}
  8002242:	bf00      	nop
- 8002244:	200000f4 	.word	0x200000f4
+ 8002244:	20003dac 	.word	0x20003dac
  8002248:	08004b10 	.word	0x08004b10
- 800224c:	200008f8 	.word	0x200008f8
+ 800224c:	200045b0 	.word	0x200045b0
 
 08002250 <get_time>:
 
@@ -4719,7 +4719,7 @@ size_t get_time(void) {
 }
  8002254:	4618      	mov	r0, r3
  8002256:	4770      	bx	lr
- 8002258:	200000f4 	.word	0x200000f4
+ 8002258:	20003dac 	.word	0x20003dac
 
 0800225c <timer_init>:
 
@@ -4824,8 +4824,8 @@ void var_print(char * str) {
 }
  80022e2:	b003      	add	sp, #12
  80022e4:	f85d fb04 	ldr.w	pc, [sp], #4
- 80022e8:	20000cf8 	.word	0x20000cf8
- 80022ec:	200000f8 	.word	0x200000f8
+ 80022e8:	200049b0 	.word	0x200049b0
+ 80022ec:	20003db0 	.word	0x20003db0
 
 080022f0 <SystemInit>:
 *************************************************/
@@ -5025,7 +5025,7 @@ void set_sysclk_to_100(void)
  80023fc:	40007000 	.word	0x40007000
  8002400:	08416008 	.word	0x08416008
  8002404:	40023c00 	.word	0x40023c00
- 8002408:	2000005c 	.word	0x2000005c
+ 8002408:	20003d14 	.word	0x20003d14
  800240c:	05f5e100 	.word	0x05f5e100
 
 08002410 <Reset_Handler>:
@@ -5111,13 +5111,13 @@ LoopFillZerobss:
   ldr r0, =_sdata
  800244c:	20000000 	.word	0x20000000
   ldr r1, =_edata
- 8002450:	200000c4 	.word	0x200000c4
+ 8002450:	20003d7c 	.word	0x20003d7c
   ldr r2, =_sidata
  8002454:	080053d0 	.word	0x080053d0
   ldr r2, =_sbss
- 8002458:	200000c4 	.word	0x200000c4
+ 8002458:	20003d7c 	.word	0x20003d7c
   ldr r4, =_ebss
- 800245c:	20000d10 	.word	0x20000d10
+ 800245c:	200049c8 	.word	0x200049c8
 
 08002460 <ADC_IRQHandler>:
  * @retval None       
@@ -5149,7 +5149,7 @@ Infinite_Loop:
  800248a:	461c      	mov	r4, r3
  800248c:	e7f3      	b.n	8002476 <__assert_func+0x12>
  800248e:	bf00      	nop
- 8002490:	20000060 	.word	0x20000060
+ 8002490:	20003d18 	.word	0x20003d18
  8002494:	08004b3e 	.word	0x08004b3e
  8002498:	08004b4b 	.word	0x08004b4b
  800249c:	08004b79 	.word	0x08004b79
@@ -5159,7 +5159,7 @@ Infinite_Loop:
  80024a2:	6818      	ldr	r0, [r3, #0]
  80024a4:	4770      	bx	lr
  80024a6:	bf00      	nop
- 80024a8:	20000060 	.word	0x20000060
+ 80024a8:	20003d18 	.word	0x20003d18
 
 080024ac <fiprintf>:
  80024ac:	b40e      	push	{r1, r2, r3}
@@ -5175,7 +5175,7 @@ Infinite_Loop:
  80024c4:	f85d eb04 	ldr.w	lr, [sp], #4
  80024c8:	b003      	add	sp, #12
  80024ca:	4770      	bx	lr
- 80024cc:	20000060 	.word	0x20000060
+ 80024cc:	20003d18 	.word	0x20003d18
 
 080024d0 <__libc_init_array>:
  80024d0:	b570      	push	{r4, r5, r6, lr}
@@ -5256,7 +5256,7 @@ Infinite_Loop:
  8002578:	f04f 34ff 	mov.w	r4, #4294967295	; 0xffffffff
  800257c:	4620      	mov	r0, r4
  800257e:	bd70      	pop	{r4, r5, r6, pc}
- 8002580:	20000d00 	.word	0x20000d00
+ 8002580:	200049b8 	.word	0x200049b8
 
 08002584 <_malloc_r>:
  8002584:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -5360,7 +5360,7 @@ Infinite_Loop:
  8002662:	6025      	str	r5, [r4, #0]
  8002664:	e7de      	b.n	8002624 <_malloc_r+0xa0>
  8002666:	bf00      	nop
- 8002668:	20000cfc 	.word	0x20000cfc
+ 8002668:	200049b4 	.word	0x200049b4
 
 0800266c <__sfputc_r>:
  800266c:	6893      	ldr	r3, [r2, #8]
@@ -5665,7 +5665,7 @@ Infinite_Loop:
  8002932:	b103      	cbz	r3, 8002936 <_sbrk_r+0x1a>
  8002934:	6023      	str	r3, [r4, #0]
  8002936:	bd38      	pop	{r3, r4, r5, pc}
- 8002938:	20000d08 	.word	0x20000d08
+ 8002938:	200049c0 	.word	0x200049c0
 
 0800293c <siprintf>:
  800293c:	b40e      	push	{r1, r2, r3}
@@ -5692,7 +5692,7 @@ Infinite_Loop:
  800296c:	f85d eb04 	ldr.w	lr, [sp], #4
  8002970:	b003      	add	sp, #12
  8002972:	4770      	bx	lr
- 8002974:	20000060 	.word	0x20000060
+ 8002974:	20003d18 	.word	0x20003d18
  8002978:	ffff0208 	.word	0xffff0208
 
 0800297c <siscanf>:
@@ -5729,7 +5729,7 @@ Infinite_Loop:
  80029c8:	4770      	bx	lr
  80029ca:	bf00      	nop
  80029cc:	080029f7 	.word	0x080029f7
- 80029d0:	20000060 	.word	0x20000060
+ 80029d0:	20003d18 	.word	0x20003d18
 
 080029d4 <__sread>:
  80029d4:	b510      	push	{r4, lr}
@@ -6150,7 +6150,7 @@ Infinite_Loop:
  8002e50:	461a      	mov	r2, r3
  8002e52:	f7ff be13 	b.w	8002a7c <_strerror_r>
  8002e56:	bf00      	nop
- 8002e58:	20000060 	.word	0x20000060
+ 8002e58:	20003d18 	.word	0x20003d18
 
 08002e5c <_user_strerror>:
  8002e5c:	2000      	movs	r0, #0
@@ -6248,7 +6248,7 @@ Infinite_Loop:
  8002f1e:	b103      	cbz	r3, 8002f22 <_write_r+0x1e>
  8002f20:	6023      	str	r3, [r4, #0]
  8002f22:	bd38      	pop	{r3, r4, r5, pc}
- 8002f24:	20000d08 	.word	0x20000d08
+ 8002f24:	200049c0 	.word	0x200049c0
 
 08002f28 <__swsetup_r>:
  8002f28:	4b32      	ldr	r3, [pc, #200]	; (8002ff4 <__swsetup_r+0xcc>)
@@ -6339,7 +6339,7 @@ Infinite_Loop:
  8002fee:	2000      	movs	r0, #0
  8002ff0:	e7f7      	b.n	8002fe2 <__swsetup_r+0xba>
  8002ff2:	bf00      	nop
- 8002ff4:	20000060 	.word	0x20000060
+ 8002ff4:	20003d18 	.word	0x20003d18
  8002ff8:	08005248 	.word	0x08005248
  8002ffc:	08005268 	.word	0x08005268
  8003000:	08005228 	.word	0x08005228
@@ -6366,7 +6366,7 @@ Infinite_Loop:
  800302a:	b103      	cbz	r3, 800302e <_close_r+0x1a>
  800302c:	6023      	str	r3, [r4, #0]
  800302e:	bd38      	pop	{r3, r4, r5, pc}
- 8003030:	20000d08 	.word	0x20000d08
+ 8003030:	200049c0 	.word	0x200049c0
 
 08003034 <__sflush_r>:
  8003034:	898a      	ldrh	r2, [r1, #12]
@@ -6606,25 +6606,25 @@ Infinite_Loop:
  8003238:	4801      	ldr	r0, [pc, #4]	; (8003240 <__sfp_lock_acquire+0x8>)
  800323a:	f000 b8b3 	b.w	80033a4 <__retarget_lock_acquire_recursive>
  800323e:	bf00      	nop
- 8003240:	20000d05 	.word	0x20000d05
+ 8003240:	200049bd 	.word	0x200049bd
 
 08003244 <__sfp_lock_release>:
  8003244:	4801      	ldr	r0, [pc, #4]	; (800324c <__sfp_lock_release+0x8>)
  8003246:	f000 b8ae 	b.w	80033a6 <__retarget_lock_release_recursive>
  800324a:	bf00      	nop
- 800324c:	20000d05 	.word	0x20000d05
+ 800324c:	200049bd 	.word	0x200049bd
 
 08003250 <__sinit_lock_acquire>:
  8003250:	4801      	ldr	r0, [pc, #4]	; (8003258 <__sinit_lock_acquire+0x8>)
  8003252:	f000 b8a7 	b.w	80033a4 <__retarget_lock_acquire_recursive>
  8003256:	bf00      	nop
- 8003258:	20000d06 	.word	0x20000d06
+ 8003258:	200049be 	.word	0x200049be
 
 0800325c <__sinit_lock_release>:
  800325c:	4801      	ldr	r0, [pc, #4]	; (8003264 <__sinit_lock_release+0x8>)
  800325e:	f000 b8a2 	b.w	80033a6 <__retarget_lock_release_recursive>
  8003262:	bf00      	nop
- 8003264:	20000d06 	.word	0x20000d06
+ 8003264:	200049be 	.word	0x200049be
 
 08003268 <__sinit>:
  8003268:	b510      	push	{r4, lr}
@@ -6779,7 +6779,7 @@ Infinite_Loop:
  80033c2:	b103      	cbz	r3, 80033c6 <_lseek_r+0x1e>
  80033c4:	6023      	str	r3, [r4, #0]
  80033c6:	bd38      	pop	{r3, r4, r5, pc}
- 80033c8:	20000d08 	.word	0x20000d08
+ 80033c8:	200049c0 	.word	0x200049c0
 
 080033cc <__swhatbuf_r>:
  80033cc:	b570      	push	{r4, r5, r6, lr}
@@ -6894,13 +6894,13 @@ Infinite_Loop:
  80034cc:	4801      	ldr	r0, [pc, #4]	; (80034d4 <__malloc_lock+0x8>)
  80034ce:	f7ff bf69 	b.w	80033a4 <__retarget_lock_acquire_recursive>
  80034d2:	bf00      	nop
- 80034d4:	20000d04 	.word	0x20000d04
+ 80034d4:	200049bc 	.word	0x200049bc
 
 080034d8 <__malloc_unlock>:
  80034d8:	4801      	ldr	r0, [pc, #4]	; (80034e0 <__malloc_unlock+0x8>)
  80034da:	f7ff bf64 	b.w	80033a6 <__retarget_lock_release_recursive>
  80034de:	bf00      	nop
- 80034e0:	20000d04 	.word	0x20000d04
+ 80034e0:	200049bc 	.word	0x200049bc
 
 080034e4 <_free_r>:
  80034e4:	b537      	push	{r0, r1, r2, r4, r5, lr}
@@ -6972,7 +6972,7 @@ Infinite_Loop:
  8003572:	e7ca      	b.n	800350a <_free_r+0x26>
  8003574:	b003      	add	sp, #12
  8003576:	bd30      	pop	{r4, r5, pc}
- 8003578:	20000cfc 	.word	0x20000cfc
+ 8003578:	200049b4 	.word	0x200049b4
 
 0800357c <_realloc_r>:
  800357c:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -8311,7 +8311,7 @@ Infinite_Loop:
  8004206:	b103      	cbz	r3, 800420a <_read_r+0x1e>
  8004208:	6023      	str	r3, [r4, #0]
  800420a:	bd38      	pop	{r3, r4, r5, pc}
- 800420c:	20000d08 	.word	0x20000d08
+ 800420c:	200049c0 	.word	0x200049c0
 
 08004210 <__sccl>:
  8004210:	b570      	push	{r4, r5, r6, lr}
@@ -8411,7 +8411,7 @@ Infinite_Loop:
  80042d8:	6818      	ldr	r0, [r3, #0]
  80042da:	f7ff bfd2 	b.w	8004282 <_raise_r>
  80042de:	bf00      	nop
- 80042e0:	20000060 	.word	0x20000060
+ 80042e0:	20003d18 	.word	0x20003d18
 
 080042e4 <_kill_r>:
  80042e4:	b538      	push	{r3, r4, r5, lr}
@@ -8429,7 +8429,7 @@ Infinite_Loop:
  80042fe:	6023      	str	r3, [r4, #0]
  8004300:	bd38      	pop	{r3, r4, r5, pc}
  8004302:	bf00      	nop
- 8004304:	20000d08 	.word	0x20000d08
+ 8004304:	200049c0 	.word	0x200049c0
 
 08004308 <_getpid_r>:
  8004308:	f000 b96c 	b.w	80045e4 <_getpid>
@@ -8697,7 +8697,7 @@ Infinite_Loop:
  800458a:	6023      	str	r3, [r4, #0]
  800458c:	bd38      	pop	{r3, r4, r5, pc}
  800458e:	bf00      	nop
- 8004590:	20000d08 	.word	0x20000d08
+ 8004590:	200049c0 	.word	0x200049c0
 
 08004594 <_isatty_r>:
  8004594:	b538      	push	{r3, r4, r5, lr}
@@ -8713,7 +8713,7 @@ Infinite_Loop:
  80045aa:	b103      	cbz	r3, 80045ae <_isatty_r+0x1a>
  80045ac:	6023      	str	r3, [r4, #0]
  80045ae:	bd38      	pop	{r3, r4, r5, pc}
- 80045b0:	20000d08 	.word	0x20000d08
+ 80045b0:	200049c0 	.word	0x200049c0
 
 080045b4 <_malloc_usable_size_r>:
  80045b4:	f851 3c04 	ldr.w	r3, [r1, #-4]
@@ -8730,7 +8730,7 @@ Infinite_Loop:
  80045c8:	601a      	str	r2, [r3, #0]
  80045ca:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
  80045ce:	4770      	bx	lr
- 80045d0:	20000d08 	.word	0x20000d08
+ 80045d0:	200049c0 	.word	0x200049c0
 
 080045d4 <_fstat>:
  80045d4:	4b02      	ldr	r3, [pc, #8]	; (80045e0 <_fstat+0xc>)
@@ -8738,7 +8738,7 @@ Infinite_Loop:
  80045d8:	601a      	str	r2, [r3, #0]
  80045da:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
  80045de:	4770      	bx	lr
- 80045e0:	20000d08 	.word	0x20000d08
+ 80045e0:	200049c0 	.word	0x200049c0
 
 080045e4 <_getpid>:
  80045e4:	4b02      	ldr	r3, [pc, #8]	; (80045f0 <_getpid+0xc>)
@@ -8746,7 +8746,7 @@ Infinite_Loop:
  80045e8:	601a      	str	r2, [r3, #0]
  80045ea:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
  80045ee:	4770      	bx	lr
- 80045f0:	20000d08 	.word	0x20000d08
+ 80045f0:	200049c0 	.word	0x200049c0
 
 080045f4 <_isatty>:
  80045f4:	4b02      	ldr	r3, [pc, #8]	; (8004600 <_isatty+0xc>)
@@ -8755,7 +8755,7 @@ Infinite_Loop:
  80045fa:	2000      	movs	r0, #0
  80045fc:	4770      	bx	lr
  80045fe:	bf00      	nop
- 8004600:	20000d08 	.word	0x20000d08
+ 8004600:	200049c0 	.word	0x200049c0
 
 08004604 <_kill>:
  8004604:	4b02      	ldr	r3, [pc, #8]	; (8004610 <_kill+0xc>)
@@ -8763,7 +8763,7 @@ Infinite_Loop:
  8004608:	601a      	str	r2, [r3, #0]
  800460a:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
  800460e:	4770      	bx	lr
- 8004610:	20000d08 	.word	0x20000d08
+ 8004610:	200049c0 	.word	0x200049c0
 
 08004614 <_lseek>:
  8004614:	4b02      	ldr	r3, [pc, #8]	; (8004620 <_lseek+0xc>)
@@ -8771,7 +8771,7 @@ Infinite_Loop:
  8004618:	601a      	str	r2, [r3, #0]
  800461a:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
  800461e:	4770      	bx	lr
- 8004620:	20000d08 	.word	0x20000d08
+ 8004620:	200049c0 	.word	0x200049c0
 
 08004624 <_read>:
  8004624:	4b02      	ldr	r3, [pc, #8]	; (8004630 <_read+0xc>)
@@ -8779,7 +8779,7 @@ Infinite_Loop:
  8004628:	601a      	str	r2, [r3, #0]
  800462a:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
  800462e:	4770      	bx	lr
- 8004630:	20000d08 	.word	0x20000d08
+ 8004630:	200049c0 	.word	0x200049c0
 
 08004634 <_sbrk>:
  8004634:	4a04      	ldr	r2, [pc, #16]	; (8004648 <_sbrk+0x14>)
@@ -8792,8 +8792,8 @@ Infinite_Loop:
  8004642:	6010      	str	r0, [r2, #0]
  8004644:	4618      	mov	r0, r3
  8004646:	4770      	bx	lr
- 8004648:	20000d0c 	.word	0x20000d0c
- 800464c:	20000d10 	.word	0x20000d10
+ 8004648:	200049c4 	.word	0x200049c4
+ 800464c:	200049c8 	.word	0x200049c8
 
 08004650 <_write>:
  8004650:	4b02      	ldr	r3, [pc, #8]	; (800465c <_write+0xc>)
@@ -8801,7 +8801,7 @@ Infinite_Loop:
  8004654:	601a      	str	r2, [r3, #0]
  8004656:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
  800465a:	4770      	bx	lr
- 800465c:	20000d08 	.word	0x20000d08
+ 800465c:	200049c0 	.word	0x200049c0
 
 08004660 <_exit>:
  8004660:	e7fe      	b.n	8004660 <_exit>

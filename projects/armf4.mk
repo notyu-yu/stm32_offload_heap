@@ -76,8 +76,8 @@ all: clean $(SRCS) build pc_side size
 
 build: $(TARGET).elf $(TARGET).bin $(TARGET).lst
 
-pc_side: pc_side/pc_server.c pc_side/pc_request.c pc_side/pc_mm.c pc_side/pc_mlib.c
-	gcc -g3 -o pc_server pc_side/pc_server.c pc_side/pc_request.c pc_side/pc_mm.c pc_side/pc_mlib.c
+pc_side: pc_side/pc_server.c pc_side/pc_request.c pc_side/pc_mm.c pc_side/pc_mlib.c pc_side/dict.c
+	gcc -g3 -o pc_server pc_side/pc_server.c pc_side/pc_request.c pc_side/pc_mm.c pc_side/pc_mlib.c pc_side/dict.c
 
 $(TARGET).elf: $(OBJS)
 	$(CC) $(OBJS) $(LDFLAGS) -o $(OBJDIR)/$@
