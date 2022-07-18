@@ -1,5 +1,5 @@
 #include "pc_request.h"
-#include "pc_mm.h"
+#include "dict.h"
 
 // Send start signal of 1 in every field of mem_request
 static void start_signal(void) {
@@ -79,6 +79,7 @@ int main(int argc, char ** argv) {
 				break;
 			case END:
 				mm_init(0);
+				dict_destroy();
 				puts("Session ended");
 				return 0;
 			default:

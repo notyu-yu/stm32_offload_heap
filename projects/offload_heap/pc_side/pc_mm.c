@@ -1,4 +1,4 @@
-#include "pc_mm.h"
+#include "dict.h"
 #include "memlib.h"
 #include <assert.h>
 
@@ -30,6 +30,28 @@ team_t team = {
 // Pointer to first block
 static blk_elt * list_start = NULL;
 
+// Look through linked list for block pointer, return 0 when not found
+static inline blk_elt * linear_blk_search(uint32_t ptr) {
+	blk_elt * search_blk = list_start->next;
+	while (search_blk->size) {
+		if (search_blk->ptr == ptr) {
+			return search_blk;
+		}
+		search_blk = search_blk->next;
+	}
+	return 0;
+}
+
+// Use hash table to get pointer
+static inline blk_elt * dict_blk_search(uint32_t ptr) {
+	return dict_search(ptr);
+}
+
+// Search algorithm for pointer lookup
+static blk_elt * blk_search(uint32_t ptr) {
+	return dict_blk_search(ptr);
+}
+
 // Merge blk with its next block, free the extra block
 static blk_elt * merge_next(blk_elt * blk) {
 	blk_elt * temp = blk->next;
@@ -37,6 +59,7 @@ static blk_elt * merge_next(blk_elt * blk) {
 	blk->size += blk->next->size;
 	blk->next->next->prev = blk;
 	blk->next = blk->next->next;
+	dict_delete(temp->ptr);
 	free(temp);
 	return blk;
 }
@@ -129,6 +152,7 @@ static void place(blk_elt * blk, size_t asize) {
 		new_blk->alloc = 0;
 		blk->next->prev = new_blk;
 		blk->next = new_blk;
+		dict_insert(new_blk->ptr, new_blk);
 	} else {
 		// Allocate entire block
 		blk->alloc = 1;
@@ -153,6 +177,7 @@ static void shrink_blk(blk_elt * blk, size_t asize) {
 		new_blk->ptr = free_p;
 		new_blk->size = free_size;
 		new_blk->alloc = 0;
+		dict_insert(new_blk->ptr, new_blk);
 		// Update adjacent blocks
 		blk->next->prev = new_blk;
 		blk->next = new_blk;
@@ -176,7 +201,9 @@ static void extend_blk(blk_elt * blk, size_t asize) {
 		free_p = blk->ptr + asize;
 		// Shrink next free block
 		blk->next->size = free_size;
+		dict_delete(blk->next->ptr);
 		blk->next->ptr = free_p;
+		dict_insert(blk->next->ptr, blk->next);
 		// Update current block size
 		blk->size = asize;
 
@@ -208,6 +235,7 @@ void mm_sbrk(int incr) {
 	new_blk->ptr = list_start->prev->ptr + list_start->prev->size;
 	new_blk->size = incr;
 	new_blk->alloc = 0;
+	dict_insert(new_blk->ptr, new_blk);
 
 	// Insert it before starting block
 	list_start->prev->next = new_blk;
@@ -219,6 +247,8 @@ void mm_sbrk(int incr) {
 
 int mm_init(uint32_t ptr)
 {
+	dict_create();
+
 	// Allocate starter block
 	if (list_start) {
 		mm_heap_reset();
@@ -264,16 +294,14 @@ uint32_t mm_malloc(size_t size)
 
 void mm_free(uint32_t ptr)
 {
-	blk_elt * current_blk = list_start->next;
+	blk_elt * freed_blk = blk_search(ptr);
 
 	// Look through linked list for free block
-	while (current_blk->size) {
-		if (current_blk->ptr == ptr) {
-			current_blk->alloc = 0;
-			coalesce(current_blk);
-			return;
-		}
-		current_blk = current_blk->next;
+	if (freed_blk) {
+		freed_blk->alloc = 0;
+		coalesce(freed_blk);
+	} else {
+		puts("Pointer for free not found");
 	}
 }
 
@@ -286,15 +314,8 @@ uint32_t mm_realloc(uint32_t ptr, size_t size)
 	size_t next_size;
 	size_t next_alloc;
 
-	blk_elt * search_blk = list_start->next;
-
 	// Search for block in linked list
-	while (search_blk->size) {
-		if (search_blk->ptr == ptr) {
-			break;
-		}
-		search_blk = search_blk->next;
-	}
+	blk_elt * search_blk = blk_search(ptr);
 
 	// Ptr not found in list
 	if (search_blk->size == 0) {
@@ -340,14 +361,15 @@ void list_print(void) {
 	}
 	blk_elt * cur_blk = list_start;
 	blk_elt * prev = list_start;
-	printf("The start block: %u alloc, %zu size, %08x ptr\n", cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
+	//printf("The start block: %u alloc, %zu size, %08x ptr\n", cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
 	cur_blk = list_start->next;
 	for (size_t i=1; cur_blk->size; i++) {
-		printf("The %zu th block: %u alloc, %zu size, %08x ptr\n", i, cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
+		//printf("The %zu th block: %u alloc, %zu size, %08x ptr\n", i, cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
 		prev = cur_blk;
 		cur_blk = cur_blk->next;
 		// Check linked list consistency
 		assert(cur_blk->prev == prev);
 		assert(cur_blk->prev->next == cur_blk);
+		assert(dict_search(cur_blk->ptr));
 	}
 }
