@@ -361,15 +361,18 @@ void list_print(void) {
 	}
 	blk_elt * cur_blk = list_start;
 	blk_elt * prev = list_start;
-	//printf("The start block: %u alloc, %zu size, %08x ptr\n", cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
+	printf("The start block: %u alloc, %zu size, %08x ptr\n", cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
 	cur_blk = list_start->next;
 	for (size_t i=1; cur_blk->size; i++) {
-		//printf("The %zu th block: %u alloc, %zu size, %08x ptr\n", i, cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
+		printf("The %zu th block: %u alloc, %zu size, %08x ptr\n", i, cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
 		prev = cur_blk;
 		cur_blk = cur_blk->next;
 		// Check linked list consistency
 		assert(cur_blk->prev == prev);
 		assert(cur_blk->prev->next == cur_blk);
-		assert(dict_search(cur_blk->ptr));
+		if (!dict_search(cur_blk->ptr)) {
+			printf("ptr %08x not in hash\n", cur_blk->ptr);
+			assert(dict_search(cur_blk->ptr));
+		}
 	}
 }

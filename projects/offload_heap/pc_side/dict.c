@@ -1,28 +1,29 @@
 #include "dict.h"
 #include <assert.h>
 
-#define START_COUNT 256
+#define START_COUNT 4
 
-dict pointer_dict = {.count=0, .table=NULL};
+dict pointer_dict = {.count=0, .size=0, .table=NULL};
 
 // Hash function used
 static uint32_t hash_func(uint32_t key) {
-	return key % pointer_dict.count;
+	return key % pointer_dict.size;
 }
 
 // Initialize dict
 void dict_create(void) {
-	pointer_dict.count = START_COUNT;
-	pointer_dict.table = calloc(pointer_dict.count, sizeof(dict_elt));
+	pointer_dict.size = START_COUNT;
+	pointer_dict.count = 0;
+	pointer_dict.table = calloc(pointer_dict.size, sizeof(dict_elt));
 }
 
 // Insert entry with MCU pointer key and blk_elt * ptr
-void dict_insert(uint32_t key, blk_elt * ptr) {
+static void internal_dict_insert(dict_elt * table, uint32_t key, blk_elt * ptr) {
 	uint32_t index = hash_func(key);
 	dict_elt * entry;
-	dict_elt * insert_point=&(pointer_dict.table[index]);
+	dict_elt * insert_point=&(table[index]);
 	// Insert new entry to dict
-	if (pointer_dict.table[index].key) {
+	if (table[index].key) {
 		// Key used, make new dict entry
 		entry = malloc(sizeof(dict_elt));
 		entry->key = key;
@@ -36,9 +37,45 @@ void dict_insert(uint32_t key, blk_elt * ptr) {
 		insert_point->next = entry;
 	} else {
 		// Key unused
-		pointer_dict.table[index].key = key;
-		pointer_dict.table[index].ptr = ptr;
-		pointer_dict.table[index].next = NULL;
+		table[index].key = key;
+		table[index].ptr = ptr;
+		table[index].next = NULL;
+	}
+}
+
+// Double dict array size if count is too large
+static void dict_double(void) {
+	dict_elt * cur_entry;
+	dict_elt * temp;
+	dict_elt * old_table = pointer_dict.table;
+	dict_elt * new_table = calloc(pointer_dict.size*2, sizeof(dict_elt));
+	size_t old_size = pointer_dict.size;
+
+	pointer_dict.size*=2;
+
+	for (size_t i=0; i<old_size; i++) {
+		if (pointer_dict.table[i].key) {
+			internal_dict_insert(new_table, pointer_dict.table[i].key, pointer_dict.table[i].ptr);
+		}
+		cur_entry = pointer_dict.table[i].next;
+		// Free parent before each child
+		while (cur_entry) {
+			internal_dict_insert(new_table, cur_entry->key, cur_entry->ptr);
+			temp = cur_entry;
+			cur_entry = cur_entry->next;
+			free(temp);
+		}
+	}
+	pointer_dict.table = new_table;
+	free(old_table);
+}
+
+// Insert entry with MCU pointer key and blk_elt * ptr
+void dict_insert(uint32_t key, blk_elt * ptr) {
+	internal_dict_insert(pointer_dict.table, key, ptr);
+	pointer_dict.count++;
+	if (pointer_dict.count > pointer_dict.size) {
+		dict_double();
 	}
 }
 
@@ -82,6 +119,7 @@ void dict_delete(uint32_t key) {
 					cur_entry->next = NULL;
 				}
 			}
+			pointer_dict.count--;
 			break;
 		}
 		prev_entry = cur_entry;
@@ -93,7 +131,7 @@ void dict_delete(uint32_t key) {
 void dict_destroy(void) {
 	dict_elt * cur_entry;
 	dict_elt * temp;
-	for (size_t i=0; i<pointer_dict.count; i++) {
+	for (size_t i=0; i<pointer_dict.size; i++) {
 		cur_entry = pointer_dict.table[i].next;
 		// Free parent before each child
 		while (cur_entry) {
@@ -104,4 +142,5 @@ void dict_destroy(void) {
 	}
 	free(pointer_dict.table);
 	pointer_dict.count=0;
+	pointer_dict.size=0;
 }

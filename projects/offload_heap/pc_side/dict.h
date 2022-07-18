@@ -8,6 +8,7 @@ struct dict_elt_struct {
 typedef struct dict_elt_struct dict_elt;
 
 struct dict_struct {
+	size_t size;
 	size_t count;
 	dict_elt * table;
 };
