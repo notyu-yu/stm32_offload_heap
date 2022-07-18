@@ -32,6 +32,7 @@ static void serial_setup(int fd) {
 
 	// Set raw mode (no special processing)
 	cfmakeraw(&serial_settings);
+	// TODO: Does not work until echo runned first, check flags?
 
 	// Read for 0.5 seconds at max
 	// serial_settings.c_cc[VTIME] = 5;

@@ -119,17 +119,8 @@ void mm_free(void *ptr)
 
 void *mm_realloc(void *ptr, size_t size)
 {
-	void * new_ptr = mm_malloc(size);
-	memcpy(new_ptr, ptr, size);
-	mm_free(ptr);
-	return new_ptr;
-	/*
     void *oldptr = ptr;
     void *newptr;
-	size_t blk_size;
-	size_t asize;
-	size_t next_size;
-	size_t next_alloc;
 	mem_request req;
 	mem_request response;
 
@@ -144,32 +135,20 @@ void *mm_realloc(void *ptr, size_t size)
 	}
 
 	// Send realloc request to server
-	req = (mem_request){.request = REALLOC, .req_id=(++cur_id), .size = asize, .ptr=ptr};
+	req = (mem_request){.request = REALLOC, .req_id=(++cur_id), .size = size, .ptr=ptr};
 	req_send(&req);
 	req_receive(&response);
-
-	// Extend heap and redo request if needed
-	if (response.size) {
-		if (extend_heap(response.size)) {
-			req = (mem_request){.request = REALLOC, .req_id=(++cur_id), .size = asize, .ptr=ptr};
-			req_send(&req);
-			req_receive(&response);
-		} else {
-			// Not enough memory
-			return NULL;
-		}
-	}
 
 	if (response.ptr == oldptr) {
 		// Address stays the same
 		return response.ptr;
 	} else {
 		// Need to copy to new location
-		memcpy(response.ptr, oldptr, size);
+		newptr = mm_malloc(size);
+		memcpy(newptr, oldptr, size);
 		mm_free(oldptr);
-		return response.ptr;
+		return newptr;
 	}
-	*/
 }
 
 // Tell server to end session

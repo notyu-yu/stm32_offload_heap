@@ -285,21 +285,12 @@ uint32_t mm_realloc(uint32_t ptr, size_t size)
 
 	blk_elt * search_blk = list_start->next;
 
-	// Special cases
-	if (ptr == 0) {
-		newptr = mm_malloc(size);
-		return newptr;
-	}
-	if (size == 0) {
-		mm_free(ptr);
-		return ptr;
-	}
-
 	// Search for block in linked list
 	while (search_blk->size) {
 		if (search_blk->ptr == ptr) {
 			break;
 		}
+		search_blk = search_blk->next;
 	}
 
 	// Ptr not round in list
