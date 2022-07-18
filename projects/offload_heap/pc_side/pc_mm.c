@@ -153,6 +153,7 @@ static void shrink_blk(blk_elt * blk, size_t asize) {
 		new_blk->ptr = free_p;
 		new_blk->size = free_size;
 		new_blk->alloc = 0;
+		// Update adjacent blocks
 		blk->next->prev = new_blk;
 		blk->next = new_blk;
 		// Update original block
@@ -168,12 +169,14 @@ static void extend_blk(blk_elt * blk, size_t asize) {
 	size_t combined_size = blk->size + blk->next->size;
 	size_t free_size;
 	uint32_t free_p;
+	assert(!blk->next->alloc);
 	// Check if there is free block leftover 
 	if (combined_size > asize) {
 		free_size = combined_size-asize;
 		free_p = blk->ptr + asize;
 		// Shrink next free block
 		blk->next->size = free_size;
+		blk->next->ptr = free_p;
 		// Update current block size
 		blk->size = asize;
 
@@ -293,7 +296,7 @@ uint32_t mm_realloc(uint32_t ptr, size_t size)
 		search_blk = search_blk->next;
 	}
 
-	// Ptr not round in list
+	// Ptr not found in list
 	if (search_blk->size == 0) {
 		puts("Realloc ptr not found");
 		return 0;
@@ -316,11 +319,8 @@ uint32_t mm_realloc(uint32_t ptr, size_t size)
 			extend_blk(search_blk, asize);
 			return oldptr;
 		} else {
-			// Need to malloc new block
-			newptr = mm_malloc(size);
-			if (newptr == 0)
-			  return 0;
-			return newptr;
+			// Need to malloc new block, return 0
+			return 0;
 		}
 	} else if (blk_size > asize) {
 		// Need to shrink block
@@ -328,7 +328,7 @@ uint32_t mm_realloc(uint32_t ptr, size_t size)
 		return oldptr;
 	} else {
 		// Do nothing
-		return ptr;
+		return oldptr;
 	}
 }
 
