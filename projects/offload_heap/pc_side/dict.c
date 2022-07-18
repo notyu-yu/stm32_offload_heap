@@ -1,12 +1,21 @@
 #include "dict.h"
 #include <assert.h>
 
-#define START_COUNT 4
+#define START_COUNT 128
 
 dict pointer_dict = {.count=0, .size=0, .table=NULL};
 
-// Hash function used
+// Hash function, returns hash key mod table size
 static uint32_t hash_func(uint32_t key) {
+	// FNV1a hash function
+	uint64_t prime = ((1ULL<<40)+(1<<8)+0xb3);
+	uint64_t basis = (14695981039346656037ULL);
+
+	for (size_t i=0; i<sizeof(key); i++) {
+		basis ^= ((char *)&key)[i];
+		basis *= prime;
+	}
+
 	return key % pointer_dict.size;
 }
 
