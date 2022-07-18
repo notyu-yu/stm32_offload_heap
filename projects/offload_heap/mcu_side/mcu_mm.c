@@ -51,7 +51,7 @@ int mm_init(void)
 	// Receive starting singal of 1 in every field
 	led_on(BLUE);
 	req_receive(&req);
-	if (req.ptr==(void *)1&&req.req_id==1&&req.request==1&&req.size==1) {
+	if (req.ptr==(void *)1&&req.request==1&&req.size==1) {
 		led_off(BLUE);
 		mem_init();
 		extend_heap(4096/WSIZE);
@@ -78,7 +78,7 @@ void *mm_malloc(size_t size)
 	}
 
 	// Send malloc request to server
-	req = (mem_request){.request = MALLOC, .req_id=(++cur_id), .size = size, .ptr=NULL};
+	req = (mem_request){.request = MALLOC, .size = size, .ptr=NULL};
 	req_send(&req);
 	req_receive(&response);
 
@@ -97,7 +97,7 @@ void *mm_malloc(size_t size)
 		if (extend_heap(extendsize/WSIZE)) {
 			// Resend malloc request
 			// Send malloc request to server
-			req = (mem_request){.request = MALLOC, .req_id=(++cur_id), .size = size, .ptr=NULL};
+			req = (mem_request){.request = MALLOC, .size = size, .ptr=NULL};
 			req_send(&req);
 			req_receive(&response);
 			
@@ -113,7 +113,7 @@ void *mm_malloc(size_t size)
 
 void mm_free(void *ptr)
 {
-	mem_request req = {.request=FREE, .req_id=(++cur_id), .size=0, .ptr=ptr};
+	mem_request req = {.request=FREE, .size=0, .ptr=ptr};
 	req_send(&req);
 }
 
@@ -135,7 +135,7 @@ void *mm_realloc(void *ptr, size_t size)
 	}
 
 	// Send realloc request to server
-	req = (mem_request){.request = REALLOC, .req_id=(++cur_id), .size = size, .ptr=ptr};
+	req = (mem_request){.request = REALLOC, .size = size, .ptr=ptr};
 	req_send(&req);
 	req_receive(&response);
 
@@ -153,6 +153,6 @@ void *mm_realloc(void *ptr, size_t size)
 
 // Tell server to end session
 void mm_finish(void) {
-	mem_request req = {.request=END, .req_id=(++cur_id), .size=0, .ptr=NULL};
+	mem_request req = {.request=SBRK, .size=0, .ptr=0};
 	req_send(&req);
 }

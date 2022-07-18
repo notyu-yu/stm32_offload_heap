@@ -32,7 +32,9 @@ static void serial_setup(int fd) {
 
 	// Set raw mode (no special processing)
 	cfmakeraw(&serial_settings);
-	// TODO: Does not work until echo runned first, check flags?
+	
+	serial_settings.c_cflag &= ~CRTSCTS; // Hardware based flow control off
+	serial_settings.c_cflag |= CREAD | CLOCAL; // Turn on receiver
 
 	// Read for 0.5 seconds at max
 	// serial_settings.c_cc[VTIME] = 5;

@@ -35,7 +35,7 @@ void mem_init(void)
     mem_brk = mem_start_brk;
 
 	// Sbrk request: size=0 for reset, size=1 for sbrk move
-	req = (mem_request){.request=SBRK, .req_id = (++cur_id), .size=0, .ptr=mem_brk};
+	req = (mem_request){.request=SBRK, .size=0, .ptr=mem_brk};
 	req_send(&req);
 }
 
@@ -56,7 +56,7 @@ void mem_reset_brk()
     mem_brk = mem_start_brk;
 
 	// Sbrk request: size=0 for reset, size=1 for sbrk move
-	req = (mem_request){.request = SBRK, .req_id = (++cur_id), .size=0, .ptr=mem_brk};
+	req = (mem_request){.request = SBRK, .size=0, .ptr=mem_brk};
 	req_send(&req);
 }
 
@@ -80,7 +80,7 @@ void *mem_sbrk(unsigned int incr)
     mem_brk += incr;
 
 	// Sbrk request: size=0 for reset, size=1 for sbrk move
-	req = (mem_request){.request = SBRK, .req_id = (++cur_id), .size=incr, .ptr=0};
+	req = (mem_request){.request = SBRK, .size=incr, .ptr=0};
 	req_send(&req);
     return (void *)old_brk;
 }

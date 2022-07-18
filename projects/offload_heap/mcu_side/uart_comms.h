@@ -3,8 +3,7 @@
 #include <stdint.h>
 
 typedef struct {
-	uint32_t request;
-	size_t req_id;
-	size_t size;
+	uint32_t request : 2;
+	size_t size : 30;
 	void * ptr;
 } mem_request;

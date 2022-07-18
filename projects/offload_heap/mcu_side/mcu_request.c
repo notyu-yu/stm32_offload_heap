@@ -2,8 +2,6 @@
 
 #define READSIZE(buffer) *(size_t *)buffer
 
-size_t cur_id = 0;
-
 // Returns pointer to msg without padding
 static char * msg_offset(char * msg) {
 	for (size_t i=0; i<BUFFERSIZE; i++) {

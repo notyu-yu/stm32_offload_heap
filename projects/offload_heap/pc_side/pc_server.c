@@ -3,7 +3,7 @@
 
 // Send start signal of 1 in every field of mem_request
 static void start_signal(void) {
-	mem_request req = {.request=1, .ptr=1, .req_id=1, .size=1};
+	mem_request req = {.request=1, .ptr=1, .size=1};
 	req_send(&req);
 }
 
@@ -19,7 +19,6 @@ int main(int argc, char ** argv) {
 		req_receive(req_in);
 		if (VERBOSE) {
 			printf("Request type: %u\n", req_in->request);
-			printf("Request id: %u\n", req_in->req_id);
 			printf("Request size: %u\n", req_in->size);
 			printf("Request ptr: %08x\n", req_in->ptr);
 			list_print();
@@ -32,7 +31,6 @@ int main(int argc, char ** argv) {
 				ptr = mm_malloc(req_in->size);
 				// Return request
 				req_out->request = MALLOC;
-				req_out->req_id = req_in->req_id;
 				req_out->size = 0;
 				req_out->ptr = ptr;
 				req_send(req_out);
@@ -53,7 +51,6 @@ int main(int argc, char ** argv) {
 				ptr = mm_realloc(req_in->ptr, req_in->size);
 				// Return request
 				req_out->request = REALLOC;
-				req_out->req_id = req_in->req_id;
 				req_out->size = 0;
 				req_out->ptr = ptr;
 				req_send(req_out);
@@ -69,19 +66,22 @@ int main(int argc, char ** argv) {
 					}
 					mem_sbrk(req_in->size);
 				} else {
-					// Reset sbrk
-					if (VERBOSE) {
-						puts("Sbrk reset");
+					if (req_in->ptr) {
+						// Reset sbrk
+						if (VERBOSE) {
+							puts("Sbrk reset");
+						}
+						mem_reset_brk(req_in->ptr);
+						mm_init(req_in->ptr);
+					} else {
+						// End signal
+						mm_init(0);
+						dict_destroy();
+						puts("Session ended");
+						return 0;
 					}
-					mem_reset_brk(req_in->ptr);
-					mm_init(req_in->ptr);
 				}
 				break;
-			case END:
-				mm_init(0);
-				dict_destroy();
-				puts("Session ended");
-				return 0;
 			default:
 				printf("Invalid request type: %u.\n", req_in->request);
 		}
