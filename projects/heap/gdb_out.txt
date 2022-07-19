@@ -17,4 +17,22 @@ Reading symbols from ./Debug/mcu_mdriver.elf...
 loop () at mcu.c:9
 9		while(1) {}
 Loading section .isr_vector, size 0x198 lma 0x8000000
-[?2004h(gdb) [?2004l[Inferior 1 (Remote target) detached]
+Loading section .text, size 0x4544 lma 0x80001a0
+Loading section .rodata, size 0xd4c lma 0x80046e4
+Loading section .init_array, size 0x4 lma 0x8005430
+Loading section .fini_array, size 0x4 lma 0x8005434
+Loading section .data, size 0xc4 lma 0x8005438
+Start address 0x08002478, load size 21748
+Transfer rate: 19 KB/sec, 3106 bytes/write.
+Breakpoint 1 at 0x8002320: file mcu.c, line 9.
+Note: automatically using hardware breakpoints for read-only addresses.
+
+Breakpoint 1, loop () at mcu.c:9
+9		while(1) {}
+$1 = "Stack overflow detected", '\000' <repeats 2024 times>
+A debugging session is active.
+
+	Inferior 1 [Remote target] will be detached.
+
+Quit anyway? (y or n) [answered Y; input not from terminal]
+[Inferior 1 (Remote target) detached]

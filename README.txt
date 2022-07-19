@@ -12,6 +12,12 @@ Programming with the MCU malloc library:
 3) The malloc functions in mcu_mm.h can now be used like their standard counterparts.
 4) When the program finishes, run mm_finish() to gracefully end communication with pc_server.
 
+LED Indicators:
+Blue: Run pc_server to continue program.
+Red: Start signal error, usually due to UART setup problem.
+Orange: Program successfully finished.
+Green: Communicating with Linux server.
+
 MCU side code:
 mcu_mdriver.c: Runs the test script written in config.h.
 mcu_mlib.c: Provides sbrk related functions.
@@ -27,6 +33,9 @@ pc_mlib.c: Provides sbrk related functions.
 pc_mm.c: Provides malloc related functions.
 pc_request.c: Provides malloc request communication functions.
 pc_server.c: Continuously monitors and handles malloc request from UART.
+dict.c: Provides hash table functions;
+
+Shared config file: shared_side/shared_config.h
 
 Helper scripts:
 rep_to_hdr.py: Converts a .rep trace file to teststring.h.
@@ -53,7 +62,7 @@ ptr      |Null         |Pointer freed  |Pointer realloc'ed  |Heap start on initi
                                                             |0 otherwise
 ___________________________________________________________________________________________
 
-End Signal: SBRK request with 0 size and ptr
+End Signal: SBRK request with 0 size and ptr.
 
 Linux to MCU response format:
 _______________________________________________________
@@ -64,6 +73,7 @@ _______________________________________________________
 ptr      |Malloc'ed pointer   |Realloc'ed pointer
                               |Null when sbrk needed
 _______________________________________________________
+Start Signal: Request with every field being 1.
 
 Linux side Heap information data structure:
 Doubly linked list/deque using blk_struct structure.
