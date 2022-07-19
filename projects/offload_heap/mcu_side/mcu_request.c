@@ -41,10 +41,14 @@ void mem_req_setup(void) {
 
 // Send request
 void req_send(mem_request * buffer) {
+	led_on(GREEN);
 	send(buffer, sizeof(mem_request));
+	led_off(GREEN);
 }
 
 // Wait for response
 void req_receive(mem_request * buffer) {
+	led_on(GREEN);
 	receive(buffer, sizeof(mem_request));
+	led_off(GREEN);
 }

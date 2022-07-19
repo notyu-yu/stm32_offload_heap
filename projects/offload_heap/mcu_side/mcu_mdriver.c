@@ -147,6 +147,9 @@ static void heap_test(void) {
 	}
 }
 
+// Memory used by test script
+static int test_mem_use = 0;
+
 /**************
  * Main routine
  **************/
@@ -313,7 +316,8 @@ static int add_range(range_t **ranges, char *lo, int size,
      * by creating a range struct and adding it the range list.
      */
     if ((p = (range_t *)mm_malloc(sizeof(range_t))) == NULL)
-	unix_error("malloc error in add_range");
+		unix_error("malloc error in add_range");
+	test_mem_use += sizeof(range_t);
     p->next = *ranges;
     p->lo = lo;
     p->hi = hi;
@@ -374,7 +378,8 @@ static trace_t *read_trace()
 
     /* Allocate the trace record */
     if ((trace = (trace_t *) mm_malloc(sizeof(trace_t))) == NULL)
-	unix_error("malloc 1 failed in read_trance");
+		unix_error("malloc 1 failed in read_trance");
+	test_mem_use += sizeof(trace_t);
 	
     /* Read the trace file header */
     //if ((tracefile = fmemopen(tracestr, strlen(tracestr), "r")) == NULL) {
@@ -393,17 +398,20 @@ static trace_t *read_trace()
     /* We'll store each request line in the trace in this array */
     if ((trace->ops = 
 	 (traceop_t *)mm_malloc(trace->num_ops * sizeof(traceop_t))) == NULL)
-	unix_error("malloc 2 failed in read_trace");
+		unix_error("malloc 2 failed in read_trace");
+	test_mem_use += sizeof(traceop_t);
 
     /* We'll keep an array of pointers to the allocated blocks here... */
     if ((trace->blocks = 
 	 (char **)mm_malloc(trace->num_ids * sizeof(char *))) == NULL)
-	unix_error("malloc 3 failed in read_trace");
+		unix_error("malloc 3 failed in read_trace");
+	test_mem_use += trace->num_ids * sizeof(char *);
 
     /* ... along with the corresponding byte sizes of each block */
     if ((trace->block_sizes = 
 	 (size_t *)mm_malloc(trace->num_ids * sizeof(size_t))) == NULL)
-	unix_error("malloc 4 failed in read_trace");
+		unix_error("malloc 4 failed in read_trace");
+	test_mem_use += trace->num_ids * sizeof(size_t);
     
     /* read every request line in the trace file */
     index = 0;
@@ -621,7 +629,7 @@ static double eval_mm_util(trace_t *trace, int tracenum, range_t **ranges)
 	    size = trace->ops[i].size;
 
 	    if ((p = mm_malloc(size)) == NULL) 
-		app_error("mm_malloc failed in eval_mm_util");
+			app_error("mm_malloc failed in eval_mm_util");
 	    
 	    /* Remember region and size */
 	    trace->blocks[index] = p;
@@ -677,7 +685,9 @@ static double eval_mm_util(trace_t *trace, int tracenum, range_t **ranges)
         }
     }
 
-    return ((double)max_total_size / (double)mem_heapsize());
+	max_total_size += test_mem_use;
+
+    return ((double)max_total_size  / (double)mem_heapsize());
 }
 
 

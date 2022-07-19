@@ -17,19 +17,20 @@ Reading symbols from ./Debug/mcu_mdriver.elf...
 loop () at mcu_side/mcu.c:10
 10		led_on(ORANGE);
 Loading section .isr_vector, size 0x198 lma 0x8000000
-Loading section .text, size 0x45bc lma 0x80001a0
-Loading section .rodata, size 0xdd0 lma 0x800475c
-Loading section .init_array, size 0x4 lma 0x800552c
-Loading section .fini_array, size 0x4 lma 0x8005530
-Loading section .data, size 0xc4 lma 0x8005534
-Start address 0x080024f0, load size 22000
-Transfer rate: 19 KB/sec, 3142 bytes/write.
-Breakpoint 1 at 0x8001f12: file mcu_side/mcu.c, line 10.
+Loading section .text, size 0x463c lma 0x80001a0
+Loading section .rodata, size 0xdd0 lma 0x80047dc
+Loading section .init_array, size 0x4 lma 0x80055ac
+Loading section .fini_array, size 0x4 lma 0x80055b0
+Loading section .data, size 0xc4 lma 0x80055b4
+Start address 0x08002570, load size 22128
+Transfer rate: 18 KB/sec, 3161 bytes/write.
+Breakpoint 1 at 0x8001f7a: file mcu_side/mcu.c, line 10.
 Note: automatically using hardware breakpoints for read-only addresses.
 
-Breakpoint 1, loop () at mcu_side/mcu.c:10
-10		led_on(ORANGE);
-$1 = "Stack overflow detected", '\000' <repeats 2024 times>
+Program received signal SIGINT, Interrupt.
+WWDG_IRQHandler () at ../../include/startup_stm32f411xe.s:113
+113	  b  Infinite_Loop
+$1 = '\000' <repeats 2047 times>
 A debugging session is active.
 
 	Inferior 1 [Remote target] will be detached.
