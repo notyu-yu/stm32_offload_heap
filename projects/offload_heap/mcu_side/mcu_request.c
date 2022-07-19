@@ -2,16 +2,6 @@
 
 #define READSIZE(buffer) *(size_t *)buffer
 
-// Returns pointer to msg without padding
-static char * msg_offset(char * msg) {
-	for (size_t i=0; i<BUFFERSIZE; i++) {
-		if (msg[i]) {
-			return msg + i;
-		}
-	}
-	return msg;
-}
-
 // Send size bytes at data pointer, using method defined by USE_DMA macro
 static void send(void * data, size_t size) {
 	if (USE_DMA) {

@@ -133,7 +133,7 @@ static char tracestr[] = TESTSTRING;
 
 // Test for stack overflow
 static void stack_test(void) {
-	char buffer_array[10*KB] = {0};
+	char buffer_array[KB] = {0};
 	stack_test();
 }
 

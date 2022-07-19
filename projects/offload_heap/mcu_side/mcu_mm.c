@@ -1,7 +1,6 @@
 #include "mcu_mm.h"
 #include "memlib.h"
 #include "mcu_request.h"
-#include <assert.h>
 
 team_t team = {
     /* Team name */
@@ -88,7 +87,7 @@ void *mm_malloc(size_t size)
 		// Need to extend heap
 		// Add overhead and alignment to block size
 		if (size <= DSIZE) {
-			asize = 2*DSIZE;
+			asize = DSIZE;
 		} else {
 			asize = DSIZE * ((size + (DSIZE) + (DSIZE-1))/DSIZE); // Add overhead and make rounding floor
 		}
@@ -101,8 +100,6 @@ void *mm_malloc(size_t size)
 			req_send(&req);
 			req_receive(&response);
 			
-			assert(response.ptr); // Should have valid response now
-
 			return(response.ptr);
 		} else {
 			// Not enough memory

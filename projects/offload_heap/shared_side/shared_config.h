@@ -3,6 +3,8 @@
 #define SERIALDEV "/dev/ttyUSB0" // UART device name
 #define USE_DMA 1 // Whether or not to use DMA for UART
 #define VERBOSE 0 // Whether or not to print debug message in pc_server
+#define DICT_SEARCH 1 // 0 to use linear pointer search, 1 to use hashtable
+#define BEST_FIT 0 // 0 to use first fit, 1 to use best fit
 
 #ifndef _STRING_H
 	#include <string.h>

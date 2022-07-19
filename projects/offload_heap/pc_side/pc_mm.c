@@ -1,19 +1,6 @@
 #include "dict.h"
 #include "memlib.h"
-#include <assert.h>
-
-team_t team = {
-    /* Team name */
-    "summer_research",
-    /* First member's full name */
-    "Yuhang Cui",
-    /* First member's email address */
-    "yuhang.cui@yale.edu",
-    /* Second member's full name (leave blank if none) */
-    "",
-    /* Second member's email address (leave blank if none) */
-    ""
-};
+#include "../shared_side/shared_config.h"
 
 /* single word (4) or double word (8) alignment */
 #define ALIGNMENT 8
@@ -49,13 +36,16 @@ static inline blk_elt * dict_blk_search(uint32_t ptr) {
 
 // Search algorithm for pointer lookup
 static blk_elt * blk_search(uint32_t ptr) {
-	return dict_blk_search(ptr);
+	if (DICT_SEARCH) {
+		return dict_blk_search(ptr);
+	} else {
+		return linear_blk_search(ptr);
+	}
 }
 
 // Merge blk with its next block, free the extra block
 static blk_elt * merge_next(blk_elt * blk) {
 	blk_elt * temp = blk->next;
-	assert(!blk->next->alloc);
 	blk->size += blk->next->size;
 	blk->next->next->prev = blk;
 	blk->next = blk->next->next;
@@ -71,8 +61,6 @@ static void coalesce(blk_elt * blk) {
 	size_t next_alloc = blk->next->alloc;
 	// Current block size
 	size_t size = blk->size;
-
-	assert(!blk->alloc);
 
 	if (prev_alloc && next_alloc) {
 		// Neither are free
@@ -128,7 +116,11 @@ static inline blk_elt * best_fit(size_t asize) {
 
 // Place fit algorithm here
 static blk_elt * find_fit(size_t asize) {
-	return first_fit(asize);
+	if (BEST_FIT) {
+		return best_fit(asize);
+	} else {
+		return first_fit(asize);
+	}
 }
 
 // Put an asize allocated block at free block blk
@@ -194,7 +186,6 @@ static void extend_blk(blk_elt * blk, size_t asize) {
 	size_t combined_size = blk->size + blk->next->size;
 	size_t free_size;
 	uint32_t free_p;
-	assert(!blk->next->alloc);
 	// Check if there is free block leftover 
 	if (combined_size > asize) {
 		free_size = combined_size-asize;
@@ -206,8 +197,6 @@ static void extend_blk(blk_elt * blk, size_t asize) {
 		dict_insert(blk->next->ptr, blk->next);
 		// Update current block size
 		blk->size = asize;
-
-		coalesce(blk->next);
 	} else {
 		merge_next(blk);
 	}
@@ -276,7 +265,7 @@ uint32_t mm_malloc(size_t size)
 
 	// Add overhead and alignment to block size
 	if (size <= DSIZE) {
-		asize = 2*DSIZE;
+		asize = DSIZE;
 	} else {
 		asize = DSIZE * ((size + (DSIZE) + (DSIZE-1))/DSIZE); // Add overhead and make rounding floor
 	}
@@ -367,12 +356,14 @@ void list_print(void) {
 		printf("The %zu th block: %u alloc, %zu size, %08x ptr\n", i, cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
 		prev = cur_blk;
 		cur_blk = cur_blk->next;
-		// Check linked list consistency
+		// Check linked list consistency - Reinclude assert.h
+		/*
 		assert(cur_blk->prev == prev);
 		assert(cur_blk->prev->next == cur_blk);
 		if (!dict_search(cur_blk->ptr)) {
 			printf("ptr %08x not in hash\n", cur_blk->ptr);
 			assert(dict_search(cur_blk->ptr));
 		}
+		*/
 	}
 }

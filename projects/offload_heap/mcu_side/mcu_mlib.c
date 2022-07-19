@@ -5,7 +5,6 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
@@ -34,7 +33,7 @@ void mem_init(void)
 	mem_start_brk = (char *)ALIGN((size_t)(&__malloc_sbrk_start));
     mem_brk = mem_start_brk;
 
-	// Sbrk request: size=0 for reset, size=1 for sbrk move
+	// Sbrk request: size=0 for reset, ptr set to heap start
 	req = (mem_request){.request=SBRK, .size=0, .ptr=mem_brk};
 	req_send(&req);
 }
@@ -55,7 +54,7 @@ void mem_reset_brk()
 	mem_request req;
     mem_brk = mem_start_brk;
 
-	// Sbrk request: size=0 for reset, size=1 for sbrk move
+	// Sbrk request: size=0 for reset, ptr set to heap start
 	req = (mem_request){.request = SBRK, .size=0, .ptr=mem_brk};
 	req_send(&req);
 }
@@ -71,8 +70,17 @@ void *mem_sbrk(unsigned int incr)
 	register size_t * stack_top asm("sp");
 	mem_request req;
 
+	// Special incr cases
+	if (incr < 0) {
+		char output_str[] = "Negative incr not supported";
+		var_print(output_str);
+		return (void *)-1;
+	} else if (incr == 0) {
+		return mem_brk;
+	}
+
 	// Check if there is enough memory
-    if ( (incr < 0) || ((mem_brk + incr) > (char *)(stack_top))) {
+    if (((mem_brk + incr) > (char *)(stack_top))) {
 		char output_str[] = "ERROR: mem_sbrk failed. Ran out of memory...\n";
 		var_print(output_str);
 		return (void *)-1;

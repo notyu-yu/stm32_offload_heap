@@ -3,6 +3,7 @@
  */
 #include "mcu_timer.h"
 #include "memlib.h"
+#include "mcu_mm.h"
 
 #define MAXLINE 1024
 
@@ -20,6 +21,7 @@ void TIM2_IRQHandler(void)
 	if (mem_heap_hi() > (void *)(stack_top)) {
 		sprintf(msg, "Stack overflow detected");
 		var_print(msg);
+		mm_finish();
 		loop();
 	}
 
@@ -50,7 +52,7 @@ void timer_init(void)
 	// For STM32F411: 100M/4*2 = 50M, 50M/4999+1 = 10 khz clock speed
     TIM2->PSC = 4999;
 
-	// Set auto reload value to 100 to give 1 ms timer interrupts
+	// Set auto reload value to 10 to give 1 ms timer interrupts
     TIM2->ARR = 10;
 
     // Update Interrupt Enable
