@@ -50,23 +50,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_ranges 00000258  00000000  00000000  00043a50  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000a0a3  00000000  00000000  00043ca8  2**0
+ 17 .debug_line   0000a0a1  00000000  00000000  00043ca8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00002fe7  00000000  00000000  0004dd4b  2**0
+ 18 .debug_str    00002fe7  00000000  00000000  0004dd49  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      0000003c  00000000  00000000  00050d32  2**0
+ 19 .comment      0000003c  00000000  00000000  00050d30  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00001734  00000000  00000000  00050d70  2**2
+ 20 .debug_frame  00001734  00000000  00000000  00050d6c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_loclists 00004362  00000000  00000000  000524a4  2**0
+ 21 .debug_loclists 00004362  00000000  00000000  000524a0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_rnglists 0000069b  00000000  00000000  00056806  2**0
+ 22 .debug_rnglists 0000069b  00000000  00000000  00056802  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 23 .debug_line_str 000000ac  00000000  00000000  00056ea1  2**0
+ 23 .debug_line_str 000000ac  00000000  00000000  00056e9d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 24 .stab         000000cc  00000000  00000000  00056f50  2**2
+ 24 .stab         000000cc  00000000  00000000  00056f4c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 25 .stabstr      000001b9  00000000  00000000  0005701c  2**0
+ 25 .stabstr      000001b9  00000000  00000000  00057018  2**0
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  .isr_vector	00000000 .isr_vector
@@ -4603,17 +4603,17 @@ static void uart_enable(void) {
 	// USARTDIV = 25Mhz / 115200 / 16 = 13.5633
 	// Fraction: 0.5633*16 = 9
 	// Mantissa: 13
-    USART2->BRR |= (13 << 4); // Mantissa
+    USART2->BRR |= (3 << 4); // Mantissa
  8002128:	4b07      	ldr	r3, [pc, #28]	; (8002148 <uart_enable+0x50>)
  800212a:	689b      	ldr	r3, [r3, #8]
  800212c:	4a06      	ldr	r2, [pc, #24]	; (8002148 <uart_enable+0x50>)
- 800212e:	f043 03d0 	orr.w	r3, r3, #208	; 0xd0
+ 800212e:	f043 0330 	orr.w	r3, r3, #48	; 0x30
  8002132:	6093      	str	r3, [r2, #8]
-    USART2->BRR |= 9; // Fraction
+    USART2->BRR |= 2; // Fraction
  8002134:	4b04      	ldr	r3, [pc, #16]	; (8002148 <uart_enable+0x50>)
  8002136:	689b      	ldr	r3, [r3, #8]
  8002138:	4a03      	ldr	r2, [pc, #12]	; (8002148 <uart_enable+0x50>)
- 800213a:	f043 0309 	orr.w	r3, r3, #9
+ 800213a:	f043 0302 	orr.w	r3, r3, #2
  800213e:	6093      	str	r3, [r2, #8]
 }	
  8002140:	bf00      	nop
