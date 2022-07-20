@@ -1,6 +1,7 @@
 #include "dict.h"
 #include "memlib.h"
 #include "../shared_side/shared_config.h"
+#include <assert.h>
 
 /* single word (4) or double word (8) alignment */
 #define ALIGNMENT 8
@@ -14,8 +15,58 @@
 
 #define MAX(x,y) ((x) > (y) ? (x) : (y))
 
+/* 
+ * Class table: first 8 classes are 1-8 words.
+ * Later classe sizes are 2*prev_class_size.
+ * Each class include blocks greater than its size but smaller than
+ * next class size.
+ * Starting block in array has size 0.
+ */
+static blk_elt class_table[20] = {0};
+
 // Pointer to first block
 static blk_elt * list_start = NULL;
+
+// Returns the index of size in class table
+size_t class_index(uint32_t size) {
+	size_t dwords = size/DSIZE;	
+	size_t index = 8;
+	if (dwords == 0) {
+		// First 8 classes - index is dwords-1
+		return 1;
+	} else if (dwords <= 8) {
+		return dwords-1;
+	} else {
+		// Later classes - Size doubling each time
+		dwords >>= 3; // Divide by 8
+		while (dwords && index < 20) {
+			dwords >>= 1;
+			index ++;
+		}
+		return index;
+	}
+}
+
+// Remove a free block from its class list
+void free_blk_remove(blk_elt * blk) {
+	blk->prev_free->next_free = blk->next_free;
+	blk->next_free->prev_free = blk->prev_free;
+	// Might help with debugging
+	blk->next_free = NULL;
+	blk->prev_free = NULL;
+}
+
+// Add free block to the beginning of the appropriate class list
+void free_blk_add(blk_elt * blk) {
+	size_t index = class_index(blk->size);
+	assert(!blk->alloc);
+	// Set prev and next of blk
+	blk->next_free = class_table[index].next_free;
+	blk->prev_free = &(class_table[index]);
+	// Set prev and next of adjacent blocks
+	blk->prev_free->next_free = blk;
+	blk->next_free->prev_free = blk;
+}
 
 // Look through linked list for block pointer, return 0 when not found
 static inline blk_elt * linear_blk_search(uint32_t ptr) {
@@ -49,6 +100,7 @@ static blk_elt * merge_next(blk_elt * blk) {
 	blk->size += blk->next->size;
 	blk->next->next->prev = blk;
 	blk->next = blk->next->next;
+	free_blk_remove(temp);
 	dict_delete(temp->ptr);
 	free(temp);
 	return blk;
@@ -61,20 +113,42 @@ static void coalesce(blk_elt * blk) {
 	size_t next_alloc = blk->next->alloc;
 	// Current block size
 	size_t size = blk->size;
+	// Old class index
+	size_t old_index;
+	// Temporary buffer - stores remaining free block
+	blk_elt * temp;
 
 	if (prev_alloc && next_alloc) {
 		// Neither are free
 		return;
 	} else if (prev_alloc && !next_alloc) {
 		// Coalesce with next block
+		temp = blk;
+		old_index = class_index(temp->size);
 		merge_next(blk);
+		if (old_index != class_index(temp->size)) {
+			free_blk_remove(temp);
+			free_blk_add(temp);
+		}
 	} else if (!prev_alloc && next_alloc) {
 		// Coalesce with previous block
+		temp = blk->prev;
+		old_index = class_index(temp->size);
 		merge_next(blk->prev);
+		if (old_index != class_index(temp->size)) {
+			free_blk_remove(temp);
+			free_blk_add(temp);
+		}
 	} else {
 		// Both blocks are free
+		temp = blk->prev;
+		old_index = class_index(temp->size);
 		merge_next(blk);
 		merge_next(blk->prev);
+		if (old_index != class_index(temp->size)) {
+			free_blk_remove(temp);
+			free_blk_add(temp);
+		}
 	}
 }
 
@@ -114,12 +188,36 @@ static inline blk_elt * best_fit(size_t asize) {
 	return best_result;
 }
 
+// Search for first block in size class that fits
+static inline blk_elt * seg_fit(size_t asize) {
+	size_t index = class_index(asize);
+	blk_elt * cur_search;	
+	while (index < 20) {
+		cur_search = class_table[index].next_free;
+		while (cur_search->size) {
+			assert(!cur_search->alloc);
+			if (cur_search->size >= asize) {
+				return cur_search;
+			}
+			cur_search = cur_search->next_free;
+		}
+		index++;
+	}
+	return 0;
+}
+
 // Place fit algorithm here
 static blk_elt * find_fit(size_t asize) {
-	if (BEST_FIT) {
-		return best_fit(asize);
-	} else {
-		return first_fit(asize);
+	switch (SEARCH_OPT) {
+		case FIRST_FIT:
+			return first_fit(asize);
+		case BEST_FIT:
+			return best_fit(asize);
+		case SEG_FIT:
+			return seg_fit(asize);
+		default:
+			// Defualt to first fit
+			return first_fit(asize);
 	}
 }
 
@@ -135,6 +233,7 @@ static void place(blk_elt * blk, size_t asize) {
 		// Allocate original block
 		blk->alloc = 1;
 		blk->size = asize;
+		free_blk_remove(blk);
 		// Make new free block
 		new_blk = malloc(sizeof(blk_elt));
 		new_blk->next = blk->next;
@@ -144,10 +243,12 @@ static void place(blk_elt * blk, size_t asize) {
 		new_blk->alloc = 0;
 		blk->next->prev = new_blk;
 		blk->next = new_blk;
+		free_blk_add(new_blk);
 		dict_insert(new_blk->ptr, new_blk);
 	} else {
 		// Allocate entire block
 		blk->alloc = 1;
+		free_blk_remove(blk);
 	}
 }
 
@@ -169,6 +270,7 @@ static void shrink_blk(blk_elt * blk, size_t asize) {
 		new_blk->ptr = free_p;
 		new_blk->size = free_size;
 		new_blk->alloc = 0;
+		free_blk_add(new_blk);
 		dict_insert(new_blk->ptr, new_blk);
 		// Update adjacent blocks
 		blk->next->prev = new_blk;
@@ -186,8 +288,10 @@ static void extend_blk(blk_elt * blk, size_t asize) {
 	size_t combined_size = blk->size + blk->next->size;
 	size_t free_size;
 	uint32_t free_p;
+	size_t old_index;
 	// Check if there is free block leftover 
 	if (combined_size > asize) {
+		old_index = class_index(blk->next->size);
 		free_size = combined_size-asize;
 		free_p = blk->ptr + asize;
 		// Shrink next free block
@@ -197,6 +301,11 @@ static void extend_blk(blk_elt * blk, size_t asize) {
 		dict_insert(blk->next->ptr, blk->next);
 		// Update current block size
 		blk->size = asize;
+		// Update block in class table if needed
+		if (class_index(blk->next->size) != old_index) {
+			free_blk_remove(blk->next);
+			free_blk_add(blk->next);
+		}
 	} else {
 		merge_next(blk);
 	}
@@ -224,6 +333,7 @@ void mm_sbrk(int incr) {
 	new_blk->ptr = list_start->prev->ptr + list_start->prev->size;
 	new_blk->size = incr;
 	new_blk->alloc = 0;
+	free_blk_add(new_blk);
 	dict_insert(new_blk->ptr, new_blk);
 
 	// Insert it before starting block
@@ -237,6 +347,17 @@ void mm_sbrk(int incr) {
 int mm_init(uint32_t ptr)
 {
 	dict_create();
+
+	// Initialze class table
+	for (int i=0; i<20; i++) {
+		class_table[i].prev = NULL;
+		class_table[i].next = NULL;
+		class_table[i].next_free = &(class_table[i]);
+		class_table[i].prev_free = &(class_table[i]);
+		class_table[i].ptr = 0;
+		class_table[i].size = 0;
+		class_table[i].alloc = 1;
+	}
 
 	// Allocate starter block
 	if (list_start) {
@@ -288,6 +409,7 @@ void mm_free(uint32_t ptr)
 	// Look through linked list for free block
 	if (freed_blk) {
 		freed_blk->alloc = 0;
+		free_blk_add(freed_blk);
 		coalesce(freed_blk);
 	} else {
 		puts("Pointer for free not found");
@@ -348,22 +470,22 @@ void list_print(void) {
 		puts("list not initialized");
 		return;
 	}
+	seg_fit(9999999);
 	blk_elt * cur_blk = list_start;
 	blk_elt * prev = list_start;
 	printf("The start block: %u alloc, %zu size, %08x ptr\n", cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
 	cur_blk = list_start->next;
 	for (size_t i=1; cur_blk->size; i++) {
-		printf("The %zu th block: %u alloc, %zu size, %08x ptr\n", i, cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
-		prev = cur_blk;
-		cur_blk = cur_blk->next;
+		printf("The %zu th block: %u alloc, %zu size, %08x ptr, next_f %p, prev_f %p\n", i, cur_blk->alloc, cur_blk->size, cur_blk->ptr, cur_blk->next_free, cur_blk->prev_free); 
 		// Check linked list consistency - Reinclude assert.h
-		/*
 		assert(cur_blk->prev == prev);
 		assert(cur_blk->prev->next == cur_blk);
 		if (!dict_search(cur_blk->ptr)) {
 			printf("ptr %08x not in hash\n", cur_blk->ptr);
 			assert(dict_search(cur_blk->ptr));
 		}
-		*/
+		prev = cur_blk;
+		assert(cur_blk->prev->ptr + cur_blk->prev->size == cur_blk->ptr);
+		cur_blk = cur_blk->next;
 	}
 }

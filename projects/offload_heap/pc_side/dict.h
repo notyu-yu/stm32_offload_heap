@@ -20,5 +20,4 @@ blk_elt * dict_search(uint32_t key);
 void dict_delete(uint32_t key);
 void dict_destroy(void);
 
-// Only one dictonary needed
 extern dict pointer_dict;
