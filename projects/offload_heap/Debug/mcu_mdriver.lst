@@ -40,33 +40,33 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 0000002e  00000000  00000000  000200c4  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0001be10  00000000  00000000  000200f2  2**0
+ 12 .debug_info   0001be32  00000000  00000000  000200f2  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 0000672c  00000000  00000000  0003bf02  2**0
+ 13 .debug_abbrev 0000674f  00000000  00000000  0003bf24  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_loc    000008eb  00000000  00000000  0004262e  2**0
+ 14 .debug_loc    000008eb  00000000  00000000  00042673  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00000b30  00000000  00000000  00042f20  2**3
+ 15 .debug_aranges 00000b30  00000000  00000000  00042f60  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_ranges 00000258  00000000  00000000  00043a50  2**3
+ 16 .debug_ranges 00000258  00000000  00000000  00043a90  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000a0a3  00000000  00000000  00043ca8  2**0
+ 17 .debug_line   0000a0a3  00000000  00000000  00043ce8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00002fe7  00000000  00000000  0004dd4b  2**0
+ 18 .debug_str    00002ff6  00000000  00000000  0004dd8b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      0000003c  00000000  00000000  00050d32  2**0
+ 19 .comment      0000003c  00000000  00000000  00050d81  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00001734  00000000  00000000  00050d70  2**2
+ 20 .debug_frame  00001734  00000000  00000000  00050dc0  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_loclists 00004362  00000000  00000000  000524a4  2**0
+ 21 .debug_loclists 00004362  00000000  00000000  000524f4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_rnglists 0000069b  00000000  00000000  00056806  2**0
+ 22 .debug_rnglists 0000069b  00000000  00000000  00056856  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 23 .debug_line_str 000000ac  00000000  00000000  00056ea1  2**0
+ 23 .debug_line_str 000000ac  00000000  00000000  00056ef1  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 24 .stab         000000cc  00000000  00000000  00056f50  2**2
+ 24 .stab         000000cc  00000000  00000000  00056fa0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 25 .stabstr      000001b9  00000000  00000000  0005701c  2**0
+ 25 .stabstr      000001b9  00000000  00000000  0005706c  2**0
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  .isr_vector	00000000 .isr_vector
@@ -4312,9 +4312,9 @@ void var_print(char * str) {
  8001f84:	200000f8 	.word	0x200000f8
 
 08001f88 <send>:
-#include "mcu_request.h"
-
 #define READSIZE(buffer) *(size_t *)buffer
+
+static char uart_tx_buffer[16] = {0};
 
 // Send size bytes at data pointer, using method defined by USE_DMA macro
 static void send(void * data, size_t size) {

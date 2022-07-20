@@ -2,6 +2,8 @@
 
 #define READSIZE(buffer) *(size_t *)buffer
 
+static char uart_tx_buffer[16] = {0};
+
 // Send size bytes at data pointer, using method defined by USE_DMA macro
 static void send(void * data, size_t size) {
 	if (USE_DMA) {
