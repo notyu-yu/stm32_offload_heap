@@ -4600,14 +4600,14 @@ static void uart_enable(void) {
  8002126:	60d3      	str	r3, [r2, #12]
 	// For STM32F411: fCK = 25 Mhz (Sysclk/4), Baudrate = 115200, OVER8 = 0
 	// USARTDIV = fCK / baud / 8 * (2-OVER8)
-	// USARTDIV = 25Mhz / 115200 / 16 = 13.5633
-	// Fraction: 0.5633*16 = 9
-	// Mantissa: 13
-    USART2->BRR |= (13 << 4); // Mantissa
+	// USARTDIV = 25Mhz / 1000000 / 16 = 1.5625
+	// Fraction: 0.5625*16 = 9
+	// Mantissa: 1
+    USART2->BRR |= (1 << 4); // Mantissa
  8002128:	4b07      	ldr	r3, [pc, #28]	; (8002148 <uart_enable+0x50>)
  800212a:	689b      	ldr	r3, [r3, #8]
  800212c:	4a06      	ldr	r2, [pc, #24]	; (8002148 <uart_enable+0x50>)
- 800212e:	f043 03d0 	orr.w	r3, r3, #208	; 0xd0
+ 800212e:	f043 0310 	orr.w	r3, r3, #16
  8002132:	6093      	str	r3, [r2, #8]
     USART2->BRR |= 9; // Fraction
  8002134:	4b04      	ldr	r3, [pc, #16]	; (8002148 <uart_enable+0x50>)
