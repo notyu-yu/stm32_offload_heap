@@ -4415,15 +4415,15 @@ void req_receive(mem_request * buffer) {
  8002010:	b500      	push	{lr}
  8002012:	b083      	sub	sp, #12
  8002014:	9001      	str	r0, [sp, #4]
-	led_on(GREEN);
- 8002016:	200c      	movs	r0, #12
+	led_on(RED);
+ 8002016:	200e      	movs	r0, #14
  8002018:	f000 f836 	bl	8002088 <led_on>
 	receive(buffer, sizeof(mem_request));
  800201c:	2108      	movs	r1, #8
  800201e:	9801      	ldr	r0, [sp, #4]
  8002020:	f7ff ffce 	bl	8001fc0 <receive>
-	led_off(GREEN);
- 8002024:	200c      	movs	r0, #12
+	led_off(RED);
+ 8002024:	200e      	movs	r0, #14
  8002026:	f000 f843 	bl	80020b0 <led_off>
 }
  800202a:	bf00      	nop
