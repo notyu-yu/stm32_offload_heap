@@ -2,11 +2,14 @@
 
 #define READSIZE(buffer) *(size_t *)buffer
 
+static char tx_buffer[16] = {0};
+
 // Send size bytes at data pointer, using method defined by USE_DMA macro
 static void send(void * data, size_t size) {
 	if (USE_DMA) {
-		uart_tx_start(data, size);
 		uart_tx_wait();
+		memcpy(tx_buffer, data, size);
+		uart_tx_start(tx_buffer, size);
 	} else {
 		uart_send(data, size);
 	}
@@ -15,6 +18,7 @@ static void send(void * data, size_t size) {
 // Receive size bytes at buffer pointer, using method defined by USE_DMA macro
 static void receive(void * buffer, size_t size) {
 	if (USE_DMA) {
+		uart_tx_wait();
 		uart_rx_start(buffer, size);
 		uart_rx_wait();
 	} else {
