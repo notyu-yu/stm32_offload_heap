@@ -3,7 +3,7 @@
 
 // Send start signal of 1 in every field of mem_request
 static void start_signal(void) {
-	mem_request req = {.request=1, .ptr=1, .size=1};
+	uint32_t req = 1;
 	req_send(&req);
 }
 
@@ -30,10 +30,7 @@ int main(int argc, char ** argv) {
 				}
 				ptr = mm_malloc(req_in->size);
 				// Return request
-				req_out->request = MALLOC;
-				req_out->size = 0;
-				req_out->ptr = ptr;
-				req_send(req_out);
+				req_send(&ptr);
 				if (VERBOSE) {
 					printf("Malloc request finished: %08x\n", ptr);
 				}
@@ -50,10 +47,7 @@ int main(int argc, char ** argv) {
 				}
 				ptr = mm_realloc(req_in->ptr, req_in->size);
 				// Return request
-				req_out->request = REALLOC;
-				req_out->size = 0;
-				req_out->ptr = ptr;
-				req_send(req_out);
+				req_send(&ptr);
 				if (VERBOSE) {
 					printf("Realloc request finished: %08x\n", ptr);
 				}

@@ -85,6 +85,6 @@ void req_receive(mem_request * buffer) {
 }
 
 // Send a response stored in buffer back to mcu
-void req_send(mem_request * buffer) {
-	uart_send(sizeof(mem_request), buffer);
+void req_send(uint32_t * buffer) {
+	uart_send(sizeof(uint32_t), buffer);
 }

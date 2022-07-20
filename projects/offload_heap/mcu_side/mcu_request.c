@@ -37,8 +37,8 @@ void req_send(mem_request * buffer) {
 }
 
 // Wait for response
-void req_receive(mem_request * buffer) {
+void req_receive(void ** buffer) {
 	led_on(GREEN);
-	receive(buffer, sizeof(mem_request));
+	receive(buffer, sizeof(void *));
 	led_off(GREEN);
 }

@@ -43,14 +43,14 @@ static int extend_heap(size_t words) {
 // Initialize memory request communication
 int mm_init(void)
 {
-	mem_request req = {0};
+	void * response = 0;
 
 	mem_req_setup();
 
 	// Receive starting singal of 1 in every field
 	led_on(BLUE);
-	req_receive(&req);
-	if (req.ptr==(void *)1&&req.request==1&&req.size==1) {
+	req_receive(&response);
+	if (response==(void *)1) {
 		led_off(BLUE);
 		mem_init();
 		extend_heap(4096/WSIZE);
@@ -69,7 +69,7 @@ void *mm_malloc(size_t size)
 {
 	size_t asize, extendsize;	
 	mem_request req;	
-	mem_request response;
+	void * response;
 
 	// Ignore 0 size
 	if (size == 0) {
@@ -81,8 +81,8 @@ void *mm_malloc(size_t size)
 	req_send(&req);
 	req_receive(&response);
 
-	if (response.ptr) {
-		return response.ptr;
+	if (response) {
+		return response;
 	} else {
 		// Need to extend heap
 		// Add overhead and alignment to block size
@@ -100,7 +100,7 @@ void *mm_malloc(size_t size)
 			req_send(&req);
 			req_receive(&response);
 			
-			return(response.ptr);
+			return(response);
 		} else {
 			// Not enough memory
 			return NULL;
@@ -119,7 +119,7 @@ void *mm_realloc(void *ptr, size_t size)
     void *oldptr = ptr;
     void *newptr;
 	mem_request req;
-	mem_request response;
+	void * response;
 
 	// Special cases
 	if (ptr == NULL) {
@@ -136,9 +136,9 @@ void *mm_realloc(void *ptr, size_t size)
 	req_send(&req);
 	req_receive(&response);
 
-	if (response.ptr == oldptr) {
+	if (response == oldptr) {
 		// Address stays the same
-		return response.ptr;
+		return response;
 	} else {
 		// Need to copy to new location
 		newptr = mm_malloc(size);
