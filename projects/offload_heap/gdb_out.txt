@@ -28,9 +28,9 @@ Breakpoint 1 at 0x8001f4a: file mcu_side/mcu.c, line 10.
 Note: automatically using hardware breakpoints for read-only addresses.
 
 Program received signal SIGINT, Interrupt.
-WWDG_IRQHandler () at ../../include/startup_stm32f411xe.s:113
-113	  b  Infinite_Loop
-$1 = '\000' <repeats 612 times>...
+0x08002300 in uart_tx_wait () at mcu_side/uart_dma.c:68
+68		while (transmitting);
+$1 = "Stack overflow detected", '\000' <repeats 2024 times>
 A debugging session is active.
 
 	Inferior 1 [Remote target] will be detached.

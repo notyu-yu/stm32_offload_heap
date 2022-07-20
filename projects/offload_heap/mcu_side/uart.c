@@ -99,8 +99,8 @@ static void uart_enable(void) {
 	// USARTDIV = 25Mhz / 115200 / 16 = 13.5633
 	// Fraction: 0.5633*16 = 9
 	// Mantissa: 13
-    USART2->BRR |= (3 << 4); // Mantissa
-    USART2->BRR |= 2; // Fraction
+    USART2->BRR |= (1 << 4); // Mantissa
+    USART2->BRR |= 11; // Fraction
 }	
 
 void uart_init(void)

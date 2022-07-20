@@ -4603,17 +4603,17 @@ static void uart_enable(void) {
 	// USARTDIV = 25Mhz / 115200 / 16 = 13.5633
 	// Fraction: 0.5633*16 = 9
 	// Mantissa: 13
-    USART2->BRR |= (3 << 4); // Mantissa
+    USART2->BRR |= (1 << 4); // Mantissa
  8002128:	4b07      	ldr	r3, [pc, #28]	; (8002148 <uart_enable+0x50>)
  800212a:	689b      	ldr	r3, [r3, #8]
  800212c:	4a06      	ldr	r2, [pc, #24]	; (8002148 <uart_enable+0x50>)
- 800212e:	f043 0330 	orr.w	r3, r3, #48	; 0x30
+ 800212e:	f043 0310 	orr.w	r3, r3, #16
  8002132:	6093      	str	r3, [r2, #8]
-    USART2->BRR |= 2; // Fraction
+    USART2->BRR |= 11; // Fraction
  8002134:	4b04      	ldr	r3, [pc, #16]	; (8002148 <uart_enable+0x50>)
  8002136:	689b      	ldr	r3, [r3, #8]
  8002138:	4a03      	ldr	r2, [pc, #12]	; (8002148 <uart_enable+0x50>)
- 800213a:	f043 0302 	orr.w	r3, r3, #2
+ 800213a:	f043 030b 	orr.w	r3, r3, #11
  800213e:	6093      	str	r3, [r2, #8]
 }	
  8002140:	bf00      	nop
