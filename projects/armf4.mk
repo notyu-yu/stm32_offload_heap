@@ -76,7 +76,7 @@ all: clean $(SRCS) build pc_side size
 
 build: $(TARGET).elf $(TARGET).bin $(TARGET).lst
 
-pc_side: pc_side/pc_server.c pc_side/pc_request.c pc_side/pc_mm.c pc_side/pc_mlib.c pc_side/dict.c
+pc_side: pc_side/pc_server.c pc_side/pc_request.c pc_side/pc_mm.c pc_side/pc_mlib.c pc_side/dict.c pc_side/dict.h pc_side/memlib.h pc_side/pc_mm.h pc_side/pc_request.h pc_side/uart_comms.h shared_side/shared_config.h
 	gcc -O3 -o pc_server pc_side/pc_server.c pc_side/pc_request.c pc_side/pc_mm.c pc_side/pc_mlib.c pc_side/dict.c
 
 $(TARGET).elf: $(OBJS)
@@ -119,5 +119,6 @@ burn:
 clean:
 	@echo "Cleaning..."
 	@rm -rf $(OBJDIR)/
+	@rm -f pc_server
 
 .PHONY: all build size clean burn debug disass disass-all
