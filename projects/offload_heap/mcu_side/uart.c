@@ -100,7 +100,7 @@ static void uart_enable(void) {
 	// Fraction: 0.5633*16 = 9
 	// Mantissa: 13
     USART2->BRR |= (1 << 4); // Mantissa
-    USART2->BRR |= 11; // Fraction
+    USART2->BRR |= 9; // Fraction
 }	
 
 void uart_init(void)
