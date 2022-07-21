@@ -17,20 +17,20 @@ Reading symbols from ./Debug/mcu_mdriver.elf...
 loop () at mcu_side/mcu.c:10
 10		led_on(ORANGE);
 Loading section .isr_vector, size 0x198 lma 0x8000000
-Loading section .text, size 0x4620 lma 0x80001a0
-Loading section .rodata, size 0xda0 lma 0x80047c0
-Loading section .init_array, size 0x4 lma 0x8005560
-Loading section .fini_array, size 0x4 lma 0x8005564
-Loading section .data, size 0xc4 lma 0x8005568
-Start address 0x08002554, load size 22052
-Transfer rate: 19 KB/sec, 3150 bytes/write.
-Breakpoint 1 at 0x8001f4a: file mcu_side/mcu.c, line 10.
+Loading section .text, size 0x468c lma 0x80001a0
+Loading section .rodata, size 0xda0 lma 0x800482c
+Loading section .init_array, size 0x4 lma 0x80055cc
+Loading section .fini_array, size 0x4 lma 0x80055d0
+Loading section .data, size 0xc4 lma 0x80055d4
+Start address 0x080025c0, load size 22160
+Transfer rate: 19 KB/sec, 3165 bytes/write.
+Breakpoint 1 at 0x8001fb6: file mcu_side/mcu.c, line 10.
 Note: automatically using hardware breakpoints for read-only addresses.
 
 Program received signal SIGINT, Interrupt.
-WWDG_IRQHandler () at ../../include/startup_stm32f411xe.s:113
-113	  b  Infinite_Loop
-$1 = '\000' <repeats 612 times>...
+0x080023ee in uart_rx_wait () at mcu_side/uart_dma.c:95
+95		while (receiving);
+$1 = '\000' <repeats 2047 times>
 A debugging session is active.
 
 	Inferior 1 [Remote target] will be detached.

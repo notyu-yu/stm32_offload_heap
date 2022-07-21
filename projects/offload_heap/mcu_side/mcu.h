@@ -9,6 +9,7 @@
 extern char msg[MAXLINE];
 extern char output_str[MAXLINE*2];
 extern size_t output_offset;
+extern void * sp_reset;
 
 void loop(void);
 void var_print(char * str);
