@@ -73,3 +73,11 @@ void sys_mm_finish(void) {
 	mm_finish();
 	priv_mode_off();
 }
+
+size_t sys_get_time(void) {
+	size_t t;
+	priv_mode_on();
+	t = get_time();
+	priv_mode_off();
+	return t;
+}

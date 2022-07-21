@@ -54,7 +54,7 @@ void uart_tx_start(void * data, size_t size) {
 	DMA1_Stream6->NDTR = size;
 
 	// Enable transfer Complete interrupt
-	NVIC_SetPriority(DMA1_Stream6_IRQn, 3);
+	NVIC_SetPriority(DMA1_Stream6_IRQn, 24);
 	NVIC_EnableIRQ(DMA1_Stream6_IRQn);
 
 	// Enable DMA
@@ -81,7 +81,7 @@ void uart_rx_start(void * buffer, size_t size) {
 	DMA1_Stream5->NDTR = size;
 
 	// Enable transfer Complete interrupt
-	NVIC_SetPriority(DMA1_Stream5_IRQn, 3);
+	NVIC_SetPriority(DMA1_Stream5_IRQn, 23);
 	NVIC_EnableIRQ(DMA1_Stream5_IRQn);
 
 	// Enable DMA

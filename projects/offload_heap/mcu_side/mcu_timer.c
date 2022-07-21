@@ -81,7 +81,7 @@ void wwdg_init(void) {
 	WWDG->CFR |= (0x70); // Window countdown value - T
 	WWDG->CR |= (0xFF); // Enable WDGA
 
-	NVIC_SetPriority(WWDG_IRQn, 1);
+	NVIC_SetPriority(WWDG_IRQn, 7);
 	NVIC_EnableIRQ(WWDG_IRQn);
 }
 
@@ -105,7 +105,7 @@ void timer_init(void)
     // Update Interrupt Enable
     TIM2->DIER |= (1 << 0);
 
-    NVIC_SetPriority(TIM2_IRQn, 2); // Priority level 2
+    NVIC_SetPriority(TIM2_IRQn, 35); // Priority level 2
     // enable TIM2 IRQ from NVIC
     NVIC_EnableIRQ(TIM2_IRQn);
 

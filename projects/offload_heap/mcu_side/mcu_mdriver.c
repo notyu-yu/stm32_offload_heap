@@ -17,12 +17,9 @@
 #include <time.h>
 #include <stdarg.h>
 
-#include "mcu_mm.h"
-#include "memlib.h"
-//#include "fsecs.h"
 #include "config.h"
 #include "teststring.h"
-#include "mcu_timer.h"
+#include "mcu_syscalls.h"
 
 /**********************
  * Constants and macros
@@ -140,8 +137,8 @@ static void stack_test(void) {
 // Test for stack overflow
 static void heap_test(void) {
 	while(1) {
-		if(!mm_malloc(10*KB)){
-			mm_finish();
+		if(!sys_malloc(10*KB)){
+			sys_mm_finish();
 			loop();
 		}
 	}
@@ -176,15 +173,15 @@ int main(void)
 	int perfindex_int;
 
     /* Initialize the simulated memory system in memlib.c */
-	mm_init();
-	timer_init();
-	start_time = get_time();
+	sys_mm_init();
+	sys_timer_init();
+	start_time = sys_get_time();
 
     /* Evaluate student's mm malloc package using the K-best scheme */
 	trace = read_trace();
 	mm_stats.ops = trace->num_ops;
 	if (verbose > 1) {
-	    sprintf(msg, "Checking mm_malloc for correctness, ");
+	    sprintf(msg, "Checking sys_malloc for correctness, ");
 		var_print(msg);
 	}
 	mm_stats.valid = eval_mm_valid(trace, i, &ranges);
@@ -199,7 +196,7 @@ int main(void)
 			var_print(msg);
 		}
 	    //mm_stats.secs = fsecs(eval_mm_speed, &speed_params);
-		end_time = get_time();
+		end_time = sys_get_time();
 		mm_stats.secs = (end_time-start_time)/1000.0f;
 	}
 	free_trace(trace);
@@ -257,7 +254,7 @@ int main(void)
 	var_print(msg);
     }
 
-	mm_finish();
+	sys_mm_finish();
 
 	loop();
 }
@@ -271,7 +268,7 @@ int main(void)
 
 /*
  * add_range - As directed by request opnum in trace tracenum,
- *     we've just called the student's mm_malloc to allocate a block of 
+ *     we've just called the student's sys_malloc to allocate a block of 
  *     size bytes at addr lo. After checking the block for correctness,
  *     we create a range struct for this block and add it to the range list. 
  */
@@ -315,7 +312,7 @@ static int add_range(range_t **ranges, char *lo, int size,
      * Everything looks OK, so remember the extent of this block 
      * by creating a range struct and adding it the range list.
      */
-    if ((p = (range_t *)mm_malloc(sizeof(range_t))) == NULL)
+    if ((p = (range_t *)sys_malloc(sizeof(range_t))) == NULL)
 		unix_error("malloc error in add_range");
 	test_mem_use += sizeof(range_t);
     p->next = *ranges;
@@ -336,7 +333,7 @@ static void remove_range(range_t **ranges, char *lo)
     for (p = *ranges;  p != NULL; p = p->next) {
         if (p->lo == lo) {
 	    *prevpp = p->next;
-            mm_free(p);
+            sys_free(p);
             break;
         }
         prevpp = &(p->next);
@@ -353,7 +350,7 @@ static void clear_ranges(range_t **ranges)
 
     for (p = *ranges;  p != NULL;  p = pnext) {
         pnext = p->next;
-        mm_free(p);
+        sys_free(p);
     }
     *ranges = NULL;
 }
@@ -377,7 +374,7 @@ static trace_t *read_trace()
 	int bytes_scanned = 0;
 
     /* Allocate the trace record */
-    if ((trace = (trace_t *) mm_malloc(sizeof(trace_t))) == NULL)
+    if ((trace = (trace_t *) sys_malloc(sizeof(trace_t))) == NULL)
 		unix_error("malloc 1 failed in read_trance");
 	test_mem_use += sizeof(trace_t);
 	
@@ -397,19 +394,19 @@ static trace_t *read_trace()
     
     /* We'll store each request line in the trace in this array */
     if ((trace->ops = 
-	 (traceop_t *)mm_malloc(trace->num_ops * sizeof(traceop_t))) == NULL)
+	 (traceop_t *)sys_malloc(trace->num_ops * sizeof(traceop_t))) == NULL)
 		unix_error("malloc 2 failed in read_trace");
 	test_mem_use += sizeof(traceop_t);
 
     /* We'll keep an array of pointers to the allocated blocks here... */
     if ((trace->blocks = 
-	 (char **)mm_malloc(trace->num_ids * sizeof(char *))) == NULL)
+	 (char **)sys_malloc(trace->num_ids * sizeof(char *))) == NULL)
 		unix_error("malloc 3 failed in read_trace");
 	test_mem_use += trace->num_ids * sizeof(char *);
 
     /* ... along with the corresponding byte sizes of each block */
     if ((trace->block_sizes = 
-	 (size_t *)mm_malloc(trace->num_ids * sizeof(size_t))) == NULL)
+	 (size_t *)sys_malloc(trace->num_ids * sizeof(size_t))) == NULL)
 		unix_error("malloc 4 failed in read_trace");
 	test_mem_use += trace->num_ids * sizeof(size_t);
     
@@ -468,10 +465,10 @@ static trace_t *read_trace()
  */
 void free_trace(trace_t *trace)
 {
-    mm_free(trace->ops);         /* free the three arrays... */
-    mm_free(trace->blocks);      
-    mm_free(trace->block_sizes);
-    mm_free(trace);              /* and the trace record itself... */
+    sys_free(trace->ops);         /* free the three arrays... */
+    sys_free(trace->blocks);      
+    sys_free(trace->block_sizes);
+    sys_free(trace);              /* and the trace record itself... */
 }
 
 /**********************************************************************
@@ -510,11 +507,11 @@ static int eval_mm_valid(trace_t *trace, int tracenum, range_t **ranges)
 
         switch (trace->ops[i].type) {
 
-        case ALLOC: /* mm_malloc */
+        case ALLOC: /* sys_malloc */
 
 	    /* Call the student's malloc */
-	    if ((p = mm_malloc(size)) == NULL) {
-		malloc_error(tracenum, i, "mm_malloc failed.");
+	    if ((p = sys_malloc(size)) == NULL) {
+		malloc_error(tracenum, i, "sys_malloc failed.");
 		return 0;
 	    }
 	    
@@ -538,12 +535,12 @@ static int eval_mm_valid(trace_t *trace, int tracenum, range_t **ranges)
 	    trace->block_sizes[index] = size;
 	    break;
 
-        case REALLOC: /* mm_realloc */
+        case REALLOC: /* sys_realloc */
 	    
 	    /* Call the student's realloc */
 	    oldp = trace->blocks[index];
-	    if ((newp = mm_realloc(oldp, size)) == NULL) {
-		malloc_error(tracenum, i, "mm_realloc failed.");
+	    if ((newp = sys_realloc(oldp, size)) == NULL) {
+		malloc_error(tracenum, i, "sys_realloc failed.");
 		return 0;
 	    }
 	    
@@ -563,7 +560,7 @@ static int eval_mm_valid(trace_t *trace, int tracenum, range_t **ranges)
 	    if (size < oldsize) oldsize = size;
 	    for (j = 0; j < oldsize; j++) {
 	      if (newp[j] != (index & 0xFF)) {
-		malloc_error(tracenum, i, "mm_realloc did not preserve the "
+		malloc_error(tracenum, i, "sys_realloc did not preserve the "
 			     "data from old block");
 		return 0;
 	      }
@@ -575,12 +572,12 @@ static int eval_mm_valid(trace_t *trace, int tracenum, range_t **ranges)
 	    trace->block_sizes[index] = size;
 	    break;
 
-        case FREE: /* mm_free */
+        case FREE: /* sys_free */
 	    
 	    /* Remove region from list and call student's free function */
 	    p = trace->blocks[index];
 	    remove_range(ranges, p);
-	    mm_free(p);
+	    sys_free(p);
 	    break;
 
 	default:
@@ -628,8 +625,8 @@ static double eval_mm_util(trace_t *trace, int tracenum, range_t **ranges)
 	    index = trace->ops[i].index;
 	    size = trace->ops[i].size;
 
-	    if ((p = mm_malloc(size)) == NULL) 
-			app_error("mm_malloc failed in eval_mm_util");
+	    if ((p = sys_malloc(size)) == NULL) 
+			app_error("sys_malloc failed in eval_mm_util");
 	    
 	    /* Remember region and size */
 	    trace->blocks[index] = p;
@@ -644,14 +641,14 @@ static double eval_mm_util(trace_t *trace, int tracenum, range_t **ranges)
 		total_size : max_total_size;
 	    break;
 
-	case REALLOC: /* mm_realloc */
+	case REALLOC: /* sys_realloc */
 	    index = trace->ops[i].index;
 	    newsize = trace->ops[i].size;
 	    oldsize = trace->block_sizes[index];
 
 	    oldp = trace->blocks[index];
-	    if ((newp = mm_realloc(oldp,newsize)) == NULL)
-		app_error("mm_realloc failed in eval_mm_util");
+	    if ((newp = sys_realloc(oldp,newsize)) == NULL)
+		app_error("sys_realloc failed in eval_mm_util");
 
 	    /* Remember region and size */
 	    trace->blocks[index] = newp;
@@ -666,12 +663,12 @@ static double eval_mm_util(trace_t *trace, int tracenum, range_t **ranges)
 		total_size : max_total_size;
 	    break;
 
-        case FREE: /* mm_free */
+        case FREE: /* sys_free */
 	    index = trace->ops[i].index;
 	    size = trace->block_sizes[index];
 	    p = trace->blocks[index];
 	    
-	    mm_free(p);
+	    sys_free(p);
 	    
 	    /* Keep track of current total size
 	     * of all allocated blocks */
@@ -710,27 +707,27 @@ inline static void eval_mm_speed(void *ptr)
     for (i = 0;  i < trace->num_ops;  i++)
         switch (trace->ops[i].type) {
 
-        case ALLOC: /* mm_malloc */
+        case ALLOC: /* sys_malloc */
             index = trace->ops[i].index;
             size = trace->ops[i].size;
-            if ((p = mm_malloc(size)) == NULL)
-		app_error("mm_malloc error in eval_mm_speed");
+            if ((p = sys_malloc(size)) == NULL)
+		app_error("sys_malloc error in eval_mm_speed");
             trace->blocks[index] = p;
             break;
 
-	case REALLOC: /* mm_realloc */
+	case REALLOC: /* sys_realloc */
 	    index = trace->ops[i].index;
             newsize = trace->ops[i].size;
 	    oldp = trace->blocks[index];
-            if ((newp = mm_realloc(oldp,newsize)) == NULL)
-		app_error("mm_realloc error in eval_mm_speed");
+            if ((newp = sys_realloc(oldp,newsize)) == NULL)
+		app_error("sys_realloc error in eval_mm_speed");
             trace->blocks[index] = newp;
             break;
 
-        case FREE: /* mm_free */
+        case FREE: /* sys_free */
             index = trace->ops[i].index;
             block = trace->blocks[index];
-            mm_free(block);
+            sys_free(block);
             break;
 
 	default:
@@ -825,7 +822,7 @@ void unix_error(char * err_msg)
 }
 
 /*
- * malloc_error - Report an error returned by the mm_malloc package
+ * malloc_error - Report an error returned by the sys_malloc package
  */
 void malloc_error(int tracenum, int opnum, char *err_msg)
 {
