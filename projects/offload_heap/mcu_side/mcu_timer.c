@@ -4,6 +4,7 @@
 #include "mcu_timer.h"
 #include "memlib.h"
 #include "mcu_mm.h"
+#include "uart.h"
 
 #define MAXLINE 1024
 
@@ -11,8 +12,8 @@ static size_t systime = 0;
 
 // Hardfault Handler - Send exit signal
 void HardFault_Handler(void) {
-	sp_reset = (void *)0x20005000;
 	// Force reset stack pointer in case of overflow
+	sp_reset = (void *)0x20005000;
 	asm volatile ("mov sp, %0" : "+r" (sp_reset));
 
 	char err[] = "Hard Fault";
@@ -23,8 +24,8 @@ void HardFault_Handler(void) {
 
 // Timer interrupt stopped running - Send exit signal
 void WWDG_IRQHandler(void) {
-	sp_reset = (void *)0x20005000;
 	// Force reset stack pointer in case of overflow
+	sp_reset = (void *)0x20005000;
 	asm volatile ("mov sp, %0" : "+r" (sp_reset));
 
 	char err[] = "WWDG error";
@@ -42,7 +43,7 @@ void TIM2_IRQHandler(void)
 	register size_t * stack_top asm("sp");
 
 	// Reset watchdog bits
-	// WWDG->CR |= 0x7F;
+	WWDG->CR |= 0x7F;
 
 	// Stall if stack is overflowing to heap
 	if (mem_heap_hi() > (void *)(stack_top)) {

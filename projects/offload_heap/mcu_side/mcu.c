@@ -2,7 +2,7 @@
 #include "uart.h"
 #define MAXLINE 1024
 
-char output_str[MAXLINE*2];
+static char output_str[MAXLINE*2];
 char msg[MAXLINE];
 size_t output_offset=0;
 void * sp_reset = (void *)0x20005000;

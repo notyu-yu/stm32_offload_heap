@@ -14,23 +14,22 @@ Find the GDB manual and other documentation resources online at:
 For help, type "help".
 Type "apropos word" to search for commands related to "word"...
 Reading symbols from ./Debug/mcu_mdriver.elf...
-loop () at mcu_side/mcu.c:10
-10		led_on(ORANGE);
+loop () at mcu_side/mcu.c:11
+11		led_on(ORANGE);
 Loading section .isr_vector, size 0x198 lma 0x8000000
-Loading section .text, size 0x468c lma 0x80001a0
-Loading section .rodata, size 0xda0 lma 0x800482c
-Loading section .init_array, size 0x4 lma 0x80055cc
-Loading section .fini_array, size 0x4 lma 0x80055d0
-Loading section .data, size 0xc4 lma 0x80055d4
-Start address 0x080025c0, load size 22160
-Transfer rate: 19 KB/sec, 3165 bytes/write.
-Breakpoint 1 at 0x8001fb6: file mcu_side/mcu.c, line 10.
+Loading section .text, size 0x4710 lma 0x80001a0
+Loading section .rodata, size 0xdb8 lma 0x80048b0
+Loading section .init_array, size 0x4 lma 0x8005668
+Loading section .fini_array, size 0x4 lma 0x800566c
+Loading section .data, size 0xc8 lma 0x8005670
+Start address 0x08002644, load size 22320
+Transfer rate: 19 KB/sec, 3188 bytes/write.
+Breakpoint 1 at 0x800203a: file mcu_side/mcu.c, line 11.
 Note: automatically using hardware breakpoints for read-only addresses.
 
-Program received signal SIGINT, Interrupt.
-0x080023ee in uart_rx_wait () at mcu_side/uart_dma.c:95
-95		while (receiving);
-$1 = '\000' <repeats 2047 times>
+Breakpoint 1, loop () at mcu_side/mcu.c:11
+11		led_on(ORANGE);
+$1 = "Hard Fault", '\000' <repeats 598 times>...
 A debugging session is active.
 
 	Inferior 1 [Remote target] will be detached.
