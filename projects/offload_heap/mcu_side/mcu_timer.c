@@ -109,6 +109,8 @@ void timer_init(void)
     // enable TIM2 IRQ from NVIC
     NVIC_EnableIRQ(TIM2_IRQn);
 
+	// Set to upcounting mode
+	TIM2->CR1 &= ~(1 << 4);
     // Enable Timer 2 module (CEN, bit0)
     TIM2->CR1 |= (1 << 0);
 
