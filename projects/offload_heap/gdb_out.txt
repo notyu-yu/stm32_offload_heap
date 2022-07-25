@@ -17,19 +17,19 @@ Reading symbols from ./Debug/mcu_mdriver.elf...
 loop () at mcu_side/mcu.c:13
 13		led_on(ORANGE);
 Loading section .isr_vector, size 0x198 lma 0x8000000
-Loading section .text, size 0x4878 lma 0x80001a0
-Loading section .rodata, size 0xdcc lma 0x8004a18
-Loading section .init_array, size 0x4 lma 0x80057e4
-Loading section .fini_array, size 0x4 lma 0x80057e8
-Loading section .data, size 0xc8 lma 0x80057ec
-Start address 0x080027ac, load size 22700
-Transfer rate: 19 KB/sec, 3242 bytes/write.
+Loading section .text, size 0x4a2c lma 0x80001a0
+Loading section .rodata, size 0xdcc lma 0x8004bcc
+Loading section .init_array, size 0x4 lma 0x8005998
+Loading section .fini_array, size 0x4 lma 0x800599c
+Loading section .data, size 0xc8 lma 0x80059a0
+Start address 0x08002960, load size 23136
+Transfer rate: 20 KB/sec, 3305 bytes/write.
 Breakpoint 1 at 0x8001f76: file mcu_side/mcu.c, line 13.
 Note: automatically using hardware breakpoints for read-only addresses.
 
 Breakpoint 1, loop () at mcu_side/mcu.c:13
 13		led_on(ORANGE);
-$1 = "Stack overflow detected", '\000' <repeats 2024 times>
+$1 = "Start signal incorrect", '\000' <repeats 2025 times>
 A debugging session is active.
 
 	Inferior 1 [Remote target] will be detached.
