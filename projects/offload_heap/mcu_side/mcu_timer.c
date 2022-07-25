@@ -16,18 +16,9 @@ static size_t systime = 0;
 void TIM2_IRQHandler(void)
 {
 	systime++;
-	register size_t * stack_top asm("sp");
 
 	// Reset watchdog bits
-	WWDG->CR |= 0x7F;
-
-	// Stall if stack is overflowing to heap
-	if (mem_heap_hi() > (void *)(stack_top)) {
-		sprintf(msg, "Stack overflow detected");
-		var_print(msg);
-		mm_finish();
-		loop();
-	}
+	// WWDG->CR |= 0x7F;
 
     // clear interrupt status
     if (TIM2->DIER & 0x01) {
@@ -46,9 +37,6 @@ size_t get_time(void) {
 *************************************************/
 void timer_init(void)
 {
-    /* set system clock to 100 Mhz */
-    set_sysclk_to_100();
-
     // enable TIM2 clock (bit0)
     RCC->APB1ENR |= (1 << 0);
 

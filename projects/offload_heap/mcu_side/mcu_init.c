@@ -96,4 +96,6 @@ void mcu_init(void) {
 	//wwdg_init();
 	memfault_init();
 	led_init();
+	// Make SVC call priority 3
+	NVIC_SetPriority(SVCall_IRQn, 3);
 }

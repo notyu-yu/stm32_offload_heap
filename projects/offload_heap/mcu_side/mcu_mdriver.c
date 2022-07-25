@@ -175,7 +175,7 @@ int main(void)
 
     /* Initialize the simulated memory system in memlib.c */
 	sys_mm_init();
-	//sys_timer_init();
+	sys_timer_init();
 	start_time = sys_get_time();
 
     /* Evaluate student's mm malloc package using the K-best scheme */
