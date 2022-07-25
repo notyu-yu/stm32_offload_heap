@@ -7,10 +7,10 @@ Usage:
 4) The orange LED should turn on if the trace test successfully finished.
 
 Programming with the MCU malloc library:
-1) Include "mcu_mm.h", "memlib.h", "mcu_timer.h" headers in the "mcu_side" directory.
-2) Call mm_init() and timer_init() to initialize communication and error checking.
-3) The malloc functions in mcu_mm.h can now be used like their standard counterparts.
-4) When the program finishes, run mm_finish() to gracefully end communication with pc_server.
+1) Include "mcu_syscalls.h" in the "mcu_side" directory.
+2) Call sys_mm_init() to initialize the library.
+3) The malloc functions in syscalls.h can now be used like their standard counterparts.
+4) When the program finishes, run sys_mm_finish() to gracefully end communication with pc_server.
 
 LED Indicators:
 Blue: Run pc_server to continue program.
@@ -23,8 +23,11 @@ mcu_mdriver.c: Runs the test script written in config.h.
 mcu_mlib.c: Provides sbrk related functions.
 mcu_mm.c: Provides malloc related functions.
 mcu_request.c: Provides malloc communication related functions.
-mcu_timer.c: Provides timer and stack overflow check.
+mcu_timer.c: Provides timer functions.
 mcu.c: Provides debugging functions.
+mcu_init.c: Provides interrupt and led functions.
+mcu_syscalls.c: Provides syscalls for user programs.
+mcu_mpu.c: Provides MPU functions.
 uart.c: Provides UART communication functions.
 uart_dma.c: Provides UART communication functions using DMA.
 
@@ -68,10 +71,8 @@ Linux to MCU response format:
 _______________________________________________________
 request  |Malloc              |Realloc
 _______________________________________________________
-size     |0                   |0     
-_______________________________________________________
 ptr      |Malloc'ed pointer   |Realloc'ed pointer
-                              |Null when sbrk needed
+         |Null when sbrk needed ->
 _______________________________________________________
 Start Signal: Request with every field being 1.
 

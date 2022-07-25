@@ -3,6 +3,7 @@
 #include "mcu_request.h"
 #include "mcu_mpu.h"
 #include "mcu_init.h"
+#include "mcu_timer.h"
 
 team_t team = {
     /* Team name */
@@ -57,6 +58,7 @@ int mm_init(void)
 		led_off(BLUE);
 		mem_init();
 		extend_heap(4096/WSIZE);
+		timer_init();
 		return 0;
 	} else {
 		led_off(BLUE);

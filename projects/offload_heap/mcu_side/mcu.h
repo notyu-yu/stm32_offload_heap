@@ -6,7 +6,6 @@
 
 #define MAXLINE 1024
 
-extern char msg[MAXLINE];
 extern size_t output_offset;
 extern void * sp_reset;
 

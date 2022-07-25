@@ -17,7 +17,6 @@
 #include <time.h>
 #include <stdarg.h>
 
-#include "mcu.h"
 #include "config.h"
 #include "teststring.h"
 #include "mcu_syscalls.h"
@@ -148,6 +147,9 @@ static void heap_test(void) {
 // Memory used by test script
 static int test_mem_use = 0;
 
+// Message buffer
+char msg[KB] = {0};
+
 /**************
  * Main routine
  **************/
@@ -175,7 +177,6 @@ int main(void)
 
     /* Initialize the simulated memory system in memlib.c */
 	sys_mm_init();
-	sys_timer_init();
 	start_time = sys_get_time();
 
     /* Evaluate student's mm malloc package using the K-best scheme */
