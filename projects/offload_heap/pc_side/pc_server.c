@@ -1,5 +1,6 @@
 #include "pc_request.h"
 #include "dict.h"
+#include <assert.h>
 
 // Send start signal of 1 in every field of mem_request
 static void start_signal(void) {
@@ -14,6 +15,16 @@ int main(int argc, char ** argv) {
 
 	uart_setup();
 	start_signal();
+
+	// Receive sbrk initialization request
+	req_receive(req_in);
+	assert(req_in->request == SBRK && req_in->ptr);
+	// Reset sbrk
+	if (VERBOSE) {
+		puts("Sbrk reset");
+	}
+	mem_reset_brk(req_in->ptr);
+	mm_init(req_in->ptr);
 
 	while(1) {
 		req_receive(req_in);

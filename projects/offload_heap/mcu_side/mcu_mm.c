@@ -48,7 +48,7 @@ int mm_init(void)
 	void * response = 0;
 
 	mem_req_setup();
-	mpu_init();
+	//mpu_init();
 
 	// Receive starting singal of 1 in every field
 	led_on(BLUE);

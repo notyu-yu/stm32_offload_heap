@@ -17,4 +17,22 @@ Reading symbols from ./Debug/mcu_mdriver.elf...
 loop () at mcu_side/mcu.c:13
 13		led_on(ORANGE);
 Loading section .isr_vector, size 0x198 lma 0x8000000
-[?2004h(gdb) [?2004l
+Loading section .text, size 0x48e8 lma 0x80001a0
+Loading section .rodata, size 0xdbc lma 0x8004a88
+Loading section .init_array, size 0x4 lma 0x8005844
+Loading section .fini_array, size 0x4 lma 0x8005848
+Loading section .data, size 0xc8 lma 0x800584c
+Start address 0x0800281c, load size 22796
+Transfer rate: 19 KB/sec, 3256 bytes/write.
+Breakpoint 1 at 0x8001f72: file mcu_side/mcu.c, line 13.
+Note: automatically using hardware breakpoints for read-only addresses.
+
+Breakpoint 1, loop () at mcu_side/mcu.c:13
+13		led_on(ORANGE);
+$1 = "Hard Fault", '\000' <repeats 598 times>...
+A debugging session is active.
+
+	Inferior 1 [Remote target] will be detached.
+
+Quit anyway? (y or n) [answered Y; input not from terminal]
+[Inferior 1 (Remote target) detached]
