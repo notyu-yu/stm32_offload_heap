@@ -1,4 +1,5 @@
 Project files in projects/offload_heap
+Designed for STM32F411 MCU
 
 Usage:
 1) Connect the MCU with UART cable (PA2 is TX, PA3 is RX).
