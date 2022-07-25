@@ -2,28 +2,24 @@
 
 void mpu_init(void) {
 	uint32_t const mpu_cfg_rbar[4] = {
-		// Flash - region 0
+		// Flash - Region 0
 		0x08000000,
 		// SRAM - Region 1
 		0x20000000,
-		// GPIOD _ Region 2
-		GPIOD_BASE,
-		// RCC - Region 3
-		RCC_BASE,
+		// Peripherals - Region 2
+		PERIPH_BASE
 	};
 
 	uint32_t const mpu_cfg_rasr[4] = {
 		// Flash
-		(MPU_DEFS_RASR_SIZE_512KB | MPU_DEFS_NORMAL_MEMORY_WT | MPU_DEFS_RASE_AP_FULL_ACCESS | MPU_RASR_ENABLE_Msk),
+		(MPU_DEFS_RASR_SIZE_512KB | MPU_DEFS_NORMAL_SHARED_MEMORY_WT | MPU_DEFS_RASE_AP_FULL_ACCESS | MPU_RASR_ENABLE_Msk),
 		// SRAM
-		(MPU_DEFS_RASR_SIZE_128KB | MPU_DEFS_NORMAL_MEMORY_WT | MPU_DEFS_RASE_AP_FULL_ACCESS | MPU_RASR_ENABLE_Msk),
-		// GPIOD
-		(MPU_DEFS_RASR_SIZE_1KB | MPU_DEFS_SHARED_DEVICE | MPU_DEFS_RASE_AP_FULL_ACCESS | MPU_RASR_ENABLE_Msk),
-		// RCC
-		(MPU_DEFS_RASR_SIZE_1KB | MPU_DEFS_SHARED_DEVICE | MPU_DEFS_RASE_AP_FULL_ACCESS | MPU_RASR_ENABLE_Msk)
+		(MPU_DEFS_RASR_SIZE_128KB | MPU_DEFS_NORMAL_SHARED_MEMORY_WT | MPU_DEFS_RASE_AP_FULL_ACCESS | MPU_RASR_ENABLE_Msk),
+		// Peripherals
+		(MPU_DEFS_RASR_SIZE_4GB | MPU_DEFS_SHARED_DEVICE | MPU_DEFS_RASE_AP_FULL_ACCESS | MPU_RASR_ENABLE_Msk),
 	};
 
-	if (MPU->TYPE == 0) {return;} // Do nothing if MPU don't exist
+	if (MPU->TYPE == 0) {return;} // Do nothing if MPU don't existPB1PERIPH_BASE + 0x4400U)
 	__DMB(); // Finish outstanding transfers
 	
 	MPU->CTRL = 0; // Disable first

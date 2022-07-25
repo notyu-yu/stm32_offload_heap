@@ -1,5 +1,6 @@
 #include "mcu_init.h"
 #include "mcu_mm.h"
+#include "mcu_timer.h"
 
 // Hardfault Handler - Send exit signal
 void HardFault_Handler(void) {
