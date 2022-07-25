@@ -110,7 +110,7 @@ void *mem_heap_lo()
  */
 void *mem_heap_hi()
 {
-    return (void *)(mem_brk - 1);
+    return (void *)(mem_brk);
 }
 
 /*
