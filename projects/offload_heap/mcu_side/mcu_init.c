@@ -25,8 +25,8 @@ void WWDG_IRQHandler(void) {
 	loop();
 }
 
-/*
 // Memory fault handler
+void MemManage_Handler(void) {
 	// Force reset stack pointer in case of overflow
 	sp_reset = (void *)0x20005000;
 	asm volatile ("mov sp, %0" : "+r" (sp_reset));
@@ -35,7 +35,7 @@ void WWDG_IRQHandler(void) {
 	var_print(err);
 	mm_finish();
 	loop();
-*/
+}
 
 // Initialize WWDG
 void wwdg_init(void) {
@@ -54,6 +54,12 @@ void wwdg_init(void) {
 
 	NVIC_SetPriority(WWDG_IRQn, 7);
 	NVIC_EnableIRQ(WWDG_IRQn);
+}
+
+// Initialize memory fault handler
+void memfault_init(void) {
+	SCB->SHCSR |= SCB_SHCSR_MEMFAULTENA_Msk; // Enable memfault, bit 16
+	NVIC_SetPriority(MemoryManagement_IRQn, 0);
 }
 
 // Turn on LED
@@ -87,5 +93,6 @@ void led_init(void) {
 // Set up LED and fault handlers
 void mcu_init(void) {
 	wwdg_init();
+	memfault_init();
 	led_init();
 }
