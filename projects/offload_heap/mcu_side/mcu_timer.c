@@ -10,30 +10,6 @@
 
 static size_t systime = 0;
 
-// Hardfault Handler - Send exit signal
-void HardFault_Handler(void) {
-	// Force reset stack pointer in case of overflow
-	sp_reset = (void *)0x20005000;
-	asm volatile ("mov sp, %0" : "+r" (sp_reset));
-
-	char err[] = "Hard Fault";
-	var_print(err);
-	mm_finish();
-	loop();
-}
-
-// Timer interrupt stopped running - Send exit signal
-void WWDG_IRQHandler(void) {
-	// Force reset stack pointer in case of overflow
-	sp_reset = (void *)0x20005000;
-	asm volatile ("mov sp, %0" : "+r" (sp_reset));
-
-	char err[] = "WWDG error";
-	var_print(err);
-	mm_finish();
-	loop();
-}
-
 /*************************************************
 * timer 2 interrupt handler
 *************************************************/
@@ -66,27 +42,7 @@ size_t get_time(void) {
 	return systime;
 }
 
-// Initialize WWDG
-void wwdg_init(void) {
-	// Enable clock
-	RCC->APB1ENR |= (1<<11);
-
-	// timeout (ms) = T_PCLK1(with ms) * 4096 * 2 ^(P) * (T + 1)
-	// Max and min timeout calculated with T being 0x3F (63) and 0x00
-	// APB1 Frequency 25 Mhz - Period: T_PCLK1 = 1/25,000 (in ms)
-	// Min timeout: (1/25,000) * 4096 * 2^1 * 1 = 0.328 ms
-	// Max timeout: (1/25,000) * 4096 * 2^1 * (63 + 1) = 20.972 ms
-
-	WWDG->CFR |= (0x1 << 7); // Set timer base/prescaler - P
-	WWDG->CFR |= (0x70); // Window countdown value - T
-	WWDG->CR |= (0xFF); // Enable WDGA
-
-	NVIC_SetPriority(WWDG_IRQn, 7);
-	NVIC_EnableIRQ(WWDG_IRQn);
-}
-
-/*************************************************
-* main code starts from here
+/************************************************* * main code starts from here
 *************************************************/
 void timer_init(void)
 {
@@ -113,6 +69,4 @@ void timer_init(void)
 	TIM2->CR1 &= ~(1 << 4);
     // Enable Timer 2 module (CEN, bit0)
     TIM2->CR1 |= (1 << 0);
-
-	wwdg_init();
 }

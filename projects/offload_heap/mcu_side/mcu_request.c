@@ -1,4 +1,5 @@
 #include "mcu_request.h"
+#include "mcu_init.h"
 
 #define READSIZE(buffer) *(size_t *)buffer
 
@@ -28,8 +29,8 @@ static void receive(void * buffer, size_t size) {
 
 // Initialize request communication
 void mem_req_setup(void) {
+	mcu_init();
 	uart_init();
-	led_init();
 	uart_dma_init();
 }
 

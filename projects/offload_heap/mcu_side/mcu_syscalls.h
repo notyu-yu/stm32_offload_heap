@@ -1,7 +1,6 @@
-#include "mcu.h"
-#include "mcu_mm.h"
-#include "memlib.h"
-#include "mcu_timer.h"
+#ifndef __STRING
+	#include <string.h>
+#endif
 
 void sys_mm_init(void);
 void sys_timer_init(void);

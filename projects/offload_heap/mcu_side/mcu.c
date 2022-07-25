@@ -1,5 +1,7 @@
 #include "mcu.h"
 #include "uart.h"
+#include "mcu_mm.h"
+#include "mcu_init.h"
 #define MAXLINE 1024
 
 static char output_str[MAXLINE*2];

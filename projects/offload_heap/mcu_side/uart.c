@@ -47,34 +47,6 @@ static void uart_pin_setup(void) {
     GPIOA->AFR[0] |= (0x7 << 12); // for pin A3
 }
 
-// Turn on LED
-void led_on(led l) {
-	GPIOD->ODR |= (1U<<l);
-}
-
-// Turn off LED
-void led_off(led l) {
-	GPIOD->ODR &= ~(1U<<l);
-}
-
-// Toggle LED
-void led_toggle(led l) {
-	GPIOD->ODR ^= (1U<<l);
-}
-
-// Setup LED GPIO
-void led_init(void) {
-	// Enable GPIOD clock
-	RCC->AHB1ENR |= 0x00000008;
-
-	// Turn on output mode
-	GPIOD->MODER &= 0x00FFFFFF;
-	GPIOD->MODER |= 0x55000000;
-
-	// Turn off LEDs
-	GPIOD->ODR &= 0x0FFF;
-}
-
 // Initialize UART 2
 static void uart_enable(void) {
     // enable USART2 clock, bit 17 on APB1ENR

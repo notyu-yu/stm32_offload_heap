@@ -17,6 +17,7 @@
 #include <time.h>
 #include <stdarg.h>
 
+#include "mcu.h"
 #include "config.h"
 #include "teststring.h"
 #include "mcu_syscalls.h"

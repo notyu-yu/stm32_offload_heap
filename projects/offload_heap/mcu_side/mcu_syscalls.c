@@ -1,4 +1,7 @@
 #include "mcu_syscalls.h"
+#include "mcu_mm.h"
+#include "mcu_mpu.h"
+#include "mcu_timer.h"
 
 void SVC_Handler(void) {
 	__asm (
