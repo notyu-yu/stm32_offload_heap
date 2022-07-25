@@ -93,7 +93,7 @@ void led_init(void) {
 
 // Set up LED and fault handlers
 void mcu_init(void) {
-	wwdg_init();
+	//wwdg_init();
 	memfault_init();
 	led_init();
 }

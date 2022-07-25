@@ -42,3 +42,4 @@
 #define MPU_DEFS_STRONGLY_ORDERED_DEVICE (0x0)
 
 void mpu_init(void);
+void proc_update(void);
