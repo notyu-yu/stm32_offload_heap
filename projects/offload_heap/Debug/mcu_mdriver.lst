@@ -5163,11 +5163,11 @@ void proc_update(void) {
 		0x20000000,
 		// Peripherals - Region 2
 		PERIPH_BASE,
-		// Heap top minus 32 bytes aligned - Region 3
-		(((uint32_t)mem_heap_hi() - 32)/32)*32,
+		// Heap top plus 32 bytes ceiling aligned - Region 3
+		(((uint32_t)mem_heap_hi() + 32 + 31)/32)*32,
  800240a:	f7ff fbc1 	bl	8001b90 <mem_heap_hi>
  800240e:	4603      	mov	r3, r0
- 8002410:	3b20      	subs	r3, #32
+ 8002410:	333f      	adds	r3, #63	; 0x3f
  8002412:	f023 031f 	bic.w	r3, r3, #31
 	uint32_t mpu_cfg_rbar[4] = {
  8002416:	9307      	str	r3, [sp, #28]
