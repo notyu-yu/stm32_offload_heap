@@ -66,7 +66,7 @@ void set_sysclk_to_100(void)
 	/* set APB low speed prescaler to /4 (APB1) (CFGR:bits 12:10) */
 	RCC->CFGR |= (5 << 10);
 	/* set APB high speed prescaler to /2 (APB2) (CFGR:bits 15:13) */
-	RCC->CFGR |= (4 << 13);
+	RCC->CFGR |= (0 << 13);
 
 	/* Set M, N, P and Q PLL dividers
 	 * PLLCFGR: bits 5:0 (M), 14:6 (N), 17:16 (P), 27:24 (Q)
