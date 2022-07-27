@@ -18,6 +18,12 @@ int main(int argc, char ** argv) {
 
 	// Receive sbrk initialization request
 	req_receive(req_in);
+	if (VERBOSE) {
+		printf("Request type: %u\n", req_in->request);
+		printf("Request size: %u\n", req_in->size);
+		printf("Request ptr: %08x\n", req_in->ptr);
+		list_print();
+	}
 	assert(req_in->request == SBRK && req_in->ptr);
 	// Reset sbrk
 	if (VERBOSE) {
