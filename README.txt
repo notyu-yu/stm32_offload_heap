@@ -73,7 +73,8 @@ _______________________________________________________
 request  |Malloc              |Realloc
 _______________________________________________________
 ptr      |Malloc'ed pointer   |Realloc'ed pointer
-         |Null when sbrk needed ->
+         |Null when sbrk      |Null if malloc needed
+         |needed              |
 _______________________________________________________
 Start Signal: Request with every field being 1.
 
