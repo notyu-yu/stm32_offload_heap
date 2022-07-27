@@ -833,12 +833,12 @@ LOAD /usr/lib/gcc/arm-none-eabi/12.1.0/thumb/v7e-m+fp/softfp/crtn.o
                 0x0000000008002118       0x12 Debug/uart.o
                 0x0000000008002118                uart_init
  *fill*         0x000000000800212a        0x2 
- .text.DMA1_Stream5_IRQHandler
+ .text.DMA2_Stream2_IRQHandler
                 0x000000000800212c       0x3c Debug/uart_dma.o
-                0x000000000800212c                DMA1_Stream5_IRQHandler
- .text.DMA1_Stream6_IRQHandler
+                0x000000000800212c                DMA2_Stream2_IRQHandler
+ .text.DMA2_Stream7_IRQHandler
                 0x0000000008002168       0x2c Debug/uart_dma.o
-                0x0000000008002168                DMA1_Stream6_IRQHandler
+                0x0000000008002168                DMA2_Stream7_IRQHandler
  .text.uart_dma_init
                 0x0000000008002194       0x3c Debug/uart_dma.o
                 0x0000000008002194                uart_dma_init
@@ -919,6 +919,7 @@ LOAD /usr/lib/gcc/arm-none-eabi/12.1.0/thumb/v7e-m+fp/softfp/crtn.o
                 0x00000000080027c4                SPI4_IRQHandler
                 0x00000000080027c4                TIM1_CC_IRQHandler
                 0x00000000080027c4                DMA2_Stream5_IRQHandler
+                0x00000000080027c4                DMA1_Stream5_IRQHandler
                 0x00000000080027c4                SysTick_Handler
                 0x00000000080027c4                PVD_IRQHandler
                 0x00000000080027c4                SDIO_IRQHandler
@@ -933,7 +934,6 @@ LOAD /usr/lib/gcc/arm-none-eabi/12.1.0/thumb/v7e-m+fp/softfp/crtn.o
                 0x00000000080027c4                DMA1_Stream2_IRQHandler
                 0x00000000080027c4                FPU_IRQHandler
                 0x00000000080027c4                UsageFault_Handler
-                0x00000000080027c4                DMA2_Stream2_IRQHandler
                 0x00000000080027c4                SPI1_IRQHandler
                 0x00000000080027c4                TIM1_BRK_TIM9_IRQHandler
                 0x00000000080027c4                DMA2_Stream3_IRQHandler
@@ -941,6 +941,7 @@ LOAD /usr/lib/gcc/arm-none-eabi/12.1.0/thumb/v7e-m+fp/softfp/crtn.o
                 0x00000000080027c4                DMA2_Stream0_IRQHandler
                 0x00000000080027c4                TIM4_IRQHandler
                 0x00000000080027c4                I2C1_EV_IRQHandler
+                0x00000000080027c4                DMA1_Stream6_IRQHandler
                 0x00000000080027c4                DMA1_Stream1_IRQHandler
                 0x00000000080027c4                TIM3_IRQHandler
                 0x00000000080027c4                RCC_IRQHandler
@@ -950,7 +951,6 @@ LOAD /usr/lib/gcc/arm-none-eabi/12.1.0/thumb/v7e-m+fp/softfp/crtn.o
                 0x00000000080027c4                DMA1_Stream7_IRQHandler
                 0x00000000080027c4                SPI5_IRQHandler
                 0x00000000080027c4                TIM5_IRQHandler
-                0x00000000080027c4                DMA2_Stream7_IRQHandler
                 0x00000000080027c4                I2C3_EV_IRQHandler
                 0x00000000080027c4                EXTI9_5_IRQHandler
                 0x00000000080027c4                RTC_WKUP_IRQHandler
@@ -2478,17 +2478,17 @@ DMA1_Stream1_IRQHandler                           Debug/startup_stm32f411xe.o
 DMA1_Stream2_IRQHandler                           Debug/startup_stm32f411xe.o
 DMA1_Stream3_IRQHandler                           Debug/startup_stm32f411xe.o
 DMA1_Stream4_IRQHandler                           Debug/startup_stm32f411xe.o
-DMA1_Stream5_IRQHandler                           Debug/uart_dma.o
-DMA1_Stream6_IRQHandler                           Debug/uart_dma.o
+DMA1_Stream5_IRQHandler                           Debug/startup_stm32f411xe.o
+DMA1_Stream6_IRQHandler                           Debug/startup_stm32f411xe.o
 DMA1_Stream7_IRQHandler                           Debug/startup_stm32f411xe.o
 DMA2_Stream0_IRQHandler                           Debug/startup_stm32f411xe.o
 DMA2_Stream1_IRQHandler                           Debug/startup_stm32f411xe.o
-DMA2_Stream2_IRQHandler                           Debug/startup_stm32f411xe.o
+DMA2_Stream2_IRQHandler                           Debug/uart_dma.o
 DMA2_Stream3_IRQHandler                           Debug/startup_stm32f411xe.o
 DMA2_Stream4_IRQHandler                           Debug/startup_stm32f411xe.o
 DMA2_Stream5_IRQHandler                           Debug/startup_stm32f411xe.o
 DMA2_Stream6_IRQHandler                           Debug/startup_stm32f411xe.o
-DMA2_Stream7_IRQHandler                           Debug/startup_stm32f411xe.o
+DMA2_Stream7_IRQHandler                           Debug/uart_dma.o
 DebugMon_Handler                                  Debug/startup_stm32f411xe.o
 Default_Handler                                   Debug/startup_stm32f411xe.o
 EXTI0_IRQHandler                                  Debug/startup_stm32f411xe.o

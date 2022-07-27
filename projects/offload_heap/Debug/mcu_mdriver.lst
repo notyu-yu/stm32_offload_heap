@@ -250,7 +250,7 @@ SYMBOL TABLE:
 080031c4 g     F .text	000000a4 __swbuf_r
 080024c0 g     F .text	00000048 HardFault_Handler
 08003570 g     F .text	0000002c __sfmoreglue
-0800212c g     F .text	0000003c DMA1_Stream5_IRQHandler
+080027c4  w    F .text	00000002 DMA1_Stream5_IRQHandler
 0800383c g     F .text	0000000c __malloc_unlock
 00000400 g       *ABS*	00000000 _Min_Stack_Size
 20000cfc g     O .bss	00000004 output_offset
@@ -295,7 +295,7 @@ SYMBOL TABLE:
 08004938 g     F .text	00000010 _fstat
 080027c8 g     F .text	0000003c __assert_func
 080027c4  w    F .text	00000002 UsageFault_Handler
-080027c4  w    F .text	00000002 DMA2_Stream2_IRQHandler
+0800212c g     F .text	0000003c DMA2_Stream2_IRQHandler
 08003c6a g     F .text	0000003a __ssrefill_r
 0800466c g     F .text	00000004 _getpid_r
 200000c8 g       .bss	00000000 __bss_start__
@@ -349,7 +349,7 @@ SYMBOL TABLE:
 08002590 g     F .text	00000020 memfault_init
 080027c4  w    F .text	00000002 I2C1_EV_IRQHandler
 0800370a g     F .text	00000002 __retarget_lock_release_recursive
-08002168 g     F .text	0000002c DMA1_Stream6_IRQHandler
+080027c4  w    F .text	00000002 DMA1_Stream6_IRQHandler
 0800393e g     F .text	000000b4 __ssputs_r
 080027c4  w    F .text	00000002 DMA1_Stream1_IRQHandler
 080029fe g     F .text	00000024 __sfputs_r
@@ -379,7 +379,7 @@ SYMBOL TABLE:
 080004f4 g     F .text	00000022 .hidden __aeabi_i2d
 080027c4  w    F .text	00000002 TIM5_IRQHandler
 080022d0 g     F .text	0000001c sys_get_time
-080027c4  w    F .text	00000002 DMA2_Stream7_IRQHandler
+08002168 g     F .text	0000002c DMA2_Stream7_IRQHandler
 080027c4  w    F .text	00000002 I2C3_EV_IRQHandler
 0800229a g     F .text	00000024 sys_realloc
 08002ce0 g     F .text	00000058 sscanf
@@ -4636,34 +4636,34 @@ void uart_init(void)
  8002128:	bd08      	pop	{r3, pc}
 	...
 
-0800212c <DMA1_Stream5_IRQHandler>:
+0800212c <DMA2_Stream2_IRQHandler>:
 
 // UART reception finish interrupt
-void DMA1_Stream5_IRQHandler(void)
+void DMA2_Stream2_IRQHandler(void)
 {
     // clear stream receive complete interrupt - bit11 for stream 5
-    if (DMA1->HISR & DMA_HISR_TCIF5) {
- 800212c:	4b0b      	ldr	r3, [pc, #44]	; (800215c <DMA1_Stream5_IRQHandler+0x30>)
- 800212e:	685b      	ldr	r3, [r3, #4]
- 8002130:	f403 6300 	and.w	r3, r3, #2048	; 0x800
+    if (DMA2->LISR & DMA_LISR_TCIF2) {
+ 800212c:	4b0b      	ldr	r3, [pc, #44]	; (800215c <DMA2_Stream2_IRQHandler+0x30>)
+ 800212e:	681b      	ldr	r3, [r3, #0]
+ 8002130:	f403 1300 	and.w	r3, r3, #2097152	; 0x200000
  8002134:	2b00      	cmp	r3, #0
- 8002136:	d00e      	beq.n	8002156 <DMA1_Stream5_IRQHandler+0x2a>
+ 8002136:	d00e      	beq.n	8002156 <DMA2_Stream2_IRQHandler+0x2a>
         // clear interrupt
-        DMA1->HIFCR |= DMA_HISR_TCIF5;
- 8002138:	4b08      	ldr	r3, [pc, #32]	; (800215c <DMA1_Stream5_IRQHandler+0x30>)
- 800213a:	68db      	ldr	r3, [r3, #12]
- 800213c:	4a07      	ldr	r2, [pc, #28]	; (800215c <DMA1_Stream5_IRQHandler+0x30>)
- 800213e:	f443 6300 	orr.w	r3, r3, #2048	; 0x800
- 8002142:	60d3      	str	r3, [r2, #12]
+        DMA2->LIFCR |= DMA_LISR_TCIF2;
+ 8002138:	4b08      	ldr	r3, [pc, #32]	; (800215c <DMA2_Stream2_IRQHandler+0x30>)
+ 800213a:	689b      	ldr	r3, [r3, #8]
+ 800213c:	4a07      	ldr	r2, [pc, #28]	; (800215c <DMA2_Stream2_IRQHandler+0x30>)
+ 800213e:	f443 1300 	orr.w	r3, r3, #2097152	; 0x200000
+ 8002142:	6093      	str	r3, [r2, #8]
 		receiving = 0;
- 8002144:	4b06      	ldr	r3, [pc, #24]	; (8002160 <DMA1_Stream5_IRQHandler+0x34>)
+ 8002144:	4b06      	ldr	r3, [pc, #24]	; (8002160 <DMA2_Stream2_IRQHandler+0x34>)
  8002146:	2200      	movs	r2, #0
  8002148:	601a      	str	r2, [r3, #0]
 		// Disable receive DMA
-		USART2->CR3 &= ~USART_CR3_DMAR;
- 800214a:	4b06      	ldr	r3, [pc, #24]	; (8002164 <DMA1_Stream5_IRQHandler+0x38>)
+		USART1->CR3 &= ~USART_CR3_DMAR;
+ 800214a:	4b06      	ldr	r3, [pc, #24]	; (8002164 <DMA2_Stream2_IRQHandler+0x38>)
  800214c:	695b      	ldr	r3, [r3, #20]
- 800214e:	4a05      	ldr	r2, [pc, #20]	; (8002164 <DMA1_Stream5_IRQHandler+0x38>)
+ 800214e:	4a05      	ldr	r2, [pc, #20]	; (8002164 <DMA2_Stream2_IRQHandler+0x38>)
  8002150:	f023 0340 	bic.w	r3, r3, #64	; 0x40
  8002154:	6153      	str	r3, [r2, #20]
     }
@@ -4671,31 +4671,31 @@ void DMA1_Stream5_IRQHandler(void)
  8002156:	bf00      	nop
  8002158:	4770      	bx	lr
  800215a:	bf00      	nop
- 800215c:	40026000 	.word	0x40026000
+ 800215c:	40026400 	.word	0x40026400
  8002160:	20000d00 	.word	0x20000d00
- 8002164:	40004400 	.word	0x40004400
+ 8002164:	40011000 	.word	0x40011000
 
-08002168 <DMA1_Stream6_IRQHandler>:
+08002168 <DMA2_Stream7_IRQHandler>:
 
 // UART transmission finish interrupt
-void DMA1_Stream6_IRQHandler(void)
+void DMA2_Stream7_IRQHandler(void)
 {
     // clear stream transfer complete interrupt - bit21 for stream 6
-    if (DMA1->HISR & DMA_HISR_TCIF6) {
- 8002168:	4b08      	ldr	r3, [pc, #32]	; (800218c <DMA1_Stream6_IRQHandler+0x24>)
+    if (DMA2->HISR & DMA_HISR_TCIF7) {
+ 8002168:	4b08      	ldr	r3, [pc, #32]	; (800218c <DMA2_Stream7_IRQHandler+0x24>)
  800216a:	685b      	ldr	r3, [r3, #4]
- 800216c:	f403 1300 	and.w	r3, r3, #2097152	; 0x200000
+ 800216c:	f003 6300 	and.w	r3, r3, #134217728	; 0x8000000
  8002170:	2b00      	cmp	r3, #0
- 8002172:	d008      	beq.n	8002186 <DMA1_Stream6_IRQHandler+0x1e>
+ 8002172:	d008      	beq.n	8002186 <DMA2_Stream7_IRQHandler+0x1e>
         // clear interrupt
-        DMA1->HIFCR |= DMA_HISR_TCIF6;
- 8002174:	4b05      	ldr	r3, [pc, #20]	; (800218c <DMA1_Stream6_IRQHandler+0x24>)
+        DMA2->HIFCR |= DMA_HISR_TCIF7;
+ 8002174:	4b05      	ldr	r3, [pc, #20]	; (800218c <DMA2_Stream7_IRQHandler+0x24>)
  8002176:	68db      	ldr	r3, [r3, #12]
- 8002178:	4a04      	ldr	r2, [pc, #16]	; (800218c <DMA1_Stream6_IRQHandler+0x24>)
- 800217a:	f443 1300 	orr.w	r3, r3, #2097152	; 0x200000
+ 8002178:	4a04      	ldr	r2, [pc, #16]	; (800218c <DMA2_Stream7_IRQHandler+0x24>)
+ 800217a:	f043 6300 	orr.w	r3, r3, #134217728	; 0x8000000
  800217e:	60d3      	str	r3, [r2, #12]
 		transmitting = 0;
- 8002180:	4b03      	ldr	r3, [pc, #12]	; (8002190 <DMA1_Stream6_IRQHandler+0x28>)
+ 8002180:	4b03      	ldr	r3, [pc, #12]	; (8002190 <DMA2_Stream7_IRQHandler+0x28>)
  8002182:	2200      	movs	r2, #0
  8002184:	601a      	str	r2, [r3, #0]
     }
@@ -4703,7 +4703,7 @@ void DMA1_Stream6_IRQHandler(void)
  8002186:	bf00      	nop
  8002188:	4770      	bx	lr
  800218a:	bf00      	nop
- 800218c:	40026000 	.word	0x40026000
+ 800218c:	40026400 	.word	0x40026400
  8002190:	20000d04 	.word	0x20000d04
 
 08002194 <uart_dma_init>:
@@ -4711,37 +4711,37 @@ void DMA1_Stream6_IRQHandler(void)
 // Setup UART DMA
 void uart_dma_init(void) {
 	// Enable transmit DMA
-	USART2->CR3 |= USART_CR3_DMAT;
+	USART1->CR3 |= USART_CR3_DMAT;
  8002194:	4b0c      	ldr	r3, [pc, #48]	; (80021c8 <uart_dma_init+0x34>)
  8002196:	695b      	ldr	r3, [r3, #20]
  8002198:	4a0b      	ldr	r2, [pc, #44]	; (80021c8 <uart_dma_init+0x34>)
  800219a:	f043 0380 	orr.w	r3, r3, #128	; 0x80
  800219e:	6153      	str	r3, [r2, #20]
 	// Enable receive DMA
-	USART2->CR3 |= USART_CR3_DMAR;
+	USART1->CR3 |= USART_CR3_DMAR;
  80021a0:	4b09      	ldr	r3, [pc, #36]	; (80021c8 <uart_dma_init+0x34>)
  80021a2:	695b      	ldr	r3, [r3, #20]
  80021a4:	4a08      	ldr	r2, [pc, #32]	; (80021c8 <uart_dma_init+0x34>)
  80021a6:	f043 0340 	orr.w	r3, r3, #64	; 0x40
  80021aa:	6153      	str	r3, [r2, #20]
 	// Clear TC bit
-	USART2->SR &= ~USART_SR_TC;
+	USART1->SR &= ~USART_SR_TC;
  80021ac:	4b06      	ldr	r3, [pc, #24]	; (80021c8 <uart_dma_init+0x34>)
  80021ae:	681b      	ldr	r3, [r3, #0]
  80021b0:	4a05      	ldr	r2, [pc, #20]	; (80021c8 <uart_dma_init+0x34>)
  80021b2:	f023 0340 	bic.w	r3, r3, #64	; 0x40
  80021b6:	6013      	str	r3, [r2, #0]
-	// Enable DMA1 clock
-	RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN;
+	// Enable DMA2 clock
+	RCC->AHB1ENR |= RCC_AHB1ENR_DMA2EN;
  80021b8:	4b04      	ldr	r3, [pc, #16]	; (80021cc <uart_dma_init+0x38>)
  80021ba:	6b1b      	ldr	r3, [r3, #48]	; 0x30
  80021bc:	4a03      	ldr	r2, [pc, #12]	; (80021cc <uart_dma_init+0x38>)
- 80021be:	f443 1300 	orr.w	r3, r3, #2097152	; 0x200000
+ 80021be:	f443 0380 	orr.w	r3, r3, #4194304	; 0x400000
  80021c2:	6313      	str	r3, [r2, #48]	; 0x30
 }
  80021c4:	bf00      	nop
  80021c6:	4770      	bx	lr
- 80021c8:	40004400 	.word	0x40004400
+ 80021c8:	40011000 	.word	0x40011000
  80021cc:	40023800 	.word	0x40023800
 
 080021d0 <SVC_Handler>:
