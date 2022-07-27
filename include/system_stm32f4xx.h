@@ -13,7 +13,7 @@
 #define LSE_VALUE    ((uint32_t)32768U)    // External low speed oscillator
 
 #define PLL_M      8
-#define PLL_N      384
+#define PLL_N      400
 #define PLL_P      4
 #define PLL_Q      8
 

@@ -64,7 +64,7 @@ void set_sysclk_to_100(void)
 	/* set AHB prescaler to /1 (CFGR:bits 7:4) */
 	RCC->CFGR |= (0 << 4);
 	/* set APB low speed prescaler to /4 (APB1) (CFGR:bits 12:10) */
-	RCC->CFGR |= (5 << 10);
+	RCC->CFGR |= (4 << 10);
 	/* set APB high speed prescaler to /2 (APB2) (CFGR:bits 15:13) */
 	RCC->CFGR |= (4 << 13);
 
