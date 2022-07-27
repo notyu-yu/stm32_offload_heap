@@ -3,7 +3,7 @@
 #include "../shared_side/shared_config.h"
 
 /* single word (4) or double word (8) alignment */
-#define ALIGNMENT 8
+#define ALIGNMENT 4
 #define ALIGN(size) (((size) + (ALIGNMENT-1)) & ~0x7)
 #define SIZE_T_SIZE (ALIGN(sizeof(size_t)))
 
@@ -264,10 +264,10 @@ uint32_t mm_malloc(size_t size)
 	}
 
 	// Add overhead and alignment to block size
-	if (size <= DSIZE) {
-		asize = DSIZE;
+	if (size <= WSIZE) {
+		asize = WSIZE;
 	} else {
-		asize = DSIZE * ((size + (DSIZE) + (DSIZE-1))/DSIZE); // Add overhead and make rounding floor
+		asize = WSIZE * ((size + (WSIZE) + (WSIZE-1))/WSIZE); // Add overhead and make rounding floor
 	}
 
 	// Search free block for fit
@@ -315,10 +315,10 @@ uint32_t mm_realloc(uint32_t ptr, size_t size)
 	blk_size = search_blk->size;
 
 	// Add alignment to block size
-	if (size < DSIZE) {
-		asize = DSIZE;
+	if (size < WSIZE) {
+		asize = WSIZE;
 	} else {
-		asize = DSIZE * ((size + (DSIZE-1))/DSIZE); // Make rounding floor
+		asize = WSIZE * ((size + (WSIZE-1))/WSIZE); // Make rounding floor
 	}
 
 	if (blk_size < asize) {

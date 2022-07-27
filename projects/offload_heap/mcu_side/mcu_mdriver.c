@@ -20,6 +20,8 @@
 #include "config.h"
 #include "teststring.h"
 #include "mcu_syscalls.h"
+#include "memlib.h"
+#include "mcu.h"
 
 /**********************
  * Constants and macros

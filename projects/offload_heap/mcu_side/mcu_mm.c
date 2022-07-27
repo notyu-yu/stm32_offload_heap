@@ -19,7 +19,7 @@ team_t team = {
 };
 
 /* single word (4) or double word (8) alignment */
-#define ALIGNMENT 8
+#define ALIGNMENT 4
 #define ALIGN(size) (((size) + (ALIGNMENT-1)) & ~0x7)
 #define SIZE_T_SIZE (ALIGN(sizeof(size_t)))
 
@@ -91,10 +91,10 @@ void *mm_malloc(size_t size)
 	} else {
 		// Need to extend heap
 		// Add overhead and alignment to block size
-		if (size <= DSIZE) {
-			asize = DSIZE;
+		if (size <= WSIZE) {
+			asize = WSIZE;
 		} else {
-			asize = DSIZE * ((size + (DSIZE) + (DSIZE-1))/DSIZE); // Add overhead and make rounding floor
+			asize = WSIZE * ((size + (WSIZE) + (WSIZE-1))/WSIZE); // Add overhead and make rounding floor
 		}
 		extendsize = MAX(asize, CHUNKSIZE);
 

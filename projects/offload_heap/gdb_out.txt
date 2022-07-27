@@ -17,14 +17,14 @@ Reading symbols from ./Debug/mcu_mdriver.elf...
 loop () at mcu_side/mcu.c:12
 12		led_on(ORANGE);
 Loading section .isr_vector, size 0x198 lma 0x8000000
-Loading section .text, size 0x49fc lma 0x80001a0
-Loading section .rodata, size 0xddc lma 0x8004b9c
-Loading section .init_array, size 0x4 lma 0x8005978
-Loading section .fini_array, size 0x4 lma 0x800597c
-Loading section .data, size 0xc8 lma 0x8005980
-Start address 0x08002930, load size 23104
-Transfer rate: 20 KB/sec, 3300 bytes/write.
-Breakpoint 1 at 0x8001f2e: file mcu_side/mcu.c, line 12.
+Loading section .text, size 0x49f4 lma 0x80001a0
+Loading section .rodata, size 0xddc lma 0x8004b94
+Loading section .init_array, size 0x4 lma 0x8005970
+Loading section .fini_array, size 0x4 lma 0x8005974
+Loading section .data, size 0xc8 lma 0x8005978
+Start address 0x08002928, load size 23096
+Transfer rate: 19 KB/sec, 3299 bytes/write.
+Breakpoint 1 at 0x8001f26: file mcu_side/mcu.c, line 12.
 Note: automatically using hardware breakpoints for read-only addresses.
 
 Breakpoint 1, loop () at mcu_side/mcu.c:12

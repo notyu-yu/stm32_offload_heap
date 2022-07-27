@@ -14,7 +14,7 @@
 #include "pc_request.h"
 #include "pc_mm.h"
 
-#define ALIGNMENT 8
+#define ALIGNMENT 4
 #define ALIGN(size) (((size) + (ALIGNMENT-1)) & ~0x7)
 
 /* private variables */

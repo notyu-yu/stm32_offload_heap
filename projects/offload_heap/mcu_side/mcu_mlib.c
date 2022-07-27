@@ -14,7 +14,7 @@
 #include "mcu_request.h"
 #include "mcu_mpu.h"
 
-#define ALIGNMENT 8
+#define ALIGNMENT 4
 #define ALIGN(size) (((size) + (ALIGNMENT-1)) & ~0x7)
 
 // Marks end of bss section
