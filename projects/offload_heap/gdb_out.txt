@@ -16,24 +16,6 @@ Type "apropos word" to search for commands related to "word"...
 Reading symbols from ./Debug/mcu_mdriver.elf...
 loop () at mcu_side/mcu.c:12
 12		led_on(ORANGE);
-Loading section .isr_vector, size 0x198 lma 0x8000000
-Loading section .text, size 0x4b6c lma 0x80001a0
-Loading section .rodata, size 0xdb4 lma 0x8004d0c
-Loading section .init_array, size 0x4 lma 0x8005ac0
-Loading section .fini_array, size 0x4 lma 0x8005ac4
-Loading section .data, size 0x33c lma 0x8005ac8
-Start address 0x08002aa0, load size 24060
-Transfer rate: 21 KB/sec, 3437 bytes/write.
-Breakpoint 1 at 0x8001fda: file mcu_side/mcu.c, line 12.
-Note: automatically using hardware breakpoints for read-only addresses.
-
-Program received signal SIGINT, Interrupt.
-0x08002306 in uart_tx_wait () at mcu_side/uart_dma.c:69
-69		while (transmitting);
-$1 = '\000' <repeats 2047 times>
-A debugging session is active.
-
-	Inferior 1 [Remote target] will be detached.
-
-Quit anyway? (y or n) [answered Y; input not from terminal]
-[Inferior 1 (Remote target) detached]
+The target is not responding to GDB commands.
+Stop debugging it? (y or n) [answered Y; input not from terminal]
+[?2004h(gdb) [?2004l

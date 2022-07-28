@@ -21,35 +21,8 @@ void SVC_Handler_Main(unsigned int * svc_args) {
 
 	uint32_t svc_number = ((char *)svc_args[6])[-2];
 	switch(svc_number) {
-		case 0: // mm_init
+		case 0: // Enter privileged mode
 			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk); // Enable privileged mode
-			mm_init();
-			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk); // Disable privileged mode
-			break;
-		case 1: // mm_malloc
-			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk); // Enable privileged mode
-			svc_args[0] = (uint32_t)mm_malloc(svc_args[0]);
-			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk); // Disable privileged mode
-			break;
-		case 2: // mm_free
-			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk); // Enable privileged mode
-			mm_free((void *)(svc_args[0]));
-			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk); // Disable privileged mode
-			break;
-		case 3: // mm_realloc
-			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk); // Enable privileged mode
-			svc_args[0] = (uint32_t)mm_realloc((void *)svc_args[0], svc_args[1]);
-			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk); // Disable privileged mode
-			break;
-		case 4: // mm_finish
-			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk); // Enable privileged mode
-			mm_finish();
-			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk); // Disable privileged mode
-			break;
-		case 5: // get_time
-			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk); // Enable privileged mode
-			svc_args[0] = get_time();
-			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk); // Disable privileged mode
 			break;
 		default:
 			break;
@@ -66,36 +39,48 @@ void priv_mode_off(void) {
 
 // Initialize malloc library
 void sys_mm_init(void) {
-	asm volatile ("svc #0");
+	priv_mode_on();
+	mm_init();
+	priv_mode_off();
 }
 
 // Malloc size bytes of memory
 void * sys_malloc(size_t size) {
-	asm volatile ("svc #1");
-	register uint32_t * ret_val asm("r0");
-	return (void *)ret_val;
+	void * res;
+	priv_mode_on();
+	res = mm_malloc(size);	
+	priv_mode_off();
+	return res;
 }
 
 // Free memory region at pointer
 void sys_free(void * ptr) {
-	asm volatile ("svc #2");
+	priv_mode_on();
+	mm_free(ptr);
+	priv_mode_off();
 }
 
 // Reallocate ptr to a size byte region and return the new pointer
 void * sys_realloc(void * ptr, size_t size) {
-	asm volatile ("svc #3");
-	register uint32_t * ret_val asm("r0");
-	return (void *) ret_val;
+	void * res;
+	priv_mode_on();
+	res = mm_realloc(ptr, size);
+	priv_mode_off();
+	return res;
 }
 
 // End communication session with server
 void sys_mm_finish(void) {
-	asm volatile ("svc #4");
+	priv_mode_on();
+	mm_finish();
+	priv_mode_off();
 }
 
 // Return current time in ms
 size_t sys_get_time(void) {
-	asm volatile ("svc #5");
-	register uint32_t * ret_val asm("r0");
-	return (size_t) ret_val;
+	size_t res;
+	priv_mode_on();
+	res = get_time();
+	priv_mode_off();
+	return res;
 }
