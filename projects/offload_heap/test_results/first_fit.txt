@@ -3,7 +3,7 @@ activate openocd
 ==================================================
 ./short_trace/coalescing-bal.rep
 teststring.h created from ./short_trace/coalescing-bal.rep
-Utilization: 77%. Throughput: 738
+Utilization: 77%. Throughput: 749
 ==================================================
 ./short_trace/heap_test.rep
 teststring.h created from ./short_trace/heap_test.rep
@@ -15,7 +15,7 @@ Utilization: 71%. Throughput: 268
 ==================================================
 ./short_trace/rand_large.rep
 teststring.h created from ./short_trace/rand_large.rep
-Utilization: 59%. Throughput: 327
+Utilization: 59%. Throughput: 330
 ==================================================
 ./short_trace/random_4.rep
 teststring.h created from ./short_trace/random_4.rep
@@ -31,15 +31,15 @@ Utilization: 78%. Throughput: 351
 ==================================================
 ./short_trace/random_test.rep
 teststring.h created from ./short_trace/random_test.rep
-Utilization: 68%. Throughput: 510
+Utilization: 68%. Throughput: 511
 ==================================================
 ./short_trace/realloc2-bal.rep
 teststring.h created from ./short_trace/realloc2-bal.rep
-Utilization: 78%. Throughput: 343
+Utilization: 78%. Throughput: 344
 ==================================================
 ./short_trace/realloc_test.rep
 teststring.h created from ./short_trace/realloc_test.rep
-Utilization: 48%. Throughput: 583
+Utilization: 67%. Throughput: 583
 ==================================================
 ./short_trace/short1-bal.rep
 teststring.h created from ./short_trace/short1-bal.rep

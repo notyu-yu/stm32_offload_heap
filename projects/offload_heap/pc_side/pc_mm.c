@@ -15,6 +15,9 @@
 
 #define MAX(x,y) ((x) > (y) ? (x) : (y))
 
+// Number of size classes
+#define SIZE_CLASSES 12
+
 /* 
  * Class table: first 8 classes are 1-8 words.
  * Later classe sizes are 2*prev_class_size.
@@ -22,50 +25,57 @@
  * next class size.
  * Starting block in array has size 0.
  */
-static blk_elt class_table[20] = {0};
+static blk_elt class_table[SIZE_CLASSES] = {0};
 
 // Pointer to first block
 static blk_elt * list_start = NULL;
 
 // Returns the index of size in class table
 size_t class_index(uint32_t size) {
-	size_t dwords = size/DSIZE;	
-	size_t index = 8;
-	if (dwords == 0) {
-		// First 8 classes - index is dwords-1
-		return 1;
-	} else if (dwords <= 8) {
-		return dwords-1;
-	} else {
-		// Later classes - Size doubling each time
-		dwords >>= 3; // Divide by 8
-		while (dwords && index < 20) {
-			dwords >>= 1;
-			index ++;
+	if (SEG_FIT) {
+		size_t dwords = size/DSIZE;	
+		size_t index = 7;
+		if (dwords == 0) {
+			// First 8 classes - index is dwords-1
+			return 1;
+		} else if (dwords <= 8) {
+			return dwords-1;
+		} else {
+			// Later classes - Size doubling each time
+			dwords >>= 3; // Divide by 8
+			while (dwords && (index < SIZE_CLASSES-1)) {
+				dwords >>= 1;
+				index ++;
+			}
+			return index;
 		}
-		return index;
 	}
+	return 0;
 }
 
 // Remove a free block from its class list
 void free_blk_remove(blk_elt * blk) {
-	blk->prev_free->next_free = blk->next_free;
-	blk->next_free->prev_free = blk->prev_free;
-	// Might help with debugging
-	blk->next_free = NULL;
-	blk->prev_free = NULL;
+	if (SEG_FIT) {
+		blk->prev_free->next_free = blk->next_free;
+		blk->next_free->prev_free = blk->prev_free;
+		// Might help with debugging
+		blk->next_free = NULL;
+		blk->prev_free = NULL;
+	}
 }
 
 // Add free block to the beginning of the appropriate class list
 void free_blk_add(blk_elt * blk) {
-	size_t index = class_index(blk->size);
-	assert(!blk->alloc);
-	// Set prev and next of blk
-	blk->next_free = class_table[index].next_free;
-	blk->prev_free = &(class_table[index]);
-	// Set prev and next of adjacent blocks
-	blk->prev_free->next_free = blk;
-	blk->next_free->prev_free = blk;
+	if (SEG_FIT) {
+		size_t index = class_index(blk->size);
+		assert(!blk->alloc);
+		// Set prev and next of blk
+		blk->next_free = class_table[index].next_free;
+		blk->prev_free = &(class_table[index]);
+		// Set prev and next of adjacent blocks
+		blk->prev_free->next_free = blk;
+		blk->next_free->prev_free = blk;
+	}
 }
 
 // Look through linked list for block pointer, return 0 when not found
@@ -192,7 +202,7 @@ static inline blk_elt * best_fit(size_t asize) {
 static inline blk_elt * seg_fit(size_t asize) {
 	size_t index = class_index(asize);
 	blk_elt * cur_search;	
-	while (index < 20) {
+	while (index < SIZE_CLASSES) {
 		cur_search = class_table[index].next_free;
 		while (cur_search->size) {
 			assert(!cur_search->alloc);
@@ -216,7 +226,7 @@ static blk_elt * find_fit(size_t asize) {
 		case SEG_FIT:
 			return seg_fit(asize);
 		default:
-			// Defualt to first fit
+			// Default to first fit
 			return first_fit(asize);
 	}
 }
@@ -349,7 +359,7 @@ int mm_init(uint32_t ptr)
 	dict_create();
 
 	// Initialze class table
-	for (int i=0; i<20; i++) {
+	for (int i=0; i<SIZE_CLASSES; i++) {
 		class_table[i].prev = NULL;
 		class_table[i].next = NULL;
 		class_table[i].next_free = &(class_table[i]);

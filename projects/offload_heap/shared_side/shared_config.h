@@ -10,7 +10,7 @@
 #define BEST_FIT 1
 #define SEG_FIT 2
 
-#define SEARCH_OPT SEG_FIT // 0 to use first fit, 1 to use best fit
+#define SEARCH_OPT FIRST_FIT // Input option macro here
 
 #ifndef _STRING_H
 	#include <string.h>

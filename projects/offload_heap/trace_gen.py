@@ -11,9 +11,9 @@ file = sys.argv[3];
 uninit_var = [i for i in range(variables)]
 alloced_var = []
 
-# Return random size between 1 and 100 bytes
+# Return random size between 1 and 300 bytes
 def random_size():
-    return random.randint(1, 100);
+    return random.randint(1, 300);
 
 # Return random operation with arguments
 def random_op():
