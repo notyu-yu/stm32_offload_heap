@@ -27,6 +27,8 @@ extern team_t team;
 struct blk_struct {
 	struct blk_struct * next;
 	struct blk_struct * prev;
+	struct blk_struct * next_free;
+	struct blk_struct * prev_free;
 	uint32_t ptr;
 	size_t size;
 	char alloc;

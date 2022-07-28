@@ -4,7 +4,13 @@
 #define USE_DMA 1 // Whether or not to use DMA for UART
 #define VERBOSE 0 // Whether or not to print debug message in pc_server
 #define DICT_SEARCH 1 // 0 to use linear pointer search, 1 to use hashtable
-#define BEST_FIT 0 // 0 to use first fit, 1 to use best fit
+
+// Free block search options
+#define FIRST_FIT 0
+#define BEST_FIT 1
+#define SEG_FIT 2
+
+#define SEARCH_OPT FIRST_FIT // Input option macro here
 
 #ifndef _STRING_H
 	#include <string.h>
