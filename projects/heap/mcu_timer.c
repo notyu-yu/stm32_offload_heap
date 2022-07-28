@@ -8,12 +8,9 @@
 
 static size_t systime = 0;
 
-/*************************************************
-* timer 2 interrupt handler
-*************************************************/
+// TIM2 interrupt - count system time
 void TIM2_IRQHandler(void)
 {
-	systime++;
 	register size_t * stack_top asm("sp");
 
 	// Stall if stack is overflowing to heap
@@ -23,6 +20,8 @@ void TIM2_IRQHandler(void)
 		loop();
 	}
 
+	systime++;
+
     // clear interrupt status
     if (TIM2->DIER & 0x01) {
         if (TIM2->SR & 0x01) {
@@ -31,7 +30,7 @@ void TIM2_IRQHandler(void)
     }
 }
 
-// Returns system time in ms
+// Returns system time in 1 ms
 size_t get_time(void) {
 	return systime;
 }
@@ -41,25 +40,19 @@ size_t get_time(void) {
 *************************************************/
 void timer_init(void)
 {
-    /* set system clock to 100 Mhz */
+	/* set system clock to 100 Mhz */
     set_sysclk_to_100();
-
     // enable TIM2 clock (bit0)
     RCC->APB1ENR |= (1 << 0);
-
 	// For STM32F411: 100M/4*2 = 50M, 50M/4999+1 = 10 khz clock speed
     TIM2->PSC = 4999;
-
-	// Set auto reload value to 100 to give 1 ms timer interrupts
+	// Set auto reload value to 10 to give 1 ms timer interrupts
     TIM2->ARR = 10;
-
     // Update Interrupt Enable
     TIM2->DIER |= (1 << 0);
-
-    NVIC_SetPriority(TIM2_IRQn, 2); // Priority level 2
+    NVIC_SetPriority(TIM2_IRQn, 35); // Priority level 2
     // enable TIM2 IRQ from NVIC
     NVIC_EnableIRQ(TIM2_IRQn);
-
     // Enable Timer 2 module (CEN, bit0)
     TIM2->CR1 |= (1 << 0);
 }

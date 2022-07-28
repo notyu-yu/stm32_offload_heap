@@ -49,7 +49,7 @@ void TIM3_IRQHandler(void)
 
 }
 
-// Returns system time in ms
+// Returns system time in 0.1 ms
 size_t get_time(void) {
 	return systime;
 }
@@ -61,9 +61,9 @@ void timer_init(void)
 
     // enable TIM2 clock (bit0)
     RCC->APB1ENR |= (1 << 0);
-	// For STM32F411: 100M/4*2 = 50M, 50M/4999+1 = 10 khz clock speed
+	// For STM32F411: 100M/4*2 = 50M, 50M/(4999+1) = 10 khz clock speed
     TIM2->PSC = 4999;
-	// Set auto reload value to 10 to give 1 ms timer interrupts
+	// Set auto reload value to 10 to give 1ms timer interrupts
     TIM2->ARR = 10;
     // Update Interrupt Enable
     TIM2->DIER |= (1 << 0);

@@ -3,52 +3,44 @@ activate openocd
 ==================================================
 ./short_trace/coalescing-bal.rep
 teststring.h created from ./short_trace/coalescing-bal.rep
-Utilization: 77%. Throughput: 1021
+Utilization: 77%. Throughput: 1846
 ==================================================
 ./short_trace/heap_test.rep
 teststring.h created from ./short_trace/heap_test.rep
 ERROR: mem_sbrk failed. Ran out of memory...
 ==================================================
-./short_trace/random_4.rep
-teststring.h created from ./short_trace/random_4.rep
-Utilization: 71%. Throughput: 433
-==================================================
 ./short_trace/random_test2.rep
 teststring.h created from ./short_trace/random_test2.rep
-Utilization: 79%. Throughput: 427
+Utilization: 79%. Throughput: 509
 ==================================================
 ./short_trace/random_test3.rep
 teststring.h created from ./short_trace/random_test3.rep
-Utilization: 78%. Throughput: 430
+Utilization: 78%. Throughput: 519
 ==================================================
 ./short_trace/random_test.rep
 teststring.h created from ./short_trace/random_test.rep
-Utilization: 68%. Throughput: 699
+Utilization: 68%. Throughput: 1000
 ==================================================
 ./short_trace/realloc2-bal.rep
 teststring.h created from ./short_trace/realloc2-bal.rep
-Utilization: 78%. Throughput: 392
-==================================================
-./short_trace/realloc_test.rep
-teststring.h created from ./short_trace/realloc_test.rep
-Utilization: 48%. Throughput: 874
+Utilization: 78%. Throughput: 516
 ==================================================
 ./short_trace/short1-bal.rep
 teststring.h created from ./short_trace/short1-bal.rep
-Utilization: 67%. Throughput: 1200
+Utilization: 67%. Throughput: 2999
 ==================================================
 ./short_trace/short1.rep
 teststring.h created from ./short_trace/short1.rep
-Utilization: 67%. Throughput: 1200
+Utilization: 67%. Throughput: 2999
 ==================================================
 ./short_trace/short2-bal.rep
 teststring.h created from ./short_trace/short2-bal.rep
-Utilization: 90%. Throughput: 1200
+Utilization: 90%. Throughput: 2999
 ==================================================
 ./short_trace/short2.rep
 teststring.h created from ./short_trace/short2.rep
-Utilization: 90%. Throughput: 1200
+Utilization: 90%. Throughput: 2999
 ==================================================
 ./short_trace/stack_test.rep
 teststring.h created from ./short_trace/stack_test.rep
-Memory error
+Stack overflow detected

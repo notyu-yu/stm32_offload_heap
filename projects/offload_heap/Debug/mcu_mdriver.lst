@@ -1400,7 +1400,6 @@ int main(void)
  8000b58:	485d      	ldr	r0, [pc, #372]	; (8000cd0 <main+0x218>)
  8000b5a:	f001 fa43 	bl	8001fe4 <var_print>
 		}
-	    //mm_stats.secs = fsecs(eval_mm_speed, &speed_params);
 		end_time = sys_get_time();
  8000b5e:	f001 fceb 	bl	8002538 <sys_get_time>
  8000b62:	901b      	str	r0, [sp, #108]	; 0x6c
@@ -1630,7 +1629,7 @@ static int add_range(range_t **ranges, char *lo, int size,
  8000d1a:	dc06      	bgt.n	8000d2a <add_range+0x2a>
  8000d1c:	4b4b      	ldr	r3, [pc, #300]	; (8000e4c <add_range+0x14c>)
  8000d1e:	4a4c      	ldr	r2, [pc, #304]	; (8000e50 <add_range+0x150>)
- 8000d20:	f240 111d 	movw	r1, #285	; 0x11d
+ 8000d20:	f44f 718e 	mov.w	r1, #284	; 0x11c
  8000d24:	484b      	ldr	r0, [pc, #300]	; (8000e54 <add_range+0x154>)
  8000d26:	f001 fe5d 	bl	80029e4 <__assert_func>
 
@@ -4254,7 +4253,7 @@ void TIM3_IRQHandler(void)
 
 08001f14 <get_time>:
 
-// Returns system time in ms
+// Returns system time in 0.1 ms
 size_t get_time(void) {
 	return systime;
  8001f14:	4b01      	ldr	r3, [pc, #4]	; (8001f1c <get_time+0x8>)
@@ -4279,12 +4278,12 @@ void timer_init(void)
  8001f26:	4a2a      	ldr	r2, [pc, #168]	; (8001fd0 <timer_init+0xb0>)
  8001f28:	f043 0301 	orr.w	r3, r3, #1
  8001f2c:	6413      	str	r3, [r2, #64]	; 0x40
-	// For STM32F411: 100M/4*2 = 50M, 50M/4999+1 = 10 khz clock speed
+	// For STM32F411: 100M/4*2 = 50M, 50M/(4999+1) = 10 khz clock speed
     TIM2->PSC = 4999;
  8001f2e:	f04f 4380 	mov.w	r3, #1073741824	; 0x40000000
  8001f32:	f241 3287 	movw	r2, #4999	; 0x1387
  8001f36:	629a      	str	r2, [r3, #40]	; 0x28
-	// Set auto reload value to 10 to give 1 ms timer interrupts
+	// Set auto reload value to 10 to give 1ms timer interrupts
     TIM2->ARR = 10;
  8001f38:	f04f 4380 	mov.w	r3, #1073741824	; 0x40000000
  8001f3c:	220a      	movs	r2, #10
@@ -5368,10 +5367,10 @@ void proc_update(void) {
 		// Peripherals - Region 2
 		PERIPH_BASE,
 		// Heap top plus 32 bytes ceiling aligned - Region 3
-		(((uint32_t)mem_heap_hi() + 32 + 31)/32)*32,
+		(((uint32_t)mem_heap_hi() + 64 + 31)/32)*32,
  800256a:	f7ff fb0d 	bl	8001b88 <mem_heap_hi>
  800256e:	4603      	mov	r3, r0
- 8002570:	333f      	adds	r3, #63	; 0x3f
+ 8002570:	335f      	adds	r3, #95	; 0x5f
  8002572:	f023 031f 	bic.w	r3, r3, #31
 	uint32_t mpu_cfg_rbar[4] = {
  8002576:	9307      	str	r3, [sp, #28]

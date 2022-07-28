@@ -3,7 +3,7 @@ activate openocd
 ==================================================
 ./short_trace/coalescing-bal.rep
 teststring.h created from ./short_trace/coalescing-bal.rep
-Utilization: 77%. Throughput: 1021
+Utilization: 77%. Throughput: 1066
 ==================================================
 ./short_trace/heap_test.rep
 teststring.h created from ./short_trace/heap_test.rep
@@ -11,23 +11,23 @@ ERROR: mem_sbrk failed. Ran out of memory...
 ==================================================
 ./short_trace/random_4.rep
 teststring.h created from ./short_trace/random_4.rep
-Utilization: 71%. Throughput: 433
+Utilization: 71%. Throughput: 431
 ==================================================
 ./short_trace/random_test2.rep
 teststring.h created from ./short_trace/random_test2.rep
-Utilization: 79%. Throughput: 427
+Utilization: 79%. Throughput: 424
 ==================================================
 ./short_trace/random_test3.rep
 teststring.h created from ./short_trace/random_test3.rep
-Utilization: 78%. Throughput: 430
+Utilization: 78%. Throughput: 427
 ==================================================
 ./short_trace/random_test.rep
 teststring.h created from ./short_trace/random_test.rep
-Utilization: 68%. Throughput: 699
+Utilization: 68%. Throughput: 695
 ==================================================
 ./short_trace/realloc2-bal.rep
 teststring.h created from ./short_trace/realloc2-bal.rep
-Utilization: 78%. Throughput: 392
+Utilization: 76%. Throughput: 389
 ==================================================
 ./short_trace/realloc_test.rep
 teststring.h created from ./short_trace/realloc_test.rep
@@ -35,11 +35,11 @@ Utilization: 48%. Throughput: 874
 ==================================================
 ./short_trace/short1-bal.rep
 teststring.h created from ./short_trace/short1-bal.rep
-Utilization: 67%. Throughput: 1200
+Utilization: 67%. Throughput: 1499
 ==================================================
 ./short_trace/short1.rep
 teststring.h created from ./short_trace/short1.rep
-Utilization: 67%. Throughput: 1200
+Utilization: 67%. Throughput: 1499
 ==================================================
 ./short_trace/short2-bal.rep
 teststring.h created from ./short_trace/short2-bal.rep

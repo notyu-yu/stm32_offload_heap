@@ -11,7 +11,7 @@ void proc_update(void) {
 		// Peripherals - Region 2
 		PERIPH_BASE,
 		// Heap top plus 32 bytes ceiling aligned - Region 3
-		(((uint32_t)mem_heap_hi() + 32 + 31)/32)*32,
+		(((uint32_t)mem_heap_hi() + 64 + 31)/32)*32,
 	};
 
 	uint32_t mpu_cfg_rasr[4] = {
