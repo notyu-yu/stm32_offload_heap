@@ -58,7 +58,7 @@ static void uart_enable(void) {
     // Enable usart1 - UE, bit 13
     USART1->CR1 |= (1 << 13);
 
-	// fCK = AHB1 speed, 100MHz
+	// fCK = APB2 speed, 100MHz
     // baud rate = fCK / (8 * (2 - OVER8) * USARTDIV)
 	// For STM32F411: fCK = 100 Mhz (Sysclk/4), Baudrate = 4000000, OVER8 = 0
 	// USARTDIV = fCK / baud / 8 * (2-OVER8)
@@ -67,7 +67,7 @@ static void uart_enable(void) {
 	// Mantissa: 1
     USART1->BRR |= (1 << 4); // Mantissa
     USART1->BRR |= 9; // Fraction
-}	
+}
 
 void uart_init(void)
 {

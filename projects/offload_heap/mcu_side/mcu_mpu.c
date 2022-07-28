@@ -25,20 +25,20 @@ void proc_update(void) {
 		(MPU_DEFS_RASR_SIZE_32B | MPU_DEFS_NORMAL_SHARED_MEMORY_WT | MPU_DEFS_RASE_AP_NO_ACCESS | MPU_RASR_ENABLE_Msk),
 	};
 
-	if (MPU->TYPE == 0) {return;} // Do nothing if MPU don't existPB1PERIPH_BASE + 0x4400U)
+	if (MPU->TYPE == 0) {return;} // Do nothing if MPU don't exist)
 	__DMB(); // Finish outstanding transfers
-	
+
 	MPU->CTRL = 0; // Disable first
-	
+
 	for (size_t i=0; i<4; i++) {
-		MPU->RNR = i; // Select region	
+		MPU->RNR = i; // Select region
 		MPU->RBAR = mpu_cfg_rbar[i]; // Write base address register
 		MPU->RASR = mpu_cfg_rasr[i]; // Region attribute and size register
 	}
 
 	for (size_t i=4; i<8; i++) {
 		// Disable unused regions
-		MPU->RNR = i; // Select region	
+		MPU->RNR = i; // Select region
 		MPU->RBAR = 0; // Base address
 		MPU->RASR = 0; // Region attribute and size register
 	}
@@ -46,7 +46,7 @@ void proc_update(void) {
 	MPU->CTRL |= 1<<2; // Enable privileged background region
 
 	MPU->CTRL = MPU_CTRL_ENABLE_Msk; // Enable MPU
-	
+
 	__DSB(); // Memory barrier for subsequence data & instruction
 	__ISB(); // Transfers using updated MPU settings
 }
@@ -72,18 +72,18 @@ void mpu_init(void) {
 
 	if (MPU->TYPE == 0) {return;} // Do nothing if MPU don't existPB1PERIPH_BASE + 0x4400U)
 	__DMB(); // Finish outstanding transfers
-	
+
 	MPU->CTRL = 0; // Disable first
-	
+
 	for (size_t i=0; i<3; i++) {
-		MPU->RNR = i; // Select region	
+		MPU->RNR = i; // Select region
 		MPU->RBAR = mpu_cfg_rbar[i]; // Write base address register
 		MPU->RASR = mpu_cfg_rasr[i]; // Region attribute and size register
 	}
 
 	for (size_t i=3; i<8; i++) {
 		// Disable unused regions
-		MPU->RNR = i; // Select region	
+		MPU->RNR = i; // Select region
 		MPU->RBAR = 0; // Base address
 		MPU->RASR = 0; // Region attribute and size register
 	}
@@ -91,7 +91,7 @@ void mpu_init(void) {
 	MPU->CTRL |= 1<<2; // Enable privileged background region
 
 	MPU->CTRL = MPU_CTRL_ENABLE_Msk; // Enable MPU
-	
+
 	__DSB(); // Memory barrier for subsequence data & instruction
 	__ISB(); // Transfers using updated MPU settings
 }

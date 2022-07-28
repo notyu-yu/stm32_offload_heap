@@ -14,7 +14,8 @@ void HardFault_Handler(void) {
 	loop();
 }
 
-// Timer interrupt stopped running - Send exit signal
+/*
+// Timer interrupt stopped running - Send exit signal and reset
 void WWDG_IRQHandler(void) {
 	// Force reset stack pointer in case of overflow
 	sp_reset = (void *)0x20005000;
@@ -25,8 +26,9 @@ void WWDG_IRQHandler(void) {
 	mm_finish();
 	loop();
 }
+*/
 
-// Memory fault handler
+// Memory fault handler -  Send exit signal
 void MemManage_Handler(void) {
 	// Force reset stack pointer in case of overflow
 	sp_reset = (void *)0x20005000;
@@ -38,6 +40,7 @@ void MemManage_Handler(void) {
 	loop();
 }
 
+/* Usually not needed if HardFault_Handler works correctly
 // Initialize WWDG
 void wwdg_init(void) {
 	// Enable clock
@@ -51,11 +54,12 @@ void wwdg_init(void) {
 
 	WWDG->CFR |= (0x1 << 7); // Set timer base/prescaler - P
 	WWDG->CFR |= (0x70); // Window countdown value - T
-	WWDG->CR |= (0xFF); // Enable WDGA
+	WWDG->CR |= (0xFF); // Enable WWDG
 
 	NVIC_SetPriority(WWDG_IRQn, 7);
 	NVIC_EnableIRQ(WWDG_IRQn);
 }
+*/
 
 // Initialize memory fault handler
 void memfault_init(void) {
