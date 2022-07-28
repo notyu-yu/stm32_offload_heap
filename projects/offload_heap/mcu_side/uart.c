@@ -27,7 +27,7 @@ void uart_receive(void * buffer, size_t size)  {
 	}
 }
 
-// Setup GPIO A9 and A10 pins for UART
+// Setup GPIO B6 and B7 pins for UART
 static void uart_pin_setup(void) {
     // Enable GPIOB clock, bit 0 on AHB1ENR
     RCC->AHB1ENR |= (1 << 1);

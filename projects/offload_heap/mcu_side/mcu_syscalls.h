@@ -3,7 +3,6 @@
 #endif
 
 void sys_mm_init(void); // Initialize malloc library
-void sys_timer_init(void); // Initialize timer - not needed after mm_init
 void * sys_malloc(size_t size); // Allocate size bytes of memory and returns pointer
 void sys_free(void * ptr); // Free memory region at ptr
 void * sys_realloc(void * ptr, size_t size); // Allocate size byte region with content of ptr, returns new pointer
