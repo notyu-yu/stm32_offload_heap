@@ -1291,11 +1291,11 @@ int main(void)
  8000ae0:	f001 fa70 	bl	8001fc4 <mm_init>
 	timer_init();
  8000ae4:	f001 fbee 	bl	80022c4 <timer_init>
+
+    /* Evaluate student's mm malloc package using the K-best scheme */
 	start_time = get_time();
  8000ae8:	f001 fbe6 	bl	80022b8 <get_time>
  8000aec:	901c      	str	r0, [sp, #112]	; 0x70
-
-    /* Evaluate student's mm malloc package using the K-best scheme */
 	trace = read_trace();
  8000aee:	f000 fa05 	bl	8000efc <read_trace>
  8000af2:	901e      	str	r0, [sp, #120]	; 0x78

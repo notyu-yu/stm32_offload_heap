@@ -178,9 +178,9 @@ int main(void)
     mem_init(); 
 	mm_init();
 	timer_init();
-	start_time = get_time();
 
     /* Evaluate student's mm malloc package using the K-best scheme */
+	start_time = get_time();
 	trace = read_trace();
 	mm_stats.ops = trace->num_ops;
 	if (verbose > 1) {
