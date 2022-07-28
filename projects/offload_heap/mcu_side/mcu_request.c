@@ -3,6 +3,7 @@
 
 #define READSIZE(buffer) *(size_t *)buffer
 
+// Temporary buffer for tx dma optimization
 static char tx_buffer[16] = {0};
 
 // Send size bytes at data pointer, using method defined by USE_DMA macro

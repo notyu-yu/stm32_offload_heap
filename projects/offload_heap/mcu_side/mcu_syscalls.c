@@ -37,18 +37,21 @@ void priv_mode_off(void) {
 	__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk);
 }
 
+// Initialize malloc library
 void sys_mm_init(void) {
 	priv_mode_on();
 	mm_init();
 	priv_mode_off();
 }
 
+// Initialize system timer - not needed after mm_init
 void sys_timer_init(void) {
 	priv_mode_on();
 	timer_init();
 	priv_mode_off();
 }
 
+// Malloc size bytes of memory
 void * sys_malloc(size_t size) {
 	void * ptr;
 	priv_mode_on();
@@ -57,12 +60,14 @@ void * sys_malloc(size_t size) {
 	return ptr;
 }
 
+// Free memory region at pointer
 void sys_free(void * ptr) {
 	priv_mode_on();
 	mm_free(ptr);
 	priv_mode_off();
 }
 
+// Reallocate ptr to a size byte region and return the new pointer
 void * sys_realloc(void * ptr, size_t size) {
 	void * newptr;
 	priv_mode_on();
@@ -71,12 +76,14 @@ void * sys_realloc(void * ptr, size_t size) {
 	return newptr;
 }
 
+// End communication session with server
 void sys_mm_finish(void) {
 	priv_mode_on();
 	mm_finish();
 	priv_mode_off();
 }
 
+// Return current time in ms
 size_t sys_get_time(void) {
 	size_t t;
 	priv_mode_on();

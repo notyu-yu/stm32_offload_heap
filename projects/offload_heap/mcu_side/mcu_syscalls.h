@@ -2,10 +2,10 @@
 	#include <string.h>
 #endif
 
-void sys_mm_init(void);
-void sys_timer_init(void);
-void * sys_malloc(size_t size);
-void sys_free(void * ptr);
-void * sys_realloc(void * ptr, size_t size);
-void sys_mm_finish(void);
-size_t sys_get_time(void);
+void sys_mm_init(void); // Initialize malloc library
+void sys_timer_init(void); // Initialize timer - not needed after mm_init
+void * sys_malloc(size_t size); // Allocate size bytes of memory and returns pointer
+void sys_free(void * ptr); // Free memory region at ptr
+void * sys_realloc(void * ptr, size_t size); // Allocate size byte region with content of ptr, returns new pointer
+void sys_mm_finish(void); // End communication with PC
+size_t sys_get_time(void); // Get current time in ms

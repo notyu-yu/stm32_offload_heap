@@ -1,5 +1,6 @@
 #include "mcu.h"
 
+// Region size macros
 #define MPU_DEFS_RASR_SIZE_32B (0x04 << MPU_RASR_SIZE_Pos)
 #define MPU_DEFS_RASR_SIZE_64B (0x05 << MPU_RASR_SIZE_Pos)
 #define MPU_DEFS_RASR_SIZE_128B (0x06 << MPU_RASR_SIZE_Pos)
@@ -28,12 +29,16 @@
 #define MPU_DEFS_RASR_SIZE_1GB (0x1D << MPU_RASR_SIZE_Pos)
 #define MPU_DEFS_RASR_SIZE_2GB (0x1E << MPU_RASR_SIZE_Pos)
 #define MPU_DEFS_RASR_SIZE_4GB (0x1F << MPU_RASR_SIZE_Pos)
+
+// Region privilege macros
 #define MPU_DEFS_RASE_AP_NO_ACCESS  (0x0 << MPU_RASR_AP_Pos)
 #define MPU_DEFS_RASE_AP_PRIV_RW   (0x1 << MPU_RASR_AP_Pos)
 #define MPU_DEFS_RASE_AP_PRIV_RW_USER_RO (0x2 << MPU_RASR_AP_Pos)
 #define MPU_DEFS_RASE_AP_FULL_ACCESS  (0x3 << MPU_RASR_AP_Pos)
 #define MPU_DEFS_RASE_AP_PRIV_RO   (0x5 << MPU_RASR_AP_Pos)
 #define MPU_DEFS_RASE_AP_RO    (0x6 << MPU_RASR_AP_Pos)
+
+// Region type macros
 #define MPU_DEFS_NORMAL_MEMORY_WT  (MPU_RASR_C_Msk)
 #define MPU_DEFS_NORMAL_MEMORY_WB  (MPU_RASR_C_Msk | MPU_RASR_B_Msk)
 #define MPU_DEFS_NORMAL_SHARED_MEMORY_WT (MPU_RASR_C_Msk | MPU_RASR_S_Msk)

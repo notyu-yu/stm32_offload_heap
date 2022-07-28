@@ -6,8 +6,9 @@
 
 #define MAXLINE 1024
 
+// For printing debug output
 extern size_t output_offset;
 extern void * sp_reset;
 
-void loop(void);
-void var_print(char * str);
+void loop(void); // Infinite loop for gdb break point
+void var_print(char * str); // Print to debug output buffer

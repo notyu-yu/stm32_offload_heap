@@ -107,9 +107,11 @@ static blk_elt * blk_search(uint32_t ptr) {
 // Merge blk with its next block, free the extra block
 static blk_elt * merge_next(blk_elt * blk) {
 	blk_elt * temp = blk->next;
+	// Update blk information
 	blk->size += blk->next->size;
 	blk->next->next->prev = blk;
 	blk->next = blk->next->next;
+	// Remove it from free list and dict
 	free_blk_remove(temp);
 	dict_delete(temp->ptr);
 	free(temp);
@@ -202,10 +204,11 @@ static inline blk_elt * best_fit(size_t asize) {
 static inline blk_elt * seg_fit(size_t asize) {
 	size_t index = class_index(asize);
 	blk_elt * cur_search;	
+	// Loop through class sizes starting at index
 	while (index < SIZE_CLASSES) {
 		cur_search = class_table[index].next_free;
+		// Look through all free blocks in current class
 		while (cur_search->size) {
-			assert(!cur_search->alloc);
 			if (cur_search->size >= asize) {
 				return cur_search;
 			}
@@ -251,8 +254,10 @@ static void place(blk_elt * blk, size_t asize) {
 		new_blk->ptr = blk->ptr + asize;
 		new_blk->size = free_size;
 		new_blk->alloc = 0;
+		// Update surrounding blocks
 		blk->next->prev = new_blk;
 		blk->next = new_blk;
+		// Add to free list and dict
 		free_blk_add(new_blk);
 		dict_insert(new_blk->ptr, new_blk);
 	} else {
@@ -280,6 +285,7 @@ static void shrink_blk(blk_elt * blk, size_t asize) {
 		new_blk->ptr = free_p;
 		new_blk->size = free_size;
 		new_blk->alloc = 0;
+		// Add to free list and dict
 		free_blk_add(new_blk);
 		dict_insert(new_blk->ptr, new_blk);
 		// Update adjacent blocks
@@ -343,6 +349,7 @@ void mm_sbrk(int incr) {
 	new_blk->ptr = list_start->prev->ptr + list_start->prev->size;
 	new_blk->size = incr;
 	new_blk->alloc = 0;
+	// Add to free list and dict
 	free_blk_add(new_blk);
 	dict_insert(new_blk->ptr, new_blk);
 
@@ -354,6 +361,7 @@ void mm_sbrk(int incr) {
 	coalesce(new_blk);
 }
 
+// Initialize data structures
 int mm_init(uint32_t ptr)
 {
 	dict_create();
@@ -383,6 +391,7 @@ int mm_init(uint32_t ptr)
     return 0;
 }
 
+// Allocate region of size bytes and return pointer, return NULL if sbrk needed
 uint32_t mm_malloc(size_t size)
 {
 	size_t asize; // Adjusted block size
@@ -412,11 +421,12 @@ uint32_t mm_malloc(size_t size)
 	return 0;
 }
 
+// Free region at ptr
 void mm_free(uint32_t ptr)
 {
 	blk_elt * freed_blk = blk_search(ptr);
 
-	// Look through linked list for free block
+	// Free block and coalesce it
 	if (freed_blk) {
 		freed_blk->alloc = 0;
 		free_blk_add(freed_blk);
@@ -426,6 +436,7 @@ void mm_free(uint32_t ptr)
 	}
 }
 
+// Allocate size byte region with data from ptr, returns NULL if malloc is needed
 uint32_t mm_realloc(uint32_t ptr, size_t size)
 {
     uint32_t oldptr = ptr;
@@ -480,11 +491,14 @@ void list_print(void) {
 		puts("list not initialized");
 		return;
 	}
-	seg_fit(9999999);
+
+	// Start block information
 	blk_elt * cur_blk = list_start;
 	blk_elt * prev = list_start;
 	printf("The start block: %u alloc, %zu size, %08x ptr\n", cur_blk->alloc, cur_blk->size, cur_blk->ptr); 
 	cur_blk = list_start->next;
+
+	// Loop through block list
 	for (size_t i=1; cur_blk->size; i++) {
 		printf("The %zu th block: %u alloc, %zu size, %08x ptr, next_f %p, prev_f %p\n", i, cur_blk->alloc, cur_blk->size, cur_blk->ptr, cur_blk->next_free, cur_blk->prev_free); 
 		// Check linked list consistency - Reinclude assert.h

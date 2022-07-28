@@ -57,7 +57,9 @@ static void uart_read(size_t size, void * buffer) {
 	if (VERBOSE) {
 		puts("pc receive start");
 	}
+	// Loop until expected bytes of data is received
 	while (bytes_read < size) {
+		// Read data by chunks and concat them together
 		chunk_read = read(fd, chunk_buffer, size-bytes_read);
 		data_cat(buffer, chunk_buffer, bytes_read, chunk_read);
 		bytes_read += chunk_read;

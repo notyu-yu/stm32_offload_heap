@@ -1,5 +1,6 @@
 #include "uart_dma.h"
 
+// DMA status indicators
 static int receiving=0;
 static int transmitting=0;
 

@@ -5,19 +5,6 @@
 #include "mcu_init.h"
 #include "mcu_timer.h"
 
-team_t team = {
-    /* Team name */
-    "summer_research",
-    /* First member's full name */
-    "Yuhang Cui",
-    /* First member's email address */
-    "yuhang.cui@yale.edu",
-    /* Second member's full name (leave blank if none) */
-    "",
-    /* Second member's email address (leave blank if none) */
-    ""
-};
-
 /* single word (4) or double word (8) alignment */
 #define ALIGNMENT 4
 #define ALIGN(size) (((size) + (ALIGNMENT-1)) & ~0x7)
@@ -55,12 +42,14 @@ int mm_init(void)
 	led_on(BLUE);
 	req_receive(&response);
 	if (response==(void *)1) {
+		// Signal correct - sbrk start chunk
 		led_off(BLUE);
 		mem_init();
 		extend_heap(4096/WSIZE);
 		timer_init();
 		return 0;
 	} else {
+		// Signal incorrect - Throw error
 		led_off(BLUE);
 		led_on(RED);
 		var_print("Start signal incorrect");
@@ -69,7 +58,7 @@ int mm_init(void)
 	}
 }
 
-
+// Malloc: sends request and return PC's response, calls sbrk if needed
 void *mm_malloc(size_t size)
 {
 	size_t asize, extendsize;	
@@ -113,12 +102,14 @@ void *mm_malloc(size_t size)
 	}
 }
 
+// Free: Send request to pc
 void mm_free(void *ptr)
 {
 	mem_request req = {.request=FREE, .size=0, .ptr=ptr};
 	req_send(&req);
 }
 
+// Realloc: Send request to PC and return response, calls malloc if needed
 void *mm_realloc(void *ptr, size_t size)
 {
     void *oldptr = ptr;

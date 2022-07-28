@@ -2,7 +2,7 @@
 #include "dict.h"
 #include <assert.h>
 
-// Send start signal of 1 in every field of mem_request
+// Send start signal of 1
 static void start_signal(void) {
 	uint32_t req = 1;
 	req_send(&req);
@@ -25,6 +25,7 @@ int main(int argc, char ** argv) {
 		list_print();
 	}
 	assert(req_in->request == SBRK && req_in->ptr);
+
 	// Reset sbrk
 	if (VERBOSE) {
 		puts("Sbrk reset");
@@ -32,6 +33,7 @@ int main(int argc, char ** argv) {
 	mem_reset_brk(req_in->ptr);
 	mm_init(req_in->ptr);
 
+	// Loop until end signal is received
 	while(1) {
 		req_receive(req_in);
 		if (VERBOSE) {

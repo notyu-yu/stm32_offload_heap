@@ -3,6 +3,7 @@
 
 #define START_COUNT 128
 
+// Dictionary used
 dict pointer_dict = {.count=0, .size=0, .table=NULL};
 
 // Hash function, returns hash key mod table size
@@ -62,12 +63,14 @@ static void dict_double(void) {
 
 	pointer_dict.size*=2;
 
+	// Go through dict table
 	for (size_t i=0; i<old_size; i++) {
+		// Insert non-empty table entries to new dict
 		if (pointer_dict.table[i].key) {
 			internal_dict_insert(new_table, pointer_dict.table[i].key, pointer_dict.table[i].ptr);
 		}
 		cur_entry = pointer_dict.table[i].next;
-		// Free parent before each child
+		// Insert and free each parent before child
 		while (cur_entry) {
 			internal_dict_insert(new_table, cur_entry->key, cur_entry->ptr);
 			temp = cur_entry;

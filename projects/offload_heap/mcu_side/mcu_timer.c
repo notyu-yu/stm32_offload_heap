@@ -8,9 +8,10 @@
 
 #define MAXLINE 1024
 
+// Current systime runtime in ms
 static size_t systime = 0;
 
-// TIM2 interrupt handler
+// TIM2 interrupt handler - Update system time
 void TIM2_IRQHandler(void)
 {
 	systime++;
@@ -26,7 +27,7 @@ void TIM2_IRQHandler(void)
     }
 }
 
-// TIM3 interrupt handler
+// TIM3 interrupt handler - Check for stack overflow
 void TIM3_IRQHandler(void)
 {
 	// Check for stack overflow

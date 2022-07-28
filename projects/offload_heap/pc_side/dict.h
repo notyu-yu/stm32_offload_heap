@@ -14,11 +14,11 @@ struct dict_struct {
 };
 typedef struct dict_struct dict;
 
-void dict_create(void);
-void dict_insert(uint32_t key, blk_elt * ptr);
-blk_elt * dict_search(uint32_t key);
-void dict_delete(uint32_t key);
-void dict_destroy(void);
+void dict_create(void); // Initialize the dict
+void dict_insert(uint32_t key, blk_elt * ptr); // Insert entry with MCU pointer key and blk_elt pointer ptr
+blk_elt * dict_search(uint32_t key); // Search for blk_elt pointer given MCU pointer key
+void dict_delete(uint32_t key); // Delete entry with key from dict
+void dict_destroy(void); // Free memory used by dict
 
 // Only one dictonary needed
 extern dict pointer_dict;
