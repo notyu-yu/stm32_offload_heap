@@ -2,7 +2,7 @@ Project files in projects/offload_heap
 Designed for STM32F411 MCU
 
 Usage:
-1) Connect the MCU with UART cable (PA2 is TX, PA3 is RX).
+1) Connect the MCU with UART cable (PB6 is TX, PB7 is RX).
 2) Run make and burn the program (Debug/mcu_mdriver.elf).
 3) Press the Reset button, when the blue LED turns on, run the pc_server executable.
 4) The orange LED should turn on if the trace test successfully finished.
