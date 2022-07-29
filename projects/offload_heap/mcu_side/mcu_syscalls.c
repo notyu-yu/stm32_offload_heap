@@ -5,8 +5,7 @@
 
 void SVC_Handler(void) {
 	__asm (
-			".global SVC_Handler_Main\n"
-			"TST lr, $4\n"
+			".global SVC_Handler_Main\n" "TST lr, $4\n"
 			"ITE EQ\n"
 			"MRSEQ r0, MSP\n"
 			"MRSNE r0, PSP\n" // Check to use msp or psp
@@ -21,7 +20,7 @@ void SVC_Handler_Main(unsigned int * svc_args) {
 
 	uint32_t svc_number = ((char *)svc_args[6])[-2];
 	switch(svc_number) {
-		case 0: // Enter privileged mode
+		case 0: // mm_init
 			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk); // Enable privileged mode
 			mm_init();
 			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk); // Disable privileged mode
@@ -58,48 +57,36 @@ void SVC_Handler_Main(unsigned int * svc_args) {
 
 // Initialize malloc library
 void sys_mm_init(void) {
-	priv_mode_on();
-	mm_init();
-	priv_mode_off();
+	asm volatile ("svc #0");
 }
 
 // Malloc size bytes of memory
 void * sys_malloc(size_t size) {
-	void * res;
-	priv_mode_on();
-	res = mm_malloc(size);	
-	priv_mode_off();
-	return res;
+	asm volatile ("svc #1");
+	register uint32_t * ret_val asm("r0");
+	return (void *)ret_val;
 }
 
 // Free memory region at pointer
 void sys_free(void * ptr) {
-	priv_mode_on();
-	mm_free(ptr);
-	priv_mode_off();
+	asm volatile ("svc #2");
 }
 
 // Reallocate ptr to a size byte region and return the new pointer
 void * sys_realloc(void * ptr, size_t size) {
-	void * res;
-	priv_mode_on();
-	res = mm_realloc(ptr, size);
-	priv_mode_off();
-	return res;
+	asm volatile ("svc #3");
+	register uint32_t * ret_val asm("r0");
+	return (void *) ret_val;
 }
 
 // End communication session with server
 void sys_mm_finish(void) {
-	priv_mode_on();
-	mm_finish();
-	priv_mode_off();
+	asm volatile ("svc #4");
 }
 
 // Return current time in ms
 size_t sys_get_time(void) {
-	size_t res;
-	priv_mode_on();
-	res = get_time();
-	priv_mode_off();
-	return res;
+	asm volatile ("svc #5");
+	register uint32_t * ret_val asm("r0");
+	return (size_t) ret_val;
 }
