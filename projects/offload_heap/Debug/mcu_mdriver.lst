@@ -40,33 +40,33 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 0000002e  00000000  00000000  000200d8  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0001ce1e  00000000  00000000  00020106  2**0
+ 12 .debug_info   0001d0aa  00000000  00000000  000200f6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00006c48  00000000  00000000  0003cf24  2**0
+ 13 .debug_abbrev 00006c1f  00000000  00000000  0003d1a0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_loc    00000bbb  00000000  00000000  00043b6c  2**0
+ 14 .debug_loc    00000b00  00000000  00000000  00043dbf  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00000c08  00000000  00000000  00044728  2**3
+ 15 .debug_aranges 00000bf8  00000000  00000000  000448c0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_ranges 00000300  00000000  00000000  00045330  2**3
+ 16 .debug_ranges 000002f0  00000000  00000000  000454b8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000a82f  00000000  00000000  00045630  2**0
+ 17 .debug_line   0000a9b1  00000000  00000000  000457a8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00003186  00000000  00000000  0004fe5f  2**0
+ 18 .debug_str    00003173  00000000  00000000  00050159  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      0000003c  00000000  00000000  00052fe5  2**0
+ 19 .comment      0000003c  00000000  00000000  000532cc  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00001928  00000000  00000000  00053024  2**2
+ 20 .debug_frame  000018dc  00000000  00000000  00053308  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_loclists 00004362  00000000  00000000  0005494c  2**0
+ 21 .debug_loclists 00004362  00000000  00000000  00054be4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_rnglists 0000069b  00000000  00000000  00058cae  2**0
+ 22 .debug_rnglists 0000069b  00000000  00000000  00058f46  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 23 .debug_line_str 000000ac  00000000  00000000  00059349  2**0
+ 23 .debug_line_str 000000ac  00000000  00000000  000595e1  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 24 .stab         000000cc  00000000  00000000  000593f8  2**2
+ 24 .stab         000000cc  00000000  00000000  00059690  2**2
                   CONTENTS, READONLY, DEBUGGING
- 25 .stabstr      000001b9  00000000  00000000  000594c4  2**0
+ 25 .stabstr      000001b9  00000000  00000000  0005975c  2**0
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  .isr_vector	00000000 .isr_vector
@@ -4299,8 +4299,8 @@ void timer_init(void)
  8001f46:	f04f 4280 	mov.w	r2, #1073741824	; 0x40000000
  8001f4a:	f043 0301 	orr.w	r3, r3, #1
  8001f4e:	60d3      	str	r3, [r2, #12]
-    NVIC_SetPriority(TIM2_IRQn, 35);
- 8001f50:	2123      	movs	r1, #35	; 0x23
+    NVIC_SetPriority(TIM2_IRQn, 2);
+ 8001f50:	2102      	movs	r1, #2
  8001f52:	201c      	movs	r0, #28
  8001f54:	f7ff ff64 	bl	8001e20 <__NVIC_SetPriority>
     // enable TIM2 IRQ from NVIC
@@ -4348,8 +4348,8 @@ void timer_init(void)
  8001f9c:	4a0d      	ldr	r2, [pc, #52]	; (8001fd4 <timer_init+0xb4>)
  8001f9e:	f043 0301 	orr.w	r3, r3, #1
  8001fa2:	60d3      	str	r3, [r2, #12]
-    NVIC_SetPriority(TIM3_IRQn, 36);
- 8001fa4:	2124      	movs	r1, #36	; 0x24
+    NVIC_SetPriority(TIM3_IRQn, 3);
+ 8001fa4:	2103      	movs	r1, #3
  8001fa6:	201d      	movs	r0, #29
  8001fa8:	f7ff ff3a 	bl	8001e20 <__NVIC_SetPriority>
     // enable TIM3 IRQ from NVIC
@@ -5147,7 +5147,7 @@ void SVC_Handler_Main(unsigned int * svc_args) {
  8002450:	9001      	str	r0, [sp, #4]
 	// Stack frame contents: r0-r3, LR, PC, and xPSR
 	// Correspond with svc_args[0 to 7]
-	// First registers are arguments and return values
+	// svc_args array contains arguments at start and return values at end, in order
 
 	uint32_t svc_number = ((char *)svc_args[6])[-2];
  8002452:	9b01      	ldr	r3, [sp, #4]
@@ -5183,18 +5183,268 @@ __STATIC_FORCEINLINE void __set_CONTROL(uint32_t control)
  8002472:	9b04      	ldr	r3, [sp, #16]
  8002474:	f383 8814 	msr	CONTROL, r3
   __ASM volatile ("isb 0xF":::"memory");
- 8002478:	f3bf 8f6f 	isb	sy
+ 80022e8:	f3bf 8f6f 	isb	sy
 }
- 800247c:	bf00      	nop
+ 80022ec:	bf00      	nop
   __ISB();
 }
- 800247e:	bf00      	nop
+ 80022ee:	bf00      	nop
+			mm_init();
+ 80022f0:	f7ff fc7a 	bl	8001be8 <mm_init>
+  __ASM volatile ("MRS %0, control" : "=r" (result) );
+ 80022f4:	f3ef 8314 	mrs	r3, CONTROL
+ 80022f8:	9319      	str	r3, [sp, #100]	; 0x64
+  return(result);
+ 80022fa:	9b19      	ldr	r3, [sp, #100]	; 0x64
+			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk); // Disable privileged mode
+ 80022fc:	f043 0301 	orr.w	r3, r3, #1
+ 8002300:	931a      	str	r3, [sp, #104]	; 0x68
+  __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+ 8002302:	9b1a      	ldr	r3, [sp, #104]	; 0x68
+ 8002304:	f383 8814 	msr	CONTROL, r3
+  __ASM volatile ("isb 0xF":::"memory");
+ 8002308:	f3bf 8f6f 	isb	sy
+}
+ 800230c:	bf00      	nop
+}
+ 800230e:	bf00      	nop
 			break;
- 8002480:	e000      	b.n	8002484 <SVC_Handler_Main+0x36>
+ 8002310:	e0b4      	b.n	800247c <SVC_Handler_Main+0x1e0>
+  __ASM volatile ("MRS %0, control" : "=r" (result) );
+ 8002312:	f3ef 8314 	mrs	r3, CONTROL
+ 8002316:	9313      	str	r3, [sp, #76]	; 0x4c
+  return(result);
+ 8002318:	9b13      	ldr	r3, [sp, #76]	; 0x4c
+		case 1: // mm_malloc
+			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk);
+ 800231a:	f023 0301 	bic.w	r3, r3, #1
+ 800231e:	9314      	str	r3, [sp, #80]	; 0x50
+  __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+ 8002320:	9b14      	ldr	r3, [sp, #80]	; 0x50
+ 8002322:	f383 8814 	msr	CONTROL, r3
+  __ASM volatile ("isb 0xF":::"memory");
+ 8002326:	f3bf 8f6f 	isb	sy
+}
+ 800232a:	bf00      	nop
+}
+ 800232c:	bf00      	nop
+			svc_args[0] = (uint32_t)mm_malloc(svc_args[0]);
+ 800232e:	9b01      	ldr	r3, [sp, #4]
+ 8002330:	681b      	ldr	r3, [r3, #0]
+ 8002332:	4618      	mov	r0, r3
+ 8002334:	f7ff fc8a 	bl	8001c4c <mm_malloc>
+ 8002338:	4603      	mov	r3, r0
+ 800233a:	461a      	mov	r2, r3
+ 800233c:	9b01      	ldr	r3, [sp, #4]
+ 800233e:	601a      	str	r2, [r3, #0]
+  __ASM volatile ("MRS %0, control" : "=r" (result) );
+ 8002340:	f3ef 8314 	mrs	r3, CONTROL
+ 8002344:	9315      	str	r3, [sp, #84]	; 0x54
+  return(result);
+ 8002346:	9b15      	ldr	r3, [sp, #84]	; 0x54
+			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk);
+ 8002348:	f043 0301 	orr.w	r3, r3, #1
+ 800234c:	9316      	str	r3, [sp, #88]	; 0x58
+  __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+ 800234e:	9b16      	ldr	r3, [sp, #88]	; 0x58
+ 8002350:	f383 8814 	msr	CONTROL, r3
+  __ASM volatile ("isb 0xF":::"memory");
+ 8002354:	f3bf 8f6f 	isb	sy
+}
+ 8002358:	bf00      	nop
+}
+ 800235a:	bf00      	nop
+			break;
+ 800235c:	e08e      	b.n	800247c <SVC_Handler_Main+0x1e0>
+  __ASM volatile ("MRS %0, control" : "=r" (result) );
+ 800235e:	f3ef 8314 	mrs	r3, CONTROL
+ 8002362:	930f      	str	r3, [sp, #60]	; 0x3c
+  return(result);
+ 8002364:	9b0f      	ldr	r3, [sp, #60]	; 0x3c
+		case 2: // mm_free
+			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk);
+ 8002366:	f023 0301 	bic.w	r3, r3, #1
+ 800236a:	9310      	str	r3, [sp, #64]	; 0x40
+  __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+ 800236c:	9b10      	ldr	r3, [sp, #64]	; 0x40
+ 800236e:	f383 8814 	msr	CONTROL, r3
+  __ASM volatile ("isb 0xF":::"memory");
+ 8002372:	f3bf 8f6f 	isb	sy
+}
+ 8002376:	bf00      	nop
+}
+ 8002378:	bf00      	nop
+			mm_free((void *)(svc_args[0]));
+ 800237a:	9b01      	ldr	r3, [sp, #4]
+ 800237c:	681b      	ldr	r3, [r3, #0]
+ 800237e:	4618      	mov	r0, r3
+ 8002380:	f7ff fcc0 	bl	8001d04 <mm_free>
+  __ASM volatile ("MRS %0, control" : "=r" (result) );
+ 8002384:	f3ef 8314 	mrs	r3, CONTROL
+ 8002388:	9311      	str	r3, [sp, #68]	; 0x44
+  return(result);
+ 800238a:	9b11      	ldr	r3, [sp, #68]	; 0x44
+			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk);
+ 800238c:	f043 0301 	orr.w	r3, r3, #1
+ 8002390:	9312      	str	r3, [sp, #72]	; 0x48
+  __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+ 8002392:	9b12      	ldr	r3, [sp, #72]	; 0x48
+ 8002394:	f383 8814 	msr	CONTROL, r3
+  __ASM volatile ("isb 0xF":::"memory");
+ 8002398:	f3bf 8f6f 	isb	sy
+}
+ 800239c:	bf00      	nop
+}
+ 800239e:	bf00      	nop
+			break;
+ 80023a0:	e06c      	b.n	800247c <SVC_Handler_Main+0x1e0>
+  __ASM volatile ("MRS %0, control" : "=r" (result) );
+ 80023a2:	f3ef 8314 	mrs	r3, CONTROL
+ 80023a6:	930b      	str	r3, [sp, #44]	; 0x2c
+  return(result);
+ 80023a8:	9b0b      	ldr	r3, [sp, #44]	; 0x2c
+		case 3: // mm_realloc
+			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk);
+ 80023aa:	f023 0301 	bic.w	r3, r3, #1
+ 80023ae:	930c      	str	r3, [sp, #48]	; 0x30
+  __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+ 80023b0:	9b0c      	ldr	r3, [sp, #48]	; 0x30
+ 80023b2:	f383 8814 	msr	CONTROL, r3
+  __ASM volatile ("isb 0xF":::"memory");
+ 80023b6:	f3bf 8f6f 	isb	sy
+}
+ 80023ba:	bf00      	nop
+}
+ 80023bc:	bf00      	nop
+			svc_args[0] = (uint32_t)mm_realloc((void *)svc_args[0], svc_args[1]);
+ 80023be:	9b01      	ldr	r3, [sp, #4]
+ 80023c0:	681b      	ldr	r3, [r3, #0]
+ 80023c2:	461a      	mov	r2, r3
+ 80023c4:	9b01      	ldr	r3, [sp, #4]
+ 80023c6:	3304      	adds	r3, #4
+ 80023c8:	681b      	ldr	r3, [r3, #0]
+ 80023ca:	4619      	mov	r1, r3
+ 80023cc:	4610      	mov	r0, r2
+ 80023ce:	f7ff fcb1 	bl	8001d34 <mm_realloc>
+ 80023d2:	4603      	mov	r3, r0
+ 80023d4:	461a      	mov	r2, r3
+ 80023d6:	9b01      	ldr	r3, [sp, #4]
+ 80023d8:	601a      	str	r2, [r3, #0]
+  __ASM volatile ("MRS %0, control" : "=r" (result) );
+ 80023da:	f3ef 8314 	mrs	r3, CONTROL
+ 80023de:	930d      	str	r3, [sp, #52]	; 0x34
+  return(result);
+ 80023e0:	9b0d      	ldr	r3, [sp, #52]	; 0x34
+			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk);
+ 80023e2:	f043 0301 	orr.w	r3, r3, #1
+ 80023e6:	930e      	str	r3, [sp, #56]	; 0x38
+  __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+ 80023e8:	9b0e      	ldr	r3, [sp, #56]	; 0x38
+ 80023ea:	f383 8814 	msr	CONTROL, r3
+  __ASM volatile ("isb 0xF":::"memory");
+ 80023ee:	f3bf 8f6f 	isb	sy
+}
+ 80023f2:	bf00      	nop
+}
+ 80023f4:	bf00      	nop
+			break;
+ 80023f6:	e041      	b.n	800247c <SVC_Handler_Main+0x1e0>
+  __ASM volatile ("MRS %0, control" : "=r" (result) );
+ 80023f8:	f3ef 8314 	mrs	r3, CONTROL
+ 80023fc:	9307      	str	r3, [sp, #28]
+  return(result);
+ 80023fe:	9b07      	ldr	r3, [sp, #28]
+		case 4: // mm_finish
+			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk);
+ 8002400:	f023 0301 	bic.w	r3, r3, #1
+ 8002404:	9308      	str	r3, [sp, #32]
+  __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+ 8002406:	9b08      	ldr	r3, [sp, #32]
+ 8002408:	f383 8814 	msr	CONTROL, r3
+  __ASM volatile ("isb 0xF":::"memory");
+ 800240c:	f3bf 8f6f 	isb	sy
+}
+ 8002410:	bf00      	nop
+}
+ 8002412:	bf00      	nop
+			mm_finish();
+ 8002414:	f7ff fcd4 	bl	8001dc0 <mm_finish>
+  __ASM volatile ("MRS %0, control" : "=r" (result) );
+ 8002418:	f3ef 8314 	mrs	r3, CONTROL
+ 800241c:	9309      	str	r3, [sp, #36]	; 0x24
+  return(result);
+ 800241e:	9b09      	ldr	r3, [sp, #36]	; 0x24
+			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk);
+ 8002420:	f043 0301 	orr.w	r3, r3, #1
+ 8002424:	930a      	str	r3, [sp, #40]	; 0x28
+  __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+ 8002426:	9b0a      	ldr	r3, [sp, #40]	; 0x28
+ 8002428:	f383 8814 	msr	CONTROL, r3
+  __ASM volatile ("isb 0xF":::"memory");
+ 800242c:	f3bf 8f6f 	isb	sy
+}
+ 8002430:	bf00      	nop
+}
+ 8002432:	bf00      	nop
+			break;
+ 8002434:	e022      	b.n	800247c <SVC_Handler_Main+0x1e0>
+  __ASM volatile ("MRS %0, control" : "=r" (result) );
+ 8002436:	f3ef 8314 	mrs	r3, CONTROL
+ 800243a:	9303      	str	r3, [sp, #12]
+  return(result);
+ 800243c:	9b03      	ldr	r3, [sp, #12]
+		case 5: // get_time
+			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk);
+ 800243e:	f023 0301 	bic.w	r3, r3, #1
+ 8002442:	9304      	str	r3, [sp, #16]
+  __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+ 8002444:	9b04      	ldr	r3, [sp, #16]
+ 8002446:	f383 8814 	msr	CONTROL, r3
+  __ASM volatile ("isb 0xF":::"memory");
+ 800244a:	f3bf 8f6f 	isb	sy
+}
+ 800244e:	bf00      	nop
+}
+ 8002450:	bf00      	nop
+			svc_args[0] = get_time();
+ 8002452:	f7ff fd5f 	bl	8001f14 <get_time>
+ 8002456:	4602      	mov	r2, r0
+ 8002458:	9b01      	ldr	r3, [sp, #4]
+ 800245a:	601a      	str	r2, [r3, #0]
+  __ASM volatile ("MRS %0, control" : "=r" (result) );
+ 800245c:	f3ef 8314 	mrs	r3, CONTROL
+ 8002460:	9305      	str	r3, [sp, #20]
+  return(result);
+ 8002462:	9b05      	ldr	r3, [sp, #20]
+			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk);
+ 8002464:	f043 0301 	orr.w	r3, r3, #1
+ 8002468:	9306      	str	r3, [sp, #24]
+  __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+ 800246a:	9b06      	ldr	r3, [sp, #24]
+ 800246c:	f383 8814 	msr	CONTROL, r3
+  __ASM volatile ("isb 0xF":::"memory");
+ 8002470:	f3bf 8f6f 	isb	sy
+}
+ 8002474:	bf00      	nop
+}
+ 8002476:	bf00      	nop
+			break;
+ 8002478:	e000      	b.n	800247c <SVC_Handler_Main+0x1e0>
 		default:
 			break;
- 8002482:	bf00      	nop
+ 800247a:	bf00      	nop
 	}
+}
+ 800247c:	bf00      	nop
+ 800247e:	b01d      	add	sp, #116	; 0x74
+ 8002480:	f85d fb04 	ldr.w	pc, [sp], #4
+
+08002484 <sys_mm_init>:
+
+// Initialize malloc library
+void sys_mm_init(void) {
+	asm volatile ("svc #0");
+ 8002484:	df00      	svc	0
 }
  8002484:	bf00      	nop
  8002486:	b006      	add	sp, #24
@@ -5878,10 +6128,10 @@ void mcu_init(void) {
 	led_init();
  8002862:	f7ff ffdd 	bl	8002820 <led_init>
 	// Make SVC call priority 3
-	NVIC_SetPriority(SVCall_IRQn, 3);
- 8002866:	2103      	movs	r1, #3
- 8002868:	f06f 0004 	mvn.w	r0, #4
- 800286c:	f7ff ff34 	bl	80026d8 <__NVIC_SetPriority>
+	NVIC_SetPriority(SVCall_IRQn, 6);
+ 80027d6:	2106      	movs	r1, #6
+ 80027d8:	f06f 0004 	mvn.w	r0, #4
+ 80027dc:	f7ff ff34 	bl	8002648 <__NVIC_SetPriority>
 }
  8002870:	bf00      	nop
  8002872:	bd08      	pop	{r3, pc}

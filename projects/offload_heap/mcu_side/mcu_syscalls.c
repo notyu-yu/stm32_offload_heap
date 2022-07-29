@@ -17,24 +17,43 @@ void SVC_Handler(void) {
 void SVC_Handler_Main(unsigned int * svc_args) {
 	// Stack frame contents: r0-r3, LR, PC, and xPSR
 	// Correspond with svc_args[0 to 7]
-	// First registers are arguments and return values
+	// svc_args array contains arguments at start and return values at end, in order
 
 	uint32_t svc_number = ((char *)svc_args[6])[-2];
 	switch(svc_number) {
 		case 0: // Enter privileged mode
 			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk); // Enable privileged mode
+			mm_init();
+			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk); // Disable privileged mode
+			break;
+		case 1: // mm_malloc
+			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk);
+			svc_args[0] = (uint32_t)mm_malloc(svc_args[0]);
+			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk);
+			break;
+		case 2: // mm_free
+			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk);
+			mm_free((void *)(svc_args[0]));
+			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk);
+			break;
+		case 3: // mm_realloc
+			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk);
+			svc_args[0] = (uint32_t)mm_realloc((void *)svc_args[0], svc_args[1]);
+			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk);
+			break;
+		case 4: // mm_finish
+			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk);
+			mm_finish();
+			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk);
+			break;
+		case 5: // get_time
+			__set_CONTROL(__get_CONTROL() & ~CONTROL_nPRIV_Msk);
+			svc_args[0] = get_time();
+			__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk);
 			break;
 		default:
 			break;
 	}
-}
-
-void priv_mode_on(void) {
-	asm volatile ("svc #0");
-}
-
-void priv_mode_off(void) {
-	__set_CONTROL(__get_CONTROL() | CONTROL_nPRIV_Msk);
 }
 
 // Initialize malloc library

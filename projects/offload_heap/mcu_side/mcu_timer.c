@@ -68,7 +68,7 @@ void timer_init(void)
     TIM2->ARR = 10;
     // Update Interrupt Enable
     TIM2->DIER |= (1 << 0);
-    NVIC_SetPriority(TIM2_IRQn, 35);
+    NVIC_SetPriority(TIM2_IRQn, 2);
     // enable TIM2 IRQ from NVIC
     NVIC_EnableIRQ(TIM2_IRQn);
 	// Set to upcounting mode
@@ -86,7 +86,7 @@ void timer_init(void)
     TIM3->ARR = 100;
     // Update Interrupt Enable
     TIM3->DIER |= (1 << 0);
-    NVIC_SetPriority(TIM3_IRQn, 36);
+    NVIC_SetPriority(TIM3_IRQn, 3);
     // enable TIM3 IRQ from NVIC
     NVIC_EnableIRQ(TIM3_IRQn);
 	// Set to upcounting mode

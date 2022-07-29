@@ -56,7 +56,7 @@ void wwdg_init(void) {
 	WWDG->CFR |= (0x70); // Window countdown value - T
 	WWDG->CR |= (0xFF); // Enable WWDG
 
-	NVIC_SetPriority(WWDG_IRQn, 7);
+	NVIC_SetPriority(WWDG_IRQn, 1);
 	NVIC_EnableIRQ(WWDG_IRQn);
 }
 */
@@ -101,5 +101,5 @@ void mcu_init(void) {
 	memfault_init();
 	led_init();
 	// Make SVC call priority 3
-	NVIC_SetPriority(SVCall_IRQn, 3);
+	NVIC_SetPriority(SVCall_IRQn, 6);
 }
