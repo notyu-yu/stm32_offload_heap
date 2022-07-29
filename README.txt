@@ -1,5 +1,5 @@
 Project files in projects/offload_heap
-Designed for STM32F411 MCU
+Designed for STM32F411 Discovery Kit
 
 Usage:
 1) Connect the MCU with UART cable (PB6 is TX, PB7 is RX).
