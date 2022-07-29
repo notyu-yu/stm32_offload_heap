@@ -23,7 +23,7 @@ Loading section .init_array, size 0x4 lma 0x8005920
 Loading section .fini_array, size 0x4 lma 0x8005924
 Loading section .data, size 0xc8 lma 0x8005928
 Start address 0x08002900, load size 23016
-Transfer rate: 19 KB/sec, 3288 bytes/write.
+Transfer rate: 20 KB/sec, 3288 bytes/write.
 Breakpoint 1 at 0x8001fda: file mcu_side/mcu.c, line 12.
 Note: automatically using hardware breakpoints for read-only addresses.
 
